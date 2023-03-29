@@ -1,5 +1,5 @@
 <template>
-  <router-view></router-view>
+  Cashier
 </template>
 
 <script setup>
