@@ -5,6 +5,7 @@ const routes = [
     { path: "/cashier", component: () => import("~/pages/CashierPage.vue") },
     { path:  "/accounting", component: () => import("~/pages/CashierPage.vue") },
     { path: "/admin", component:() => import("~/pages/CashierPage.vue")},
+    { path: "/forgotPassword", component:() => import("~/pages/ForgotPassword.vue")},
 ];
 
 const router = createRouter({
