@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+    border: 1px solid red;
+}
+
 body {
     height: 100vh;
     @apply bg-gray-200;

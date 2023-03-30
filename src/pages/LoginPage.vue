@@ -6,7 +6,7 @@
         <div class="right">
             <img :src="logo" alt="logo">
             <br>
-           <form>
+           <form class="px-16">
             <label for="uname">Username</label>
             <br>
             <input type="text" id="uname" rounded-xl placeholder="   Username..."> 
@@ -50,6 +50,7 @@
 <style scoped>
 .form {
     @apply grid grid-cols-2 m-4 bg-white ;
+    
     background: #FEFEFE;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.75);
     border-radius: 25px;
@@ -69,6 +70,8 @@ input,select{
     width: 291px;
     height: 38px;
     left: 782px;
+    margin-left: auto;
+    margin-right: auto;
 }
 select{
     text-align:center;
@@ -120,7 +123,6 @@ img{
     height: 100px;
     margin-left: auto;
     margin-right: auto;
-    display: block;
 }
 .flex{
     background-size: cover;
