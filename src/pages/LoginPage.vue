@@ -1,12 +1,13 @@
 <template>
-  <div class="flex h-full justify-center items-center container mx-auto">
-        <div class="form">
+  <div class="flex h-full justify-center items-center w-full mx-0">
+    <div class="white h-full justify-center items-center w-full mx-0">
+        <div class="form ">
         <div class="left">            
         </div>
         <div class="right">
             <img :src="logo" alt="logo">
             <br>
-           <form class="px-16">
+           <form class="element px-16">
             <label for="uname">Username</label>
             <br>
             <input type="text" id="uname" rounded-xl placeholder="   Username..."> 
@@ -28,19 +29,16 @@
             <br>
             <br>
             <br>
-            <br>
             <button>LOGIN</button>
-            <br>
-            <br>
             <p>Forgot Password? <span>CLICK HERE!</span></p>
-            <br>
             <br>
             <br>
         </form>
         </div>
     </div>    
+    </div> 
     </div>
- 
+
 </template>
 
 <script setup>
@@ -50,7 +48,6 @@
 <style scoped>
 .form {
     @apply grid grid-cols-2 m-4 bg-white ;
-    
     background: #FEFEFE;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.75);
     border-radius: 25px;
@@ -62,14 +59,17 @@
     border: 1px solid #0F172A;
     border-radius: 25px;
 }
+.element{
+    padding-left: 90px;
+    padding-right: 90px;
+}
 input,select{
     border-radius: 30px;
     box-sizing: border-box;
     border-bottom: 2px solid #0F172A; 
-    position: absolute;
+    position: flex;
     width: 291px;
     height: 38px;
-    left: 782px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -77,22 +77,21 @@ select{
     text-align:center;
 }
 label{
-    position: absolute;
-width: 172px;
-height: 19px;
-left: 782px;
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 15px;
-line-height: 18px;
+    position: flex;
+    width: 172px;
+    height: 19px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 18px;
 }
 button{
     border-radius: 30px;
     box-sizing: border-box;
     background-color: #0F172A;
     color: #FEFEFE;
-    position: absolute;
+    position: flex;
     width: 291px;
     height: 47px;
     left: 779px;
@@ -104,18 +103,29 @@ span:hover{
     font-size:small;
     cursor: pointer;
 }
+
+button:hover{
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.50);
+}
+input:hover{
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.50);
+}
+select:hover{
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.50);
+}
 span{
     text-decoration: underline;
     font-size:small;
 }
 p{
     font-size: small;
-    position: absolute;
-    left: 847px;
+    position: flex;
+    text-align: center;
     margin-top: 10px;
 }
 label{
     color: #0F172A;
+    position: flex;
 }
 img{
     margin-top: 5%;
@@ -124,7 +134,16 @@ img{
     margin-left: auto;
     margin-right: auto;
 }
+
+.white{
+    display: flex;
+    background-color:#ffffff99;
+    height: 100%;
+}
+
 .flex{
-    background-size: cover;
+    background-image: url(C:\Users\fujitsu\Desktop\SWE\src\assets\images\loginBg.jpg);
+    background-size:cover;
+    
 }
 </style>

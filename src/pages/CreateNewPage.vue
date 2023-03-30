@@ -3,25 +3,22 @@
     <div class="white h-full justify-center items-center w-full mx-0">
         <div class="form">  
             <img :src="logo" alt="logo">
-                <p >FORGOT PASSWORD</p>
-                <p class="bold">Please enter your verification code you had received </p>
-                <p class="bold">from the email you registered.</p>
+                <p >CREATE NEW PASSWORD</p>
                 <br>
-          
-                <p>Verification Code</p>
                 <br>
-            <form>
-                <input type="text" class="no1">
-                <input type="text" class="no2">
-                <input type="text" class="no2">
-                <input type="text" class="no2">
+            <form class="element px-16">
+                <label for="newPassword">New Password</label><br>
+                <input type="text" id="newPassword" class="no1"><br>
+                <label for="retryPassword">Retry Password</label><br>
+                <input type="text" id="createPassword" class="no2"><br>
+                <br>
+                <br>
+                <button>SUBMIT</button>
+                <button>CANCEL</button>
             </form>
-            <br>
-            <br>
-            <button>SUBMIT</button>
-            <button>CANCEL</button>
         </div>
-        </div>
+    </div>
+        
     </div>
 </template>
 
@@ -34,43 +31,46 @@
     position: flex;
     width: 482px;
     height: 512px;
-    text-align: center;
     background: #FEFEFE;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.75);
     border-radius: 25px;
+    padding-left: 3%;
+    padding-right: 3%;
 }
 
 
+label{
+position: flex;
+width: 172px;
+height: 19px;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 15px;
+line-height: 18px;
+color: #0F172A;;
+padding-left: 0px;
 
-select{
-    text-align:center;
 }
-
 button{
     border-radius: 30px;
     box-sizing: border-box;
     background-color: #0F172A;
     color: #FEFEFE;
-    position: block;
     width: 291px;
     height: 47px;
     left: 779px;
     margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    position: flex;
 }
+
 button:hover{
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.50);
 }
 input:hover{
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.50);
-}
-
-.bold{
-    font-family: 'Inter';
-    color: #0F172A;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 19px;
 }
 
 p{
@@ -82,9 +82,12 @@ p{
     font-size: 24px;
     line-height: 45px;
     color: #0F172A;
-    
-
+    text-align: center;
+    margin-top: 5px;
 }
+
+
+
 img{
     height: 85px;
     margin-top: 5%;
@@ -97,13 +100,9 @@ input{
     border-radius: 30px;
     box-sizing: border-box;
     border-bottom: 2px solid #0F172A; 
-    width: 70px;
+    width: 280px;
     height: 38px;
-    margin-right: 15px;
-    margin-left: 15px;
-    text-align: center;
 }
-
 .white{
     display: flex;
     background-color:#ffffff99;
