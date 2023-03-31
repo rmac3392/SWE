@@ -1,32 +1,32 @@
 <template>
-  <div class="flex h-full justify-center items-center w-full mx-0">
-    <div class="white h-full justify-center items-center w-full mx-0">
-        <div class="form">  
-            <img :src="logo" alt="logo">
-                <p >FORGOT PASSWORD</p>
+    <div class="flex h-full justify-center items-center w-full mx-0">
+        <div class="white h-full justify-center items-center w-full mx-0">
+            <div class="form">
+                <img :src="logo" alt="logo">
+                <p>FORGOT PASSWORD</p>
                 <p class="bold">Please enter your verification code you had received </p>
                 <p class="bold">from the email you registered.</p>
                 <br>
-          
+
                 <p>Verification Code</p>
                 <br>
-            <form>
-                <input type="text" class="no1">
-                <input type="text" class="no2">
-                <input type="text" class="no2">
-                <input type="text" class="no2">
-            </form>
-            <br>
-            <br>
-            <button>SUBMIT</button>
-            <button>CANCEL</button>
-        </div>
+                <form>
+                    <input type="text" class="no1">
+                    <input type="text" class="no2">
+                    <input type="text" class="no2">
+                    <input type="text" class="no2">
+                </form>
+                <br>
+                <br>
+                <button>SUBMIT</button>
+                <button>CANCEL</button>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-    import logo from "~/assets/images/logo.png";
+import logo from "~/assets/images/logo.png";
 </script>
 
 <style scoped>
@@ -42,11 +42,11 @@
 
 
 
-select{
-    text-align:center;
+select {
+    text-align: center;
 }
 
-button{
+button {
     border-radius: 30px;
     box-sizing: border-box;
     background-color: #0F172A;
@@ -57,14 +57,16 @@ button{
     left: 779px;
     margin-bottom: 10px;
 }
-button:hover{
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.50);
-}
-input:hover{
+
+button:hover {
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.50);
 }
 
-.bold{
+input:hover {
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.50);
+}
+
+.bold {
     font-family: 'Inter';
     color: #0F172A;
     font-style: normal;
@@ -73,19 +75,18 @@ input:hover{
     line-height: 19px;
 }
 
-p{
+p {
     position: block;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
     font-style: normal;
     font-weight: 700;
     font-size: 24px;
     line-height: 45px;
     color: #0F172A;
-    
-
 }
-img{
+
+img {
     height: 85px;
     margin-top: 5%;
     margin-left: auto;
@@ -93,10 +94,10 @@ img{
     display: block;
 }
 
-input{
+input {
     border-radius: 30px;
     box-sizing: border-box;
-    border-bottom: 2px solid #0F172A; 
+    border-bottom: 2px solid #0F172A;
     width: 70px;
     height: 38px;
     margin-right: 15px;
@@ -104,15 +105,14 @@ input{
     text-align: center;
 }
 
-.white{
+.white {
     display: flex;
-    background-color:#ffffff99;
+    background-color: #ffffff99;
     height: 100%;
 }
 
-.flex{
+.flex {
     background-image: url(C:\Users\fujitsu\Desktop\SWE\src\assets\images\loginBg.jpg);
-    background-size:cover;
-    width:100%;
-}
-</style>
+    background-size: cover;
+    width: 100%;
+}</style>
