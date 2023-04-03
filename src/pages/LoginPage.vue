@@ -7,10 +7,10 @@
                 <div class="right">
                     <img :src="logo" alt="logo">
                     <br>
-                    <form class="element px-16">
+                    <div class="element px-16">
                         <label for="uname">Username</label>
                         <br>
-                        <input type="text" id="uname" rounded-xl placeholder="   Username...">
+                        <input type="text" id="uname" v-model="name" rounded-xl placeholder="   Username...">
                         <br>
                         <br>
                         <label for="pword">Password </label>
@@ -29,11 +29,11 @@
                         <br>
                         <br>
                         <br>
-                        <button>LOGIN</button>
+                        <button @click="onLogin">LOGIN</button>
                         <p>Forgot Password? <span>CLICK HERE!</span></p>
                         <br>
                         <br>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -41,7 +41,19 @@
 </template>
 
 <script setup>
+// import { ref } from "vue";
 import logo from "~/assets/images/logo.png";
+// import axios from "axios";
+
+// const name = ref("");
+// const pass = ref("");
+
+async function onLogin() {
+    // const response = await axios.post("http://127.0.0.1:3000/login", {
+    //     user: "asdc",
+    //     pass: "asdcasdcasdcs"
+    // });
+}
 </script>
 
 <style scoped>
@@ -155,7 +167,7 @@ img {
 }
 
 .flex {
-    background-image: url(C:\Users\fujitsu\Desktop\SWE\src\assets\images\loginBg.jpg);
+    background-image: url(C:\Users\hh111\Desktop\SWE\src\assets\images\loginBg.jpg);
     background-size: cover;
 }
 </style>
