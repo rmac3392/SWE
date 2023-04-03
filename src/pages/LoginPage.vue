@@ -23,7 +23,6 @@
                         <select name="user" id="user">
                             <option value="administrator">Administrator</option>
                             <option value="cashier">Cashier</option>
-                            <option value="accounting">Accounting</option>
                         </select>
                         <br>
                         <br>
