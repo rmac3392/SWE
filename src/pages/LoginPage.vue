@@ -29,7 +29,7 @@
                         <br>
                         <br>
                         <button @click="onLogin">LOGIN</button>
-                        <p>Forgot Password? <span>CLICK HERE!</span></p>
+                        <p>Forgot Password? <span><a href="forgotPassword">CLICK HERE!</a></span></p>
                         <br>
                         <br>
                     </div>
