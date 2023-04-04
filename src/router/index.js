@@ -7,7 +7,7 @@ const routes = [
     { path: "/admin", component:() => import("~/pages/CashierPage.vue")},
     { path: "/forgotPassword", component:() => import("~/pages/ForgotPassword.vue")},
     { path: "/newPassword", component:() => import("~/pages/CreateNewPage.vue")},
-    { path: "/CashierPageTransactionTab", component:() => import("~/pages/CashierPageTransactionTab.vue")},
+    { path: "/cashierPage", component:() => import("~/pages/CashierPageTransactionTab.vue")},
 ];
 
 const router = createRouter({
