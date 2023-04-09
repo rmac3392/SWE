@@ -125,11 +125,22 @@
                             <input type="total" class="field9" id="total"><br>
                     </div>   
                     <div class="buttons">
-                        <button>EDIT</button>
+                        <button class="edit">EDIT</button>
                     </div>
                     
                     </div>
-                <div class="tabs"></div>
+                <div class="tabs">
+                    <div class="tabUp">
+                        <input type="text" class="search" placeholder="Search...">
+                    </div>
+                    <div class="tabDown">
+                        <div class="transactionTab">Transaction</div>
+                        <div class="invoiceTab">Invoice</div>
+                        <div class="historyTab">History</div>
+                    </div>
+                    <div class="content">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -139,6 +150,100 @@ import { UserCircleIcon , BellAlertIcon , ForwardIcon, ArrowPathIcon, CheckBadge
 </script>
 
 <style scoped>
+.edit:hover{
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    background-color: grey;
+    color: #fefefe;
+}
+.logout:hover{
+    color: grey;
+}
+.invoiceTab:hover{
+    background-color: grey;
+    color: #fefefe;
+}
+.historyTab:hover{
+    background-color: grey;
+    color: #fefefe;
+}
+
+input{
+    color:#fefefe;
+    padding-left: 10px;
+}
+
+.content{
+    height: 480px;
+    background: #1E293B;
+    border: 1px solid #293549;
+    border-radius: 0px 15px 15px 15px;
+}
+.tabs{
+    padding: 15px;
+}
+.search{
+    margin-left: 380px;
+    margin-bottom: 10px;
+    width: 200px;
+    height: 30px;
+    background: #293549;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    padding-left: 10px;
+    color: #fefefe;
+}
+.tabDown{
+    display: flex;
+}
+.transactionTab{
+    display: flex;
+    width: 120px;
+    height: 25px;
+    background: #1E293B;
+    border-width: 1px 1px 0px 1px;
+    border-style: solid;
+    border-color: #293549;
+    border-radius: 8px 8px 0px 0px;
+    margin-right: 1px;
+    color: #FEFEFE;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.invoiceTab{
+    display: flex;
+    width: 120px;
+    height: 25px;
+    background: #fefefe;
+    border-width: 1px 1px 0px 1px;
+    border-style: solid;
+    border-color: #293549;
+    border-radius: 8px 8px 0px 0px;
+    margin-right: 1px;
+    color: #0F172A;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.historyTab{
+    display: flex;
+    width: 120px;
+    height: 25px;
+    background: #fefefe;
+    border-width: 1px 1px 0px 1px;
+    border-style: solid;
+    border-color: #293549;
+    border-radius: 8px 8px 0px 0px;
+    margin-right: 1px;
+    color: #0F172A;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
 .buttons{
     padding-top: 30px;
     padding-left: 55px;
@@ -271,15 +376,21 @@ button{
     margin: 5px;
     margin-left: 24px;
 }
+
+input:hover{
+    box-shadow: 0px 4px 4px rgba(255, 255, 255, 0.5);
+}
 .commandsIcon{
     width:40px ;
     height:40px;
     margin-right: 5px;
+    color: #0F172A;
 }
 .commandIcon{
     width:40px ;
     height:40px;
     margin-right: 15px;
+    color: #0F172A;
 }
 
 .num{
@@ -322,18 +433,34 @@ button{
 }
 .commandBox{
     display: flex;
-    background-color: #0F172A;
+    background-color: #fefefe;
     justify-content: center;
     align-items: center;
     border-radius: 12px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    
     border-radius: 12px;
     height: 65px;
     width: 150px;
     margin-top: 13px;
-    color: #fefefe;
+    color: #0F172A;
     font-weight: 900;
 }
+
+.commandBox:hover .commandIcon{
+    color:#fefefe;
+}
+
+.commandBox:hover .commandsIcon{
+    color:#fefefe;   
+}
+
+.commandBox:hover{
+    background-color: grey;
+    color: #fefefe;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+
 .dQueue{
     margin-top: 25px;
     display: flex;

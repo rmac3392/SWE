@@ -113,7 +113,7 @@ input {
 }
 
 .flex {
-    background-image: url(C:\Users\hh111\Desktop\SWE\src\assets\images\loginBg.jpg);
+    background-image: url(..\assets\images\loginBg.jpg);
     background-size: cover;
     width: 100%;
 }
