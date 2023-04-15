@@ -12,6 +12,7 @@
     "@heroicons/vue": "^2.0.16",
     "@mdi/svg": "^7.2.96",
     "axios": "^1.3.4",
+    "firebase": "^9.19.1",
     "pinia": "^2.0.33",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"

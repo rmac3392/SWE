@@ -8,15 +8,17 @@
                     <img :src="logo" alt="logo">
                     <br>
                     <div class="element px-16">
-                        <label for="uname">Username</label>
+                        <label for="email">Username</label>
                         <br>
-                        <input type="text" id="uname" v-model="name" rounded-xl placeholder="   Username...">
+                        <input type="text" id="email" v-model="email" rounded-xl placeholder=" example@gmail.com     ">
                         <br>
                         <br>
-                        <label for="pword">Password </label>
+                        <label for="password">Password </label>
                         <br>
-                        <input type="password" id="password" placeholder="   **********">
+                        <input type="password" id="password" v-model="password" placeholder="   **********">
                         <br>
+                        <p v-f="errMsg">{{ errMsg	}}</p>
+
                         <br>
                         <label for="user">User</label>
                         <br>
@@ -28,7 +30,7 @@
                         <br>
                         <br>
                         <br>
-                        <button @click="onLogin">LOGIN</button>
+                        <button @click="register">LOGIN</button>
                         <p>Forgot Password? <span><a href="forgotPassword">CLICK HERE!</a></span></p>
                         <br>
                         <br>
@@ -41,18 +43,65 @@
 
 <script setup>
 // import { ref } from "vue";
+import { ref } from "vue";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter} from "vue-router";
 import logo from "~/assets/images/logo.png";
+const email = ref("");
+const password = ref("");
+const errMsg = ref();
+const router = useRouter();
+
+const register =() => {
+	signInWithEmailAndPassword(getAuth(),email.value, password.value)
+	.then((data) =>{
+		console.log("Sucessfully signed in!");
+        router.push("/cashierPage");
+
+		
+	})
+	.catch((error)=>{
+		console.log(error.code);
+		switch(error.code) {
+		
+		case "auth/invalid-email":
+		errMsg.value = "INVALID EMAIL!";
+		break;
+		
+		case "auth/user-not-found":
+		errMsg.value = "NO ACCOUNT WITH THAT EMAIL IS FOUND";
+		break;
+		
+		case "auth/wrong-password":
+		errMsg.value = "INCORRECT PASSWORD";
+		break;
+		
+		default:
+		errMsg.value = "Email or Password was incorrect";
+		break;
+
+		}
+
+	})
+};
+
+
+const signInWithGoogle = () => {
+	
+
+}
+
 // import axios from "axios";
 
 // const name = ref("");
 // const pass = ref("");
 
-async function onLogin() {
-    // const response = await axios.post("http://127.0.0.1:3000/login", {
-    //     user: "asdc",
-    //     pass: "asdcasdcasdcs"
-    // });
-}
+// async function onLogin() {
+//     // const response = await axios.post("http://127.0.0.1:3000/login", {
+//     //     user: "asdc",
+//     //     pass: "asdcasdcasdcs"
+//     // });
+// }
 </script>
 
 <style scoped>

@@ -1,15 +1,17 @@
 <template>
+           
+
     <div class="flex h-full justify-center items-center  mx-0 w-full">
         <div class="queuePane">
             <br>
-            <p class="current">CURRENTLY SERVING</p>
+          <span>  <p  class="current"> Currently Serving A</p> </span>
             <br>
             <div class="uQueue">
                 <div class="windowA">
-                    <p class="currentNum">034</p>
+                    <span id ="countSpan" class="currentNum">{{ counterVariable  }}</span>
                 </div>
                 <div class="windowB">
-                    <p class="currentNum">035</p>
+                    <p class="currentNum">{{ counterVariableB  }}</p>
                 </div>
             </div>
             <div class="uQueue">
@@ -20,55 +22,57 @@
                 <div class="line">
                     <div class="lineBox">
                         <div class="lineNum">
-                            <div class="num">033</div>
+                            <div class="num">{{ counterVariable +2  }}</div>
                         </div>
                         <div class="lineWindow">WINDOW A</div>
                     </div>
                     <div class="lineBox">
                         <div class="lineNum">
-                            <div class="num">032</div>
+                            <div class="num">{{ counterVariableB +2  }}</div>
                         </div>
                         <div class="lineWindow">WINDOW B</div>
                     </div>
                     <div class="lineBox">
                         <div class="lineNum">
-                            <div class="num">031</div>
+                            <div class="num">{{ counterVariable + 4  }}</div>
                         </div>
                         <div class="lineWindow">WINDOW A</div>
                     </div>
                     <div class="lineBox">
                         <div class="lineNum">
-                            <div class="num">030</div>
+                            <div class="num">{{ counterVariableB + 4  }}</div>
                         </div>
                         <div class="lineWindow">WINDOW B</div>
                     </div>
                     <div class="lineBox">
                         <div class="lineNum">
-                            <div class="num">029</div>
+                            <div class="num">{{ counterVariable + 6 }}</div>
                         </div>
                         <div class="lineWindow">WINDOW A</div>
                     </div>
                     <div class="lineBox">
                         <div class="lineNum">
-                            <div class="num">028</div>
+                            <div class="num">{{ counterVariableB + 6 }}</div>
                         </div>
                         <div class="lineWindow">WINDOW B</div>
                     </div>
                     <div class="lineBox">
                         <div class="lineNum">
-                            <div class="num">027</div>
+                            <div class="num">{{ counterVariable +8  }}</div>
                         </div>
                         <div class="lineWindow">WINDOW A</div>
+                       
+                        
                     </div>
                 </div>
                 <div class="controls">
                     <button class="commandBox">
                         <BellAlertIcon class="commandIcon"/> CALL</button>
-                    <button class="commandBox">
+                    <button class="commandBox" @click="incCounter">
                         <ForwardIcon class="commandIcon"/>NEXT</button>
                     <button class="commandBox">
                         <ArrowPathIcon class="commandsIcon"/>TRANSFER</button>
-                    <button class="commandBox">
+                    <button class="commandBox" @click="reloadPage">
                         <CheckBadgeIcon class="commandIcon"/>DONE</button>
                 </div>
             </div>
@@ -82,10 +86,11 @@
                     </div>
                     <div class="dateTime">
                         <p id="date">March 31, 2023</p>
-                        <p id="time">12:35</p>
+                        <p id="time"><span>12:35</span></p>
                     </div>
                     <div class="image">
-                        <UserCircleIcon class="logout"/>   
+                    <a href="http://localhost:5173/">    <UserCircleIcon class="logout" /></a>
+                        
                     </div>
                 </div>
             </div>
@@ -144,10 +149,77 @@
             </div>
         </div>
     </div>
+
+    
+   
 </template>
+
+
+  <script>
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+  import { getDatabase, ref, child, get, update } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyDtsKwx7mcaSnoPnZ2hlcolB8qluY69LMQ",
+    authDomain: "fir-68a5f.firebaseapp.com",
+    databaseURL: "https://fir-68a5f-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "fir-68a5f",
+    storageBucket: "fir-68a5f.appspot.com",
+    messagingSenderId: "939974599498",
+    appId: "1:939974599498:web:40392f504dd093d1c257b3"
+  };
+  
+  const app = initializeApp(firebaseConfig);
+const db = getDatabase();
+
+export default {
+  data() {
+    return {
+      counterVariable: null,
+      counterVariableB:null
+    }
+  },
+  mounted() {
+    const dbRef = ref(db, 'Counter/Counter');
+    const dbRefB = ref(db, 'CounterB/CounterB');
+    get(dbRef).then((snapshot) => {
+      this.counterVariable = Number(snapshot.val());
+    });
+    get(dbRefB).then((snapshot) => {
+      this.counterVariableB = Number(snapshot.val());
+    });
+  },
+  methods: {
+    reloadPage() {
+      window.location.reload();
+    },
+    incCounter() {
+      const dbRef = ref(db, 'Counter');
+      this.counterVariable = this.counterVariable + 2;
+      update(dbRef, { Counter: this.counterVariable });
+      this.reloadPage();
+    },
+    incCounterB() {
+      const dbRefB = ref(db, 'CounterB');
+      this.counterVariableB = this.counterVariableB + 2;
+      update(dbRefB, { CounterB: this.counterVariableB });
+    }
+  }
+}
+setTimeout(function(){
+                window.location.reload(1);
+            }, 5000);
+</script>
+  
+
 <script setup>
 import { UserCircleIcon , BellAlertIcon , ForwardIcon, ArrowPathIcon, CheckBadgeIcon} from '@heroicons/vue/24/solid'
 </script>
+
+
+
+
+
 
 <style scoped>
 .edit:hover{
