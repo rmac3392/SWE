@@ -1,25 +1,20 @@
 <template>
     <div class="flex h-full justify-center items-center w-full mx-0">
         <div class="white h-full justify-center items-center w-full mx-0">
-            <div class="form">
-                <img :src="logo" alt="logo">
+            <div class="form py-2">
+                <div class="x">
+                    <XMarkIcon class="exit"/>
+                </div>
+                <div class="lower">
+                    <img :src="logo" alt="logo">
                 <p>FORGOT PASSWORD</p>
-                <p class="bold">Please enter your verification code you had received </p>
-                <p class="bold">from the email you registered.</p>
-                <br>
-
-                <p>Verification Code</p>
-                <br>
-                <form>
-                    <input type="text" class="no1">
-                    <input type="text" class="no2">
-                    <input type="text" class="no2">
-                    <input type="text" class="no2">
-                </form>
-                <br>
-                <br>
-                <button>SUBMIT</button>
-                <button>CANCEL</button>
+                <p class="bold">Please verify your account by clicking the link</p>
+                <p class="bold">that you received from the email you registered.</p>
+                <img src="../assets/images/img5.png" alt="paper plane" class="plane">
+                <br>    
+                <p class="bold">Didn't get it? <span>Send it again</span></p>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -27,9 +22,17 @@
 
 <script setup>
 import logo from "~/assets/images/logo.png";
+import {XMarkIcon} from '@heroicons/vue/24/solid';
 </script>
 
 <style scoped>
+
+.x{
+    margin-left: 445px;
+    height: 25px;
+    width: 25px;
+
+}
 .form {
     position: flex;
     width: 482px;
@@ -40,7 +43,20 @@ import logo from "~/assets/images/logo.png";
     border-radius: 25px;
 }
 
+span{
+    text-decoration: underline;
+}
 
+span:hover {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.plane{
+    width: 225px;
+    height: 225px;
+}
 
 select {
     text-align: center;
@@ -88,7 +104,7 @@ p {
 
 img {
     height: 85px;
-    margin-top: 5%;
+    margin-top: 0%;
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -112,7 +128,7 @@ input {
 }
 
 .flex {
-    background-image: url(C:\Users\hh111\Desktop\SWE\src\assets\images\loginBg.jpg);
+    background-image: url(..\assets\images\loginBg.jpg);
     background-size: cover;
     width: 100%;
 }</style>

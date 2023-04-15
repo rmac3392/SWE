@@ -69,6 +69,10 @@ async function onLogin() {
     background: #0F172A;
     border: 1px solid #0F172A;
     border-radius: 25px;
+    background-image:url(../assets/images/img4.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:-550px;
 }
 
 .element {
@@ -166,7 +170,7 @@ img {
 }
 
 .flex {
-    background-image: url(C:\Users\hh111\Desktop\SWE\src\assets\images\loginBg.jpg);
+    background-image: url(..\assets\images\loginBg.jpg);
     background-size: cover;
 }
 </style>

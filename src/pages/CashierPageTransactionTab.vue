@@ -62,10 +62,14 @@
                     </div>
                 </div>
                 <div class="controls">
-                    <button class="commandBox">CALL</button>
-                    <button class="commandBox">NEXT</button>
-                    <button class="commandBox">TRANSFER</button>
-                    <button class="commandBox">DONE</button>
+                    <button class="commandBox">
+                        <BellAlertIcon class="commandIcon"/> CALL</button>
+                    <button class="commandBox">
+                        <ForwardIcon class="commandIcon"/>NEXT</button>
+                    <button class="commandBox">
+                        <ArrowPathIcon class="commandsIcon"/>TRANSFER</button>
+                    <button class="commandBox">
+                        <CheckBadgeIcon class="commandIcon"/>DONE</button>
                 </div>
             </div>
         </div>
@@ -81,22 +85,314 @@
                         <p id="time">12:35</p>
                     </div>
                     <div class="image">
-                        <UserCircleIcon class="logout" />
+                        <UserCircleIcon class="logout"/>   
                     </div>
                 </div>
             </div>
             <div class="bottom">
-                <div class="editDetailsPane"></div>
-                <div class="tabs"></div>
+                <div class="editDetailsPane">
+                    <div class="title">
+                        <p>PERSONAL INFORMATION</p>
+                    </div>
+                        <div class="personal">
+                            <label for="id" class="name">I.D. #</label>
+                            <input type="text" class="field1" id="id"><br>
+                            <label for="fname" class="name">First Name</label>
+                            <input type="text" class="field2" id="fname"><br>
+                            <label for="mname" class="name">Middle Name</label>
+                            <input type="text" class="field3" id="mname"><br>
+                            <label for="lname" class="name">Last Name</label>
+                            <input type="text" class="field4" id="lname"><br>
+                        </div>
+                    <div class="title">
+                        <p>EDUCATIONAL INFORMATION</p>
+                    </div>
+                    <div class="educational">
+                            <label for="educ" class="name">Educ. Level</label>
+                            <input type="text" class="field5" id="educ"><br>
+                            <label for="level" class="name">Grade/Year</label>
+                            <input type="text" class="field6" id="level"><br>
+                    </div>
+                    <div class="title">
+                        <p>PAYMENT INFORMATION</p>
+                    </div>   
+                    <div class="payment">
+                            <label for="tuition" class="name">Tuition Fees</label>
+                            <input type="text" class="field7" id="tuition"><br>
+                            <label for="misc" class="name">Miscellaneus</label>
+                            <input type="text" class="field8" id="misc"><br>
+                            <label for="mname" class="name">Total Amount</label>
+                            <input type="total" class="field9" id="total"><br>
+                    </div>   
+                    <div class="buttons">
+                        <button class="edit">EDIT</button>
+                    </div>
+                    
+                    </div>
+                <div class="tabs">
+                    <div class="tabUp">
+                        <input type="text" class="search" placeholder="Search...">
+                    </div>
+                    <div class="tabDown">
+                        <div class="transactionTab">Transaction</div>
+                        <div class="invoiceTab">Invoice</div>
+                        <div class="historyTab">History</div>
+                    </div>
+                    <div class="content">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script setup>
-import { UserCircleIcon } from '@heroicons/vue/24/solid'
+import { UserCircleIcon , BellAlertIcon , ForwardIcon, ArrowPathIcon, CheckBadgeIcon} from '@heroicons/vue/24/solid'
 </script>
 
 <style scoped>
+.edit:hover{
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    background-color: grey;
+    color: #fefefe;
+}
+.logout:hover{
+    color: grey;
+}
+.invoiceTab:hover{
+    background-color: grey;
+    color: #fefefe;
+}
+.historyTab:hover{
+    background-color: grey;
+    color: #fefefe;
+}
+
+input{
+    color:#fefefe;
+    padding-left: 10px;
+}
+
+.content{
+    height: 480px;
+    background: #1E293B;
+    border: 1px solid #293549;
+    border-radius: 0px 15px 15px 15px;
+}
+.tabs{
+    padding: 15px;
+}
+.search{
+    margin-left: 380px;
+    margin-bottom: 10px;
+    width: 200px;
+    height: 30px;
+    background: #293549;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    padding-left: 10px;
+    color: #fefefe;
+}
+.tabDown{
+    display: flex;
+}
+.transactionTab{
+    display: flex;
+    width: 120px;
+    height: 25px;
+    background: #1E293B;
+    border-width: 1px 1px 0px 1px;
+    border-style: solid;
+    border-color: #293549;
+    border-radius: 8px 8px 0px 0px;
+    margin-right: 1px;
+    color: #FEFEFE;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.invoiceTab{
+    display: flex;
+    width: 120px;
+    height: 25px;
+    background: #fefefe;
+    border-width: 1px 1px 0px 1px;
+    border-style: solid;
+    border-color: #293549;
+    border-radius: 8px 8px 0px 0px;
+    margin-right: 1px;
+    color: #0F172A;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.historyTab{
+    display: flex;
+    width: 120px;
+    height: 25px;
+    background: #fefefe;
+    border-width: 1px 1px 0px 1px;
+    border-style: solid;
+    border-color: #293549;
+    border-radius: 8px 8px 0px 0px;
+    margin-right: 1px;
+    color: #0F172A;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.buttons{
+    padding-top: 30px;
+    padding-left: 55px;
+}
+button{
+    position: flex;
+    background-color: #fefefe;
+    border-radius: 10px;
+    width: 85%;
+    height: 38px;
+    color: #0F172A;
+    font-weight: 700;
+}
+.title{
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+    color: #fefefe;
+    padding-left: 18px;
+    margin-top: 5px;
+}
+.personal{
+    height: 156px;
+}
+.educational{
+    height: 70x;
+}
+.name{
+    margin-left: 45px;
+    color: #fefefe;
+    font-size: 18px;
+}
+.field1{
+    width: 200px;
+    height: 30px;
+    left: 587px;
+    top: 211px;
+    background: #1E293B;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    margin: 5px;
+    margin-left: 90px;
+}
+.field2{
+    width: 200px;
+    height: 30px;
+    left: 587px;
+    top: 211px;
+    background: #1E293B;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    margin: 5px;
+    margin-left: 44px;
+}
+.field3{
+    width: 200px;
+    height: 30px;
+    left: 587px;
+    top: 211px;
+    background: #1E293B;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    margin: 5px;
+    margin-left: 23px;
+}
+
+.field4{
+    width: 200px;
+    height: 30px;
+    left: 587px;
+    top: 211px;
+    background: #1E293B;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    margin: 5px;
+    margin-left: 47px;
+}
+.field5{
+    width: 200px;
+    height: 30px;
+    left: 587px;
+    top: 211px;
+    background: #1E293B;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    margin: 5px;
+    margin-left: 42px;
+}
+.field6{
+    width: 200px;
+    height: 30px;
+    left: 587px;
+    top: 211px;
+    background: #1E293B;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    margin: 5px;
+    margin-left: 41px;
+}
+.field7{
+    width: 200px;
+    height: 30px;
+    left: 587px;
+    top: 211px;
+    background: #1E293B;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    margin: 5px;
+    margin-left: 34px;
+}
+.field8{
+    width: 200px;
+    height: 30px;
+    left: 587px;
+    top: 211px;
+    background: #1E293B;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    margin: 5px;
+    margin-left: 30px;
+}
+.field9{
+    width: 200px;
+    height: 30px;
+    left: 587px;
+    top: 211px;
+    background: #1E293B;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    margin: 5px;
+    margin-left: 24px;
+}
+
+input:hover{
+    box-shadow: 0px 4px 4px rgba(255, 255, 255, 0.5);
+}
+.commandsIcon{
+    width:40px ;
+    height:40px;
+    margin-right: 5px;
+    color: #0F172A;
+}
+.commandIcon{
+    width:40px ;
+    height:40px;
+    margin-right: 15px;
+    color: #0F172A;
+}
+
 .num{
     color: #0F172A;
     font-weight: 900;
@@ -137,18 +433,34 @@ import { UserCircleIcon } from '@heroicons/vue/24/solid'
 }
 .commandBox{
     display: flex;
-    background-color: #0F172A;
+    background-color: #fefefe;
     justify-content: center;
     align-items: center;
     border-radius: 12px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    
     border-radius: 12px;
     height: 65px;
     width: 150px;
     margin-top: 13px;
-    color: #fefefe;
+    color: #0F172A;
     font-weight: 900;
 }
+
+.commandBox:hover .commandIcon{
+    color:#fefefe;
+}
+
+.commandBox:hover .commandsIcon{
+    color:#fefefe;   
+}
+
+.commandBox:hover{
+    background-color: grey;
+    color: #fefefe;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+
 .dQueue{
     margin-top: 25px;
     display: flex;
@@ -212,7 +524,6 @@ import { UserCircleIcon } from '@heroicons/vue/24/solid'
     width: 55px;
     height: 55px;
     margin-bottom: 2px;
-
 }
 
 .image {
@@ -301,12 +612,14 @@ import { UserCircleIcon } from '@heroicons/vue/24/solid'
 }
 
 .editDetailsPane {
+    position: flex;
     width: 40%;
     height: 100%;
     background-color: #0F172A;
     margin: 5px;
     border-radius: 10px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4);
+    padding-top: 18px;
 }
 
 .tabs {
