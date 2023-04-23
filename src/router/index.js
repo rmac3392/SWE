@@ -11,7 +11,7 @@ const router = createRouter({
         { path: "/forgotPassword", component:() => import("~/pages/ForgotPassword.vue")},
         { path: "/newPassword", component:() => import("~/pages/CreateNewPage.vue")},
         { path: "/cashierPage", component:() => import("~/pages/CashierPageTransactionTab.vue")},
-        
+        { path: "/mobilePage1", component:() => import("~/pages/Mobile1.vue")},
     ]
 });
 

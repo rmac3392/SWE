@@ -18,7 +18,6 @@
                         <input type="password" id="password" v-model="password" placeholder="   **********">
                         <br>
                         <p v-f="errMsg">{{ errMsg	}}</p>
-
                         <br>
                         <label for="user">User</label>
                         <br>
@@ -91,17 +90,6 @@ const signInWithGoogle = () => {
 
 }
 
-// import axios from "axios";
-
-// const name = ref("");
-// const pass = ref("");
-
-// async function onLogin() {
-//     // const response = await axios.post("http://127.0.0.1:3000/login", {
-//     //     user: "asdc",
-//     //     pass: "asdcasdcasdcs"
-//     // });
-// }
 </script>
 
 <style scoped>
