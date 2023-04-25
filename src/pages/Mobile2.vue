@@ -19,13 +19,25 @@
         <div class="queue">
             <div class="no">
                 <h2>Queue No.</h2>
+                <div class="squares">A30</div>
+                <div class="squares">A29</div>
+                <div class="squares">A28</div>
+                <div class="squares">A27</div>
+                <div class="squares" id="current">A26</div>
+                <div class="squares">A25</div>
             </div>
             <div class="assign">
                 <h2>Window</h2>
+                <div class="txt"> A</div>
+                <div class="txt"> B</div>
+                <div class="txt"> A</div>
+                <div class="txt"> B</div>
+                <div class="txt" id="cur"> A</div>
+                <div class="txt"> B</div>
             </div>
         </div>
         <div class="personal">
-            <h3 class="num">Queue No. :A35</h3>
+            <h3 class="num">Queue No : A26</h3>
         </div>
     </div>
   </template>
@@ -39,20 +51,63 @@
         font-size: 25px;
     }
 
+    .txt{
+        display: flex;
+        margin-left: 30px;
+        width:  100px;
+        height: 65px;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        font-size: 22px;
+    }
+    #current{
+        background-color: #334155;
+        color: #fefefe;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+        
+    }
+
+    #cur{
+        background-color: #334155;
+        color: #fefefe;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    }
     .no{
         width: 100%;
         border-radius: 0px;
-        display: flex;
         border-right: 1px solid #0F172A;    
         justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-weight: 700;
+        font-size: 22px;
     }
+
+    .squares{
+        display: flex;
+        margin-left: 30px;
+        width:  100px;
+        height: 65px;
+        background-color: #D9D9D9;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    }
+
+
 
     .assign{
         width: 100%;
-        display: flex;
-        border-left: 1px solid #0F172A;
-        text-align: center;
+        border-radius: 0px;
+        border-left: 1px solid #0F172A;    
         justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-weight: 700;
     }
     .personal{
         margin-top: 15px;
@@ -69,7 +124,7 @@
 
     .queue{
         display: flex;
-        height: 475px;
+        height: 485px;
         width: 325px;
         background-color: #fefefe;
         margin-left: 18px;
@@ -97,7 +152,7 @@
       flex-wrap: wrap; /* Allows elements to wrap to next line on small screens */
       justify-content: center; /* Centers elements horizontally */
       align-items: center; 
-      margin-bottom: 15px;
+      margin-bottom: 3px;
     }
 
     .a{
