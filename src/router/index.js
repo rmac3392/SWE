@@ -12,6 +12,7 @@ const router = createRouter({
         { path: "/newPassword", component:() => import("~/pages/CreateNewPage.vue")},
         { path: "/cashierPage", component:() => import("~/pages/CashierPageTransactionTab.vue")},
         { path: "/mobilePage1", component:() => import("~/pages/Mobile1.vue")},
+        { path: "/mobilePage2", component:() => import("~/pages/Mobile2.vue")},
     ]
 });
 
