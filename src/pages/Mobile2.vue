@@ -85,6 +85,11 @@
         font-size: 22px;
     }
 
+    .txt{
+        background-color: #D9D9D9;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+    }
+
     .squares{
         display: flex;
         margin-left: 30px;

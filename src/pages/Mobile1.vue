@@ -79,7 +79,7 @@
         </div>
         <div class="buttons">
             <button>Cancel</button>
-            <button>Done</button>
+            <a href="/mobilePage2"><button>Done</button></a> 
         </div>
     </div>
   </template>
