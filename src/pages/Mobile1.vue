@@ -2,10 +2,10 @@
     <div class="body">
         <div class="upper">
             <div class="left">
-                <h3>A</h3>
+                <h3>A{{ counterVariable }}</h3>
             </div>
             <div class="right">
-                <h3>B</h3>
+                <h3>B{{counterVariableB }}</h3>
             </div>
         </div>
         <div class="window">
@@ -113,31 +113,70 @@ const db = getDatabase();
 export default {
   data() {
     return {
-      name: '',
-      email: ''
+      counterVariable : null,
+      counterVariableB: null,
+      counter : null,
     }
   },
   created (){
     const dbRef = ref(db);
+    const dbRefB = ref(db);
+
+    onValue(
+        child(dbRef, "Counter/Counter"),
+        (snapshot) => {
+          this.counterVariable = Number(snapshot.val());
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+// COUNTER B
+onValue(
+        child(dbRefB, "CounterB/CounterB"),
+        (snapshot) => {
+          this.counterVariableB = snapshot.val();
+        },
+        (error) => {
+          console.error(error);
+        },
+        () => {
+        }
+      );
+// current numbers of que
+      onValue(
+        child(dbRef, "sCounter/sCounter"),
+        (snapshot) => {
+          this.counter = Number(snapshot.val());
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
 
 
 
   },
   methods: {
+   
     saveData() {
-      const dbRef = ref(db, 'sCounter');
+
+      
+      const dbRef = ref(db, 'sCounter/sCounter');
       let counterVariable;
-      let ctr;
       get(dbRef).then((snapshot) => {
          
           counterVariable = Number(snapshot.val());
-          ctr = Number(snapshot.val());
-          const userId = `customers/${counterVariable}`;
+          this.queNum = Number(snapshot.val());
+          const userId = `users/${counterVariable}`;
           const dbRefcustomers = ref(db, userId);
 
-          const counter = 'sCounter';
-          const dbRefCounter = ref(db, counter);
-          update(dbRefCounter, { sCounter: this.ctr+1 });
+        
+          
+
+         
 
 
 
@@ -150,7 +189,7 @@ export default {
             grade: this.grade,
             tint: this.tint,
             tmisc: this.tmisc,
-            counterVariable: this.counterVariable +1,
+            queNum: this.queNum
            
           }
           update(dbRefcustomers, { id: this.id });
@@ -161,17 +200,28 @@ export default {
           update(dbRefcustomers, { grade: this.grade });
           update(dbRefcustomers, { tint: this.tint });
           update(dbRefcustomers, { tmisc: this.tmisc });
+          update(dbRefcustomers, { queNum: this.queNum });
+
+
+          this.incCounter();
+
    
 
-
+          
           
       });
    
 
-
  
 
     },
+    incCounter() {
+      const dbRef = ref(db, "sCounter");
+      this.counter = this.counter + 1;
+      update(dbRef, { sCounter: this.counter });
+    },
+   
+   
    
     
   }
