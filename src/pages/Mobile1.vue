@@ -2,10 +2,10 @@
     <div class="body">
         <div class="upper">
             <div class="left">
-                <h3>A32</h3>
+                <h3>A</h3>
             </div>
             <div class="right">
-                <h3>A33</h3>
+                <h3>B</h3>
             </div>
         </div>
         <div class="window">
@@ -21,33 +21,33 @@
         </div>
         <div class="fields" >
             <label>ID No.</label><br>
-            <input type="number" required="required">
+            <input type="number" required="required" v-model="id">
         </div>
         <div class="fields">
             <label>First Name</label><br>
-            <input type="text" required="required">
+            <input type="text" required="required" v-model="fname">
         </div>
         <div class="fields">
             <label>Middle Name</label><br>
-            <input type="text">
+            <input type="text" v-model="mname">
         </div>
         <div class="fields">
             <label>Last Name</label><br>
-            <input type="text" required="required">
+            <input type="text" required="required" v-model="lname">
         </div>
         <div class="educational">
             <h4>EDUCATIONAL INFORMATION</h4>
         </div>
         <div class="fields">
             <label>Educational Level</label><br>
-            <select>
+            <select v-model="edlevel">
                 <option value="Primary">Primary</option>
                 <option value="Secondary">Secondary</option>
             </select>
         </div>
         <div class="fields">
             <label>Grade Level</label><br>
-            <select>
+            <select v-model="grade">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -67,24 +67,106 @@
         </div>
         <div class="fields" >
             <label>Tuition Fee</label><br>
-            <input type="number" required="required">
+            <input type="number" required="required" v-model="tint">
         </div>
         <div class="fields" >
             <label>Miscellaneus Fee</label><br>
-            <input type="number">
+            <input type="number" v-model="tmisc">
         </div>
         <div class="fields" >
-            <label>Total Amount</label><br>
-            <input type="number" required="required">
+            
         </div>
         <div class="buttons">
             <button>Cancel</button>
-            <a href="/mobilePage2"><button>Done</button></a> 
+            <a href="/Mobile2"><button >Done</button></a> 
         </div>
     </div>
   </template>
   
-  <script setup>
+  <script>
+  
+import { push } from "firebase/database";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  child,
+  get,
+  update,
+  onValue,
+} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDtsKwx7mcaSnoPnZ2hlcolB8qluY69LMQ",
+    authDomain: "fir-68a5f.firebaseapp.com",
+    databaseURL: "https://fir-68a5f-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "fir-68a5f",
+    storageBucket: "fir-68a5f.appspot.com",
+    messagingSenderId: "939974599498",
+    appId: "1:939974599498:web:40392f504dd093d1c257b3",
+}
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase();
+
+export default {
+  data() {
+    return {
+      id: null,
+      email: ''
+    }
+  },
+  created (){
+    const dbRef = ref(db);
+
+
+
+  },
+  methods: {
+    saveData() {
+      const dbRef = ref(db, 'Counter/Counter');
+      const dbRefcustomers = ref(db);
+      let counterVariable;
+      get(dbRef).then((snapshot) => {
+        
+        counterVariable = Number(snapshot.val());
+          const userId = `customers/${counterVariable}`;
+
+          const dbRefcustomers = ref(db, userId);
+          const data = {
+            id: this.id,
+            fname: this.fname,
+            mname: this.mname,
+            mname: this.mname,
+            tint: this.tint,
+            tmisc: this.tmisc,
+
+
+
+
+
+
+
+          }
+          update(dbRefcustomers, { id: this.id });
+          update(dbRefcustomers, { fname: this.fname });
+          update(dbRefcustomers, { mname: this.mname });
+          update(dbRefcustomers, { lname: this.lname });
+          update(dbRefcustomers, { tint: this.tint });
+          update(dbRefcustomers, { tmisc: this.tmisc });
+      
+    });
+
+ 
+
+
+    }
+  }
+}
+
+
   </script>
   
   <style scoped>

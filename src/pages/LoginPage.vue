@@ -18,6 +18,7 @@
                         <input type="password" id="password" v-model="password" placeholder="   **********">
                         <br>
                         <p v-f="errMsg">{{ errMsg	}}</p>
+
                         <br>
                         <label for="user">User</label>
                         <br>
@@ -41,7 +42,7 @@
 </template>
 
 <script setup>
-// import { ref } from "vue";
+
 import { ref } from "vue";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter} from "vue-router";
@@ -84,11 +85,6 @@ const register =() => {
 	})
 };
 
-
-const signInWithGoogle = () => {
-	
-
-}
 
 </script>
 

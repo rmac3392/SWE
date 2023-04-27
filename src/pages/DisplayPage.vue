@@ -18,7 +18,7 @@
                           <p class="windowName">Window A</p>
                         </div>
                         <div class="lowA">
-                          <p class="queue">045</p>
+                          <p class="queue">A{{counterVariable}}</p>
                         </div>
                       </div>
                       <div class="b">
@@ -26,29 +26,29 @@
                           <p class="windowName">Window B</p>
                         </div>
                         <div class="lowB">
-                          <p class="queue">046</p>
+                          <p class="queue">B{{ counterVariableB }}</p>
                         </div>
                       </div>
                     </div>
                     <div class="lower">
                       <div class="number">
                         <div class="queueNum">
-                          <p class="label">Ticket Number</p>
-                          <p class="items">044</p>
-                          <p class="items">043</p>
-                          <p class="items">042</p>
-                          <p class="items">041</p>
-                          <p class="items">040</p>
+                          <p class="label">WINDOW A</p>
+                          <p class="items">{{q1Af}}</p>
+                          <p class="items">{{q2Af}}</p>
+                          <p class="items">{{q3Af}}</p>
+                          <p class="items">{{q4Af}}</p>
+                          <p class="items">{{q5Af}}</p>
                         </div>
                       </div>
                         <div class="windowSide">
                           <div class="windowNum">
-                            <p class="label">Window</p>
-                            <p class="items"> A</p>
-                            <p class="items"> B</p>
-                            <p class="items"> A</p>
-                            <p class="items"> B</p>
-                            <p class="items"> A</p>
+                            <p class="label">Window B</p>
+                            <p class="items"> B-{{counterVariableB+1}}</p>
+                            <p class="items"> B-{{counterVariableB+2}}</p>
+                            <p class="items"> B-{{counterVariableB+3}}</p>
+                            <p class="items"> B-{{counterVariableB+4}}</p>
+                            <p class="items"> B-{{counterVariableB+5}}</p>
                           </div>
 
                         </div>
@@ -58,6 +58,201 @@
           </div>
       </div>
 </template>
+
+<script>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  child,
+  get,
+  update,
+  onValue,
+} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
+
+
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDtsKwx7mcaSnoPnZ2hlcolB8qluY69LMQ",
+    authDomain: "fir-68a5f.firebaseapp.com",
+    databaseURL: "https://fir-68a5f-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "fir-68a5f",
+    storageBucket: "fir-68a5f.appspot.com",
+    messagingSenderId: "939974599498",
+    appId: "1:939974599498:web:40392f504dd093d1c257b3",
+  };
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase();
+
+export default {
+  
+  data() {
+    return {
+      counterVariable: null,
+      counterVariableB: '',
+      qA: '',
+      q1Af : '',
+      q2Af : '',
+      q3Af: '',
+      q4Af:'',
+      q5Af:'',
+     
+
+    };
+  },
+  
+  
+  
+  mounted() {
+    const dbRef = ref(db);
+    const dbRefB = ref(db);
+
+
+
+
+// COUNTER A 
+onValue(
+        child(dbRef, "Counter/Counter"),
+        (snapshot) => {
+          this.counterVariable = Number(snapshot.val());
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+// COUNTER B
+onValue(
+        child(dbRefB, "CounterB/CounterB"),
+        (snapshot) => {
+          this.counterVariableB = snapshot.val();
+        },
+        (error) => {
+          console.error(error);
+        },
+        () => {
+        }
+      );
+
+
+
+//A 1st q
+onValue(
+    child(dbRef, "Counter/Counter"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `users/${counterValue+1}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q1A = snapshot.val();
+                                  this.q1Af = "A" + this.q1A;}
+        else { this.q1Af = "-"; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+// A 2nd que
+onValue(
+    child(dbRef, "Counter/Counter"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `users/${counterValue+2}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q2A = snapshot.val();
+                                  this.q2Af = "A" + this.q2A;}
+        else { this.q2Af = '-'; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+// A 3rd que
+onValue(
+    child(dbRef, "Counter/Counter"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `users/${counterValue+3}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q3A = snapshot.val();
+                                  this.q3Af = "A" + this.q3A;}
+        else { this.q3Af = '-'; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+// A 4th que
+onValue(
+    child(dbRef, "Counter/Counter"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `users/${counterValue+4}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q4A = snapshot.val();
+                                  this.q4Af = "A" + this.q4A;}
+        else { this.q4Af = '-'; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+// A 5th que
+onValue(
+    child(dbRef, "Counter/Counter"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `users/${counterValue+5}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q5A = snapshot.val();
+                                  this.q5Af = "A" + this.q5A;}
+        else { this.q5Af = '-'; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+  }
+}
+ 
+  </script>
 
 <script setup>
 // import { ref } from "vue";
