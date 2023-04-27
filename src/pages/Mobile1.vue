@@ -21,11 +21,11 @@
         </div>
         <div class="fields" >
             <label>ID No.</label><br>
-            <input type="number" required="required" v-model="id">
+            <input type="number" v-model="id">
         </div>
         <div class="fields">
             <label>First Name</label><br>
-            <input type="text" required="required" v-model="fname">
+            <input type="text" v-model="fname">
         </div>
         <div class="fields">
             <label>Middle Name</label><br>
@@ -33,7 +33,7 @@
         </div>
         <div class="fields">
             <label>Last Name</label><br>
-            <input type="text" required="required" v-model="lname">
+            <input type="text" v-model="lname">
         </div>
         <div class="educational">
             <h4>EDUCATIONAL INFORMATION</h4>
@@ -67,7 +67,7 @@
         </div>
         <div class="fields" >
             <label>Tuition Fee</label><br>
-            <input type="number" required="required" v-model="tint">
+            <input type="number"  v-model="tint">
         </div>
         <div class="fields" >
             <label>Miscellaneus Fee</label><br>
@@ -78,14 +78,13 @@
         </div>
         <div class="buttons">
             <button>Cancel</button>
-            <a href="/Mobile2"><button >Done</button></a> 
+            <button  @click="saveData()">Done</button>
         </div>
     </div>
   </template>
   
   <script>
-  
-import { push } from "firebase/database";
+  import { push } from "firebase/database";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import {
   getDatabase,
@@ -114,7 +113,7 @@ const db = getDatabase();
 export default {
   data() {
     return {
-      id: null,
+      name: '',
       email: ''
     }
   },
@@ -126,46 +125,57 @@ export default {
   },
   methods: {
     saveData() {
-      const dbRef = ref(db, 'Counter/Counter');
-      const dbRefcustomers = ref(db);
+      const dbRef = ref(db, 'sCounter');
       let counterVariable;
+      let ctr;
       get(dbRef).then((snapshot) => {
-        
-        counterVariable = Number(snapshot.val());
+         
+          counterVariable = Number(snapshot.val());
+          ctr = Number(snapshot.val());
           const userId = `customers/${counterVariable}`;
-
           const dbRefcustomers = ref(db, userId);
+
+          const counter = 'sCounter';
+          const dbRefCounter = ref(db, counter);
+          update(dbRefCounter, { sCounter: this.ctr+1 });
+
+
+
           const data = {
             id: this.id,
             fname: this.fname,
             mname: this.mname,
-            mname: this.mname,
+            lname: this.lname,
+            edlevel: this.edlevel,
+            grade: this.grade,
             tint: this.tint,
             tmisc: this.tmisc,
-
-
-
-
-
-
-
+            counterVariable: this.counterVariable +1,
+           
           }
           update(dbRefcustomers, { id: this.id });
           update(dbRefcustomers, { fname: this.fname });
           update(dbRefcustomers, { mname: this.mname });
           update(dbRefcustomers, { lname: this.lname });
+          update(dbRefcustomers, { edlevel: this.edlevel });
+          update(dbRefcustomers, { grade: this.grade });
           update(dbRefcustomers, { tint: this.tint });
           update(dbRefcustomers, { tmisc: this.tmisc });
-      
-    });
+   
+
+
+          
+      });
+   
+
 
  
 
-
-    }
+    },
+   
+    
   }
 }
-
 
   </script>
   

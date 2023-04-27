@@ -1,13 +1,42 @@
 <template>
   <form @submit.prevent="saveData">
     <label>
-      Name:
-      <input type="text" v-model="name">
+      ID
+      <input type="text" v-model="id">
+      <br>
     </label>
+    <br>
+    <label>
+      First Name
+      
+      <input type="text" v-model="fname">
+    </label>
+    <br>
+    <label>
+Middle Name      
+      <input type="text" v-model="mname">
+    </label>
+    <br>
+    <label>
+Last Name      
+      <input type="text" v-model="lname">
+    </label>
+
+    <br>
     <label>
       Email:
-      <input type="email" v-model="email">
+      
+      <input type="text" v-model="asd">
     </label>
+    <br>
+    <select id="my-select" v-model="selectedOption">
+      <option value="option1">Option 1</option>
+      <option value="option2">Option 2</option>
+      <option value="option3">Option 3</option>
+    </select>
+
+    <br>
+    <br>
     <button @click="saveData()">Save</button>
   </form>
 </template>
@@ -64,13 +93,22 @@ export default {
 
           const dbRefcustomers = ref(db, userId);
           const data = {
-            name: this.name,
-            email: this.email
+            id: this.id,
+            fname: this.fname,
+            mname: this.mname,
+            lname: this.lname,
+            selectedOption: this.selectedOption,
           }
-          push(dbRefcustomers, { name: this.name });
-          push(dbRefcustomers, { email: this.email });
+          update(dbRefcustomers, { id: this.id });
+          update(dbRefcustomers, { fname: this.fname });
+          update(dbRefcustomers, { mname: this.mname });
+          update(dbRefcustomers, { lname: this.lname });
+          update(dbRefcustomers, { selectedOption: this.selectedOption });
+
+      
       
     });
+
 
  
 
