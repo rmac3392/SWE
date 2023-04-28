@@ -155,6 +155,8 @@ onValue(
           console.error(error);
         }
       );
+      
+      
 
 
 
@@ -172,6 +174,12 @@ onValue(
           this.queNum = Number(snapshot.val());
           const userId = `users/${counterVariable}`;
           const dbRefcustomers = ref(db, userId);
+          
+          localStorage.setItem('que', this.queNum);
+          const myVariable = localStorage.getItem('que')
+          
+          
+
 
         
           
