@@ -139,11 +139,22 @@
                       <input type="text" class="search" placeholder="Search...">
                   </div>
                   <div class="tabDown">
-                      <div class="transactionTab">Transaction</div>
-                      <div class="invoiceTab">Invoice</div>
-                      <div class="historyTab">History</div>
+                      <div :class="currentTab == 0 ? 'tab-active' : 'general-tab'" @click="currentTab = 0">Transaction</div>
+                      <div :class="currentTab == 1 ? 'tab-active' : 'general-tab'" @click="currentTab = 1">Invoice</div>
+                      <div :class="currentTab == 2 ? 'tab-active' : 'general-tab'" @click="currentTab = 2">History</div>
                   </div>
                   <div class="content">
+                    <Transition name="fade" mode="out-in">
+                      <div v-if="currentTab == 0">
+                        Transactioms
+                      </div>
+                      <div v-else-if="currentTab == 1">
+                        Invoive
+                      </div>
+                      <div v-else="currentTab == 2">
+                        History
+                      </div>
+                    </Transition>
                   </div>
               </div>
           </div>
@@ -203,7 +214,7 @@ export default {
       tmisc: null ,
       currentTime: "",
       currentDate: "",
-
+      currentTab: 0
     };
   },
   
@@ -598,7 +609,20 @@ input{
   background: #1E293B;
   border: 1px solid #293549;
   border-radius: 0px 15px 15px 15px;
+  color: white;
+  padding: 16px;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .tabs{
   padding: 15px;
 }
@@ -616,7 +640,7 @@ input{
 .tabDown{
   display: flex;
 }
-.transactionTab{
+.tab-active {
   display: flex;
   width: 120px;
   height: 25px;
@@ -632,23 +656,7 @@ input{
   align-items: center;
   cursor: pointer;
 }
-.invoiceTab{
-  display: flex;
-  width: 120px;
-  height: 25px;
-  background: #fefefe;
-  border-width: 1px 1px 0px 1px;
-  border-style: solid;
-  border-color: #293549;
-  border-radius: 8px 8px 0px 0px;
-  margin-right: 1px;
-  color: #0F172A;
-  font-weight: 700;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-.historyTab{
+.general-tab {
   display: flex;
   width: 120px;
   height: 25px;

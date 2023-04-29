@@ -78,7 +78,7 @@
         </div>
         <div class="buttons">
             <button>Cancel</button>
-            <button  @click="saveData()">Done</button>
+            <a href="mobile2"><button  @click="saveData()">Done</button></a>
         </div>
     </div>
   </template>

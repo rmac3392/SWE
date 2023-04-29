@@ -2,6 +2,7 @@
     <div class="body">
         <div class="upper">
             <div class="left">
+
                 <h3>A{{ counterVariable }}</h3>
             </div>
             <div class="right">
@@ -40,6 +41,8 @@
             <h3 class="num">Queue No : {{ queCur }}</h3>
         </div>
     </div>
+    <audio :src="audioLink"></audio>
+
   </template>
   
   <script>
@@ -86,6 +89,8 @@ export default {
       q5Af:'',
       q6Af:'',
       queCur:'',
+      audioLink: "https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/X2Download.app%20-%20Cycle%20Bell%20Ring%20Sound%20Effect%20_%20Non%20Copyright%20(128%20kbps).mp3?alt=media&token=760578d2-3675-45d3-a3ca-f357df3699b4",
+
 
      
 
@@ -97,7 +102,6 @@ export default {
   mounted() {
     const dbRef = ref(db);
     const dbRefB = ref(db);
-    
        
     this.myVariable = localStorage.getItem('que');
     this.queCur = this.myVariable;
@@ -112,6 +116,7 @@ onValue(
         child(dbRef, "Counter/Counter"),
         (snapshot) => {
           this.counterVariable = Number(snapshot.val());
+          
         
         },
         (error) => {
@@ -256,6 +261,7 @@ onValue(
         if(snapshot.val()!=null){ this.q6A = snapshot.val();
                                   this.q6Af = "A" + this.q6A;}
         else { this.q6Af = '-'; }
+        
       },
       (error) => {
         console.error(error);
@@ -266,9 +272,30 @@ onValue(
     console.error(error);
   }
 );
-  }
+  },
+  methods: {
+   
+  playAudio(){
+    if (this.counterVariable == this.queCur){
+      const audio = new Audio(this.audioLink);
+      audio.loop = true;
+      audio.play();
+    
+    }
+    else {audio.stop()}
+   
+  } 
+  
+  
+  
+   
+ }
+  
 }
  
+
+
+  
   </script>
   
   <style scoped>
