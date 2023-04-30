@@ -18,7 +18,7 @@
                           <p class="windowName">Window A</p>
                         </div>
                         <div class="lowA">
-                          <p class="queue">A{{counterVariable}}</p>
+                          <p class="queue">{{currentAtext}}</p>
                         </div>
                       </div>
                       <div class="b">
@@ -91,6 +91,7 @@ export default {
   
   data() {
     return {
+      currentAtext: '',
       counterVariable: null,
       counterVariableB: '',
       qA: '',
@@ -110,7 +111,24 @@ export default {
     const dbRef = ref(db);
     const dbRefB = ref(db);
 
+    
+// Currently Serving A
+onValue(
+        child(dbRef, "curA/curA"),
+        (snapshot) => {
+          this.currentA = Number(snapshot.val());
+          if(snapshot.val() == 0){
+              this.currentAtext = "-";
 
+          }
+          else{this.currentA = Number(snapshot.val());
+               this.currentAtext = "A"+Number(snapshot.val());}
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
 
 
 // COUNTER A 

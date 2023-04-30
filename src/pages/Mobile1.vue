@@ -2,7 +2,7 @@
     <div class="body">
         <div class="upper">
             <div class="left">
-                <h3>A{{ counterVariable }}</h3>
+                <h3>{{ currentAtext }}</h3>
             </div>
             <div class="right">
                 <h3>B{{counterVariableB }}</h3>
@@ -78,7 +78,7 @@
         </div>
         <div class="buttons">
             <button>Cancel</button>
-            <a href="mobile2"><button  @click="saveData()">Done</button></a>
+        <a href = "Mobile2">  <button  @click="saveData()">Done</button> </a>
         </div>
     </div>
   </template>
@@ -113,6 +113,7 @@ const db = getDatabase();
 export default {
   data() {
     return {
+      currentAtext:'',
       counterVariable : null,
       counterVariableB: null,
       counter : null,
@@ -121,6 +122,24 @@ export default {
   created (){
     const dbRef = ref(db);
     const dbRefB = ref(db);
+
+  // Currently Serving A
+onValue(
+        child(dbRef, "curA/curA"),
+        (snapshot) => {
+          this.currentA = Number(snapshot.val());
+          if(snapshot.val() == 0){
+              this.currentAtext = "-";
+
+          }
+          else{this.currentA = Number(snapshot.val());
+               this.currentAtext = "A"+Number(snapshot.val());}
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
 
     onValue(
         child(dbRef, "Counter/Counter"),
@@ -177,7 +196,7 @@ onValue(
           
           localStorage.setItem('que', this.queNum);
           const myVariable = localStorage.getItem('que')
-          
+          this.ring = false;
           
 
 
@@ -197,7 +216,8 @@ onValue(
             grade: this.grade,
             tint: this.tint,
             tmisc: this.tmisc,
-            queNum: this.queNum
+            queNum: this.queNum,
+            ring : false,
            
           }
           update(dbRefcustomers, { id: this.id });
@@ -209,6 +229,8 @@ onValue(
           update(dbRefcustomers, { tint: this.tint });
           update(dbRefcustomers, { tmisc: this.tmisc });
           update(dbRefcustomers, { queNum: this.queNum });
+          update(dbRefcustomers, { ring: this.ring });
+
 
 
           this.incCounter();

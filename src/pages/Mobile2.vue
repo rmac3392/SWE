@@ -2,8 +2,9 @@
     <div class="body">
         <div class="upper">
             <div class="left">
+              <audio ref="audio" src="https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/X2Download.app%20-%20Cycle%20Bell%20Ring%20Sound%20Effect%20_%20Non%20Copyright%20(128%20kbps).mp3?alt=media&token=760578d2-3675-45d3-a3ca-f357df3699b4" loop></audio>
 
-                <h3>A{{ counterVariable }}</h3>
+                <h3>{{ currentAtext }}</h3>
             </div>
             <div class="right">
                 <h3>B{{ counterVariableB }}</h3>
@@ -75,10 +76,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 
+
 export default {
   
   data() {
     return {
+      currentAtext: '',
       counterVariable: null,
       counterVariableB: '',
       qA: '',
@@ -102,6 +105,24 @@ export default {
   mounted() {
     const dbRef = ref(db);
     const dbRefB = ref(db);
+
+  // Currently Serving A
+onValue(
+        child(dbRef, "curA/curA"),
+        (snapshot) => {
+          this.currentA = Number(snapshot.val());
+          if(snapshot.val() == 0){
+              this.currentAtext = "-";
+
+          }
+          else{this.currentA = Number(snapshot.val());
+               this.currentAtext = "A"+Number(snapshot.val());}
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
        
     this.myVariable = localStorage.getItem('que');
     this.queCur = this.myVariable;
@@ -109,15 +130,56 @@ export default {
     if (this.myVariable > this.counterVariable){
         
         this.queCur = "A"+this.myVariable;
+        this.queCurNum = this.myVariable;
     }
+
+
+    const ring = `users/${this.queCurNum}/ring`;
+
+    onValue(
+      child(dbRef, ring),
+      (snapshot) => {
+        console.log(snapshot.val())
+
+        if(snapshot.val()== true){
+
+          this.$refs.audio.play();
+
+          
+          }
+        else{
+            const audio = this.$refs.audio
+            audio.pause();
+            audio.currentTime = 0;
+        }
+       
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+
+
+
 
 // COUNTER A 
 onValue(
         child(dbRef, "Counter/Counter"),
         (snapshot) => {
           this.counterVariable = Number(snapshot.val());
-          
-        
+          console.log(this.counterVariable)
+          console.log(this.queCurNum);
+
+          // if(this.counterVariable==this.queCurNum){
+          // this.$refs.audio.play()
+          //   console.log(this.counterVariable)
+
+          // }
+          // else {
+          //   const audio = this.$refs.audio
+          //   audio.pause();
+          //   audio.currentTime = 0;
+          // }
         },
         (error) => {
           console.error(error);
@@ -274,22 +336,23 @@ onValue(
 );
   },
   methods: {
+
+
+      playAudio() {
+
+        if (counterVariable == queCur) {
+          this.$refs.audio.play()
+          
+
+        }
+      },
    
-  playAudio(){
-    if (this.counterVariable == this.queCur){
-      const audio = new Audio(this.audioLink);
-      audio.loop = true;
-      audio.play();
-    
-    }
-    else {audio.stop()}
-   
-  } 
   
   
   
    
- }
+ },
+ 
   
 }
  

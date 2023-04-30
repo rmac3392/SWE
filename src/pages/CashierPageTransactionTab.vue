@@ -8,7 +8,7 @@
           <br>
           <div class="uQueue">
               <div class="windowA">
-                  <span id ="countSpan" class="currentNum"> A{{ counterVariable  }}</span>
+                  <span id ="countSpan" class="currentNum"> {{ currentAtext  }}</span>
               </div>
               <div class="windowB">
                   <p class="currentNum">{{ counterVariableB  }}</p>
@@ -66,13 +66,13 @@
                   </div>
               </div>
               <div class="controls">
-                  <button class="commandBox">
+                  <button class="commandBox" @click="callUser()">
                       <BellAlertIcon class="commandIcon"/> CALL</button>
                   <button class="commandBox" @click="incCounter">
                       <ForwardIcon class="commandIcon"/>NEXT</button>
                   <button class="commandBox">
                       <ArrowPathIcon class="commandsIcon"/>TRANSFER</button>
-                  <button class="commandBox" @click="reloadPage">
+                  <button class="commandBox" @click="doneUser()">
                       <CheckBadgeIcon class="commandIcon"/>DONE</button>
               </div>
           </div>
@@ -197,6 +197,8 @@ export default {
   
   data() {
     return {
+      currentAtext : '',
+      currentA: 0,
       counterVariable: null,
       counterVariableB: '',
       qA: '',
@@ -214,7 +216,8 @@ export default {
       tmisc: null ,
       currentTime: "",
       currentDate: "",
-      currentTab: 0
+      currentTab: 0,
+      ring : false,
     };
   },
   
@@ -223,9 +226,28 @@ export default {
   mounted() {
     const dbRef = ref(db);
     const dbRefB = ref(db);
+    console.log(this.currentA)
 
 
 
+    
+// Currently Serving A
+onValue(
+        child(dbRef, "curA/curA"),
+        (snapshot) => {
+          this.currentA = Number(snapshot.val());
+          if(snapshot.val() == 0){
+              this.currentAtext = "-";
+
+          }
+          else{this.currentA = Number(snapshot.val());
+               this.currentAtext = "A"+Number(snapshot.val());}
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
 
 // COUNTER A 
 onValue(
@@ -352,7 +374,7 @@ onValue(
 
 // id
     onValue(
-    child(dbRef, "Counter/Counter"),
+    child(dbRef, "curA/curA"),
     (snapshot) => {
     const counterValue = snapshot.val();
     const userId = `users/${counterValue}/id/`;
@@ -373,7 +395,7 @@ onValue(
 
 // first name
 onValue(
-  child(dbRef, "Counter/Counter"),
+  child(dbRef, "curA/curA"),
   (snapshot) => {
     const counterValue = snapshot.val();
     const userId = `users/${counterValue}/fname`;
@@ -394,7 +416,7 @@ onValue(
 
 // mid name
 onValue(
-  child(dbRef, "Counter/Counter"),
+  child(dbRef, "curA/curA"),
   (snapshot) => {
     const counterValue = snapshot.val();
     const userId = `users/${counterValue}/mname`;
@@ -414,7 +436,7 @@ onValue(
 );
 //last name
 onValue(
-  child(dbRef, "Counter/Counter"),
+  child(dbRef, "curA/curA"),
   (snapshot) => {
     const counterValue = snapshot.val();
     const userId = `users/${counterValue}/lname`;
@@ -434,7 +456,7 @@ onValue(
 );
 //ed level
 onValue(
-  child(dbRef, "Counter/Counter"),
+  child(dbRef, "curA/curA"),
   (snapshot) => {
     const counterValue = snapshot.val();
     const userId = `users/${counterValue}/edlevel`; // assuming `edlevel` is the key for the `edlevel` string value
@@ -454,7 +476,7 @@ onValue(
 );
 //grade/year
 onValue(
-  child(dbRef, "Counter/Counter"),
+  child(dbRef, "curA/curA"),
   (snapshot) => {
     const counterValue = snapshot.val();
     const userId = `users/${counterValue}/grade`; // assuming `edlevel` is the key for the `edlevel` string value
@@ -474,7 +496,7 @@ onValue(
 );
 // tuition fee
 onValue(
-    child(dbRef, "Counter/Counter"),
+    child(dbRef, "curA/curA"),
     (snapshot) => {
     const counterValue = snapshot.val();
     const userId = `users/${counterValue}/tint`;
@@ -498,7 +520,7 @@ onValue(
 
 // tmisc
 onValue(
-  child(dbRef, "Counter/Counter"),
+  child(dbRef, "curA/curA"),
   (snapshot) => {
     const counterValue = snapshot.val();
     const userMisc = `users/${counterValue}/tmisc`; 
@@ -558,11 +580,79 @@ onValue(
   
   methods: {
     incCounter() {
+      
+      if(this.currentA == 0){
+
       const dbRef = ref(db, "Counter");
       this.counterVariable = this.counterVariable + 1;
       update(dbRef, { Counter: this.counterVariable });
+
+      const dbRefC = ref(db, "curA");
+      this.currentA = this.counterVariable;
+      update(dbRefC, { curA: this.currentA });
+
+      }
+
+      else if(this.currentA != 0){
+        alert("PLEASE PRESS DONE BEFORE PROCEEDING!");
+      }
+      const dbRef = ref(db, 'Counter/Counter');
+      let counterVariable;
+      get(dbRef).then((snapshot) => {
+          
+        
+          counterVariable = Number(snapshot.val());
+          const userId = `users/${counterVariable}`;
+          const dbRefcustomers = ref(db, userId);
+          this.ring = false;
+         
+          update(dbRefcustomers, { ring: this.ring });           
+      });
+        
     },
+    
+
+
+    doneUser(){
+      const dbReftemp = ref(db, "curA");
+     
+      update(dbReftemp, { curA: 0 });
+
+      const dbRef = ref(db, 'Counter/Counter');
+      let counterVariable;
+
+      get(dbRef).then((snapshot) => {
+
+      counterVariable = Number(snapshot.val());
+          const userId = `users/${counterVariable}`;
+          const dbRefcustomers = ref(db, userId);
+          this.ring = false;
+         
+          update(dbRefcustomers, { ring: this.ring }); 
+        });
+
+    },
+
+
+
+    callUser() {        
+      const dbRef = ref(db, 'Counter/Counter');
+      let counterVariable;
+      get(dbRef).then((snapshot) => {
+          
+          if(this.currentA==0){alert("There is nobody to call.")}
+          console.log("snapshot value: "+snapshot.val())
+        
+          counterVariable = Number(snapshot.val());
+          const userId = `users/${counterVariable}`;
+          const dbRefcustomers = ref(db, userId);
+          this.ring = !this.ring;
+         
+          update(dbRefcustomers, { ring: this.ring });           
+      });
+      },
   },
+      
 };
 </script>
 
