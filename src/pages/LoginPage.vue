@@ -43,6 +43,14 @@
 
 <script setup>
 
+let loggedin = localStorage.getItem('log-in');
+    
+
+localStorage.setItem('currentWindow', 'A');
+const currentWindow = localStorage.getItem('currentWindow')
+console.log("current window is: "+currentWindow)
+
+
 import { ref } from "vue";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter} from "vue-router";
@@ -52,11 +60,24 @@ const password = ref("");
 const errMsg = ref();
 const router = useRouter();
 
+
+
+
+
+
 const register =() => {
+    if( loggedin=="true"){
+        router.push("/cashierPage");
+     
+    }
 	signInWithEmailAndPassword(getAuth(),email.value, password.value)
 	.then((data) =>{
 		console.log("Sucessfully signed in!");
         router.push("/cashierPage");
+        
+        localStorage.setItem('log-in', true);
+
+       
 
 		
 	})
@@ -84,6 +105,8 @@ const register =() => {
 
 	})
 };
+
+register();
 
 
 </script>

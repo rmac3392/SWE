@@ -4,14 +4,14 @@
   <div class="flex h-full justify-center items-center  mx-0 w-full">
       <div class="queuePane">
           <br>
-        <span>  <p  class="current"> Currently Serving A</p> </span>
+        <span>  <p  class="current"> {{ curWinText }}</p> </span>
           <br>
           <div class="uQueue">
               <div class="windowA">
                   <span id ="countSpan" class="currentNum"> {{ currentAtext  }}</span>
               </div>
               <div class="windowB">
-                  <p class="currentNum">{{ counterVariableB  }}</p>
+                  <p class="currentNum">{{ currentBtext  }}</p>
               </div>
           </div>
           <div class="uQueue">
@@ -46,19 +46,19 @@
                   </div>
                   <div class="lineBox">
                       <div class="lineNum">
-                          <div class="num">{{ counterVariableB + 1 }}</div>
+                          <div class="num">{{ q1Bf }}</div>
                       </div>
                       <div class="lineWindow">WINDOW B</div>
                   </div>
                   <div class="lineBox">
                       <div class="lineNum">
-                          <div class="num">{{ counterVariableB + 2 }}</div>
+                          <div class="num">{{ q2Bf }}</div>
                       </div>
                       <div class="lineWindow">WINDOW B</div>
                   </div>
                   <div class="lineBox">
                       <div class="lineNum">
-                          <div class="num">{{ counterVariableB +3  }}</div>
+                          <div class="num">{{ q3Bf }}</div>
                       </div>
                       <div class="lineWindow">WINDOW B</div>
                      
@@ -74,6 +74,9 @@
                       <ArrowPathIcon class="commandsIcon"/>TRANSFER</button>
                   <button class="commandBox" @click="doneUser()">
                       <CheckBadgeIcon class="commandIcon"/>DONE</button>
+                      
+                      <button class="commandBox" @click="changeWin()" >
+                      <CheckBadgeIcon class="commandIcon"/>Change Window</button>
               </div>
           </div>
       </div>
@@ -89,7 +92,7 @@
                       <p id="time"><span>{{ currentTime }}</span></p>
                   </div>
                   <div class="image">
-                  <a href="http://localhost:5173/">    <UserCircleIcon class="logout" /></a>
+                  <a @click="logout">    <UserCircleIcon class="logout" /></a>
                       
                   </div>
               </div>
@@ -164,7 +167,9 @@
   
  
 </template>
+<script type="setup">
 
+</script>
 <script>
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import {
@@ -175,6 +180,7 @@ import {
   update,
   onValue,
 } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+import { routerKey } from 'vue-router';
 
 
 
@@ -198,10 +204,11 @@ export default {
   data() {
     return {
       currentAtext : '',
+      currentBtext : '',
       currentA: 0,
+      currentB: 0,
       counterVariable: null,
       counterVariableB: '',
-      qA: '',
       q1Af : '',
       q2Af : '',
       q3Af: '',
@@ -218,6 +225,13 @@ export default {
       currentDate: "",
       currentTab: 0,
       ring : false,
+      q1Bf : '',
+      q2Bf : '',
+      q3Bf : '',
+      q4Bf: '',
+      curWinText: '',
+
+
     };
   },
   
@@ -227,6 +241,27 @@ export default {
     const dbRef = ref(db);
     const dbRefB = ref(db);
     console.log(this.currentA)
+    this.loggedin = localStorage.getItem('log-in');
+    console.log(this.loggedin)
+
+    if(this.loggedin=="false"){
+      console.log("true ang asd")
+      this.$router.push('/');
+    }
+
+
+
+const currentWindow = localStorage.getItem('currentWindow')
+if(currentWindow =='A'){
+
+  this.curWinText = "Currently Serving A";
+}
+else{
+  this.curWinText = "Currently Serving B";
+
+}
+   
+
 
 
 
@@ -248,6 +283,26 @@ onValue(
           console.error(error);
         }
       );
+// Currently Serving B
+onValue(
+        child(dbRef, "curB/curB"),
+        (snapshot) => {
+          this.currentB = Number(snapshot.val());
+          if(snapshot.val() == 0){
+              this.currentBtext = "-";
+
+          }
+          else{this.currentB = Number(snapshot.val());
+               this.currentBtext = "B"+Number(snapshot.val());}
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );      
+      
+
+    
 
 // COUNTER A 
 onValue(
@@ -297,6 +352,29 @@ onValue(
     console.error(error);
   }
 );
+//B 1st q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+1}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q1B = snapshot.val();
+                                  this.q1Bf = "B" + this.q1B;}
+        else { this.q1Bf = "-"; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+
 // A 2nd que
 onValue(
     child(dbRef, "Counter/Counter"),
@@ -319,6 +397,28 @@ onValue(
     console.error(error);
   }
 );
+//B 2nd q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+2}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q2B = snapshot.val();
+                                  this.q2Bf = "B" + this.q2B;}
+        else { this.q2Bf = "-"; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
 // A 3rd que
 onValue(
     child(dbRef, "Counter/Counter"),
@@ -331,6 +431,28 @@ onValue(
         if(snapshot.val()!=null){ this.q3A = snapshot.val();
                                   this.q3Af = "A" + this.q3A;}
         else { this.q3Af = '-'; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+//B 3RD q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+3}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q3B = snapshot.val();
+                                  this.q3Bf = "B" + this.q3B;}
+        else { this.q3Bf = "-"; }
       },
       (error) => {
         console.error(error);
@@ -372,7 +494,7 @@ onValue(
 
     
 
-// id
+// a CURRENT
     onValue(
     child(dbRef, "curA/curA"),
     (snapshot) => {
@@ -392,7 +514,30 @@ onValue(
     console.error(error);
   }
 );
+// B CURRENT
+onValue(
+    child(dbRef, "curB/curB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue}/id/`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        this.id = Number(snapshot.val());
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
 
+
+//WINDOW A USER INFO
+if(currentWindow=='A'){
 // first name
 onValue(
   child(dbRef, "curA/curA"),
@@ -553,8 +698,172 @@ onValue(
   }
 );
 
+}// end of of WINDOW A user info
+
+//window B USER INFO
+else{
+// first name
+onValue(
+  child(dbRef, "curB/curB"),
+  (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue}/fname`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        this.fname = snapshot.val(); 
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+
+// mid name
+onValue(
+  child(dbRef, "curB/curB"),
+  (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue}/mname`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        this.mname = snapshot.val(); 
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+//last name
+onValue(
+  child(dbRef, "curB/curB"),
+  (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue}/lname`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        this.lname = snapshot.val(); 
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+//ed level
+onValue(
+  child(dbRef, "curB/curB"),
+  (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue}/edlevel`; // assuming `edlevel` is the key for the `edlevel` string value
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        this.edlevel = snapshot.val(); // set the value of `this.edlevel`
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+//grade/year
+onValue(
+  child(dbRef, "curB/curB"),
+  (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue}/grade`; // assuming `edlevel` is the key for the `edlevel` string value
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        this.grade = snapshot.val(); // set the value of `this.edlevel`
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+// tuition fee
+onValue(
+    child(dbRef, "curB/curB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue}/tint`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        this.tint = Number(snapshot.val());
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+// miscfker
+// id
 
 
+// tmisc
+onValue(
+  child(dbRef, "curB/curB"),
+  (snapshot) => {
+    const counterValue = snapshot.val();
+    const userMisc = `usersB/${counterValue}/tmisc`; 
+    const userTuiton = `usersB/${counterValue}/tint`;
+    onValue(
+      child(dbRef, userMisc),
+      (snapshot) => {
+        this.tmisc = Number(snapshot.val()); 
+        onValue(
+      child(dbRef, userTuiton),
+      (snapshot) => {
+        this.tuiton = Number(snapshot.val()); 
+        this.total = this.tuiton + this.tmisc;
+
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+    //total
+    
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+
+
+}
 
 
 
@@ -572,48 +881,91 @@ onValue(
     
     
 
-    // assign the reference value to the component's data property
+    console.log("Current Window is: "+ currentWindow);
     
   },
   
   
   
   methods: {
+    logout(){
+      localStorage.setItem('log-in', false);
+      location.reload();
+
+    },
     incCounter() {
+      const currentWindow = localStorage.getItem('currentWindow')
+
       
-      if(this.currentA == 0){
+      if(currentWindow=='A'){
+        if(this.currentA == 0){
 
-      const dbRef = ref(db, "Counter");
-      this.counterVariable = this.counterVariable + 1;
-      update(dbRef, { Counter: this.counterVariable });
+          const dbRef = ref(db, "Counter");
+          this.counterVariable = this.counterVariable + 1;
+          update(dbRef, { Counter: this.counterVariable });
 
-      const dbRefC = ref(db, "curA");
-      this.currentA = this.counterVariable;
-      update(dbRefC, { curA: this.currentA });
+          const dbRefC = ref(db, "curA");
+          this.currentA = this.counterVariable;
+          update(dbRefC, { curA: this.currentA });
+
+          }
+
+          else if(this.currentA != 0){
+            alert("PLEASE PRESS DONE BEFORE PROCEEDING!");
+          }
+          const dbRef = ref(db, 'Counter/Counter');
+          let counterVariable;
+          get(dbRef).then((snapshot) => {
+              
+            
+              counterVariable = Number(snapshot.val());
+              const userId = `users/${counterVariable}`;
+              const dbRefcustomers = ref(db, userId);
+              this.ring = false;
+            
+              update(dbRefcustomers, { ring: this.ring });           
+          });
+      }
+      else{
+        if(this.currentB == 0){
+
+          const dbRef = ref(db, "CounterB");
+          this.counterVariableB = this.counterVariableB + 1;
+          update(dbRef, { CounterB: this.counterVariableB });
+
+          const dbRefC = ref(db, "curB");
+          this.currentB = this.counterVariableB;
+          update(dbRefC, { curB: this.currentB });
+
+          }
+
+          else if(this.currentB != 0){
+            alert("PLEASE PRESS DONE BEFORE PROCEEDING!");
+          }
+          const dbRef = ref(db, 'CounterB/CounterB');
+          let counterVariableB;
+          get(dbRef).then((snapshot) => {
+              
+            
+              counterVariableB = Number(snapshot.val());
+              const userId = `usersB/${counterVariableB}`;
+              const dbRefcustomersB = ref(db, userId);
+              this.ring = false;
+            
+              update(dbRefcustomersB, { ring: this.ring });           
+          });        
 
       }
-
-      else if(this.currentA != 0){
-        alert("PLEASE PRESS DONE BEFORE PROCEEDING!");
-      }
-      const dbRef = ref(db, 'Counter/Counter');
-      let counterVariable;
-      get(dbRef).then((snapshot) => {
-          
-        
-          counterVariable = Number(snapshot.val());
-          const userId = `users/${counterVariable}`;
-          const dbRefcustomers = ref(db, userId);
-          this.ring = false;
-         
-          update(dbRefcustomers, { ring: this.ring });           
-      });
+    
         
     },
     
 
 
     doneUser(){
+      const currentWindow = localStorage.getItem('currentWindow')
+
+      if(currentWindow =='A'){
       const dbReftemp = ref(db, "curA");
      
       update(dbReftemp, { curA: 0 });
@@ -631,11 +983,38 @@ onValue(
           update(dbRefcustomers, { ring: this.ring }); 
         });
 
+      }
+      else{
+      
+      const dbReftemp = ref(db, "curB");
+     
+      update(dbReftemp, { curB: 0 });
+
+      const dbRef = ref(db, 'CounterB/CounterB');
+      let counterVariableB;
+
+      get(dbRef).then((snapshot) => {
+
+      counterVariableB = Number(snapshot.val());
+          const userId = `usersB/${counterVariableB}`;
+          const dbRefcustomers = ref(db, userId);
+          this.ring = false;
+         
+          update(dbRefcustomers, { ring: this.ring }); 
+        });
+
+
+      }
+
+      
     },
 
 
 
     callUser() {        
+      const currentWindow = localStorage.getItem('currentWindow')
+
+      if(currentWindow == 'A'){
       const dbRef = ref(db, 'Counter/Counter');
       let counterVariable;
       get(dbRef).then((snapshot) => {
@@ -650,7 +1029,55 @@ onValue(
          
           update(dbRefcustomers, { ring: this.ring });           
       });
-      },
+
+      }
+      else{
+      const dbRef = ref(db, 'CounterB/CounterB');
+      let counterVariableB;
+      get(dbRef).then((snapshot) => {
+          
+          if(this.currentB==0){alert("There is nobody to call.")}
+          console.log("snapshot value: "+snapshot.val())
+        
+          counterVariableB = Number(snapshot.val());
+          const userId = `usersB/${counterVariableB}`;
+          const dbRefcustomers = ref(db, userId);
+          this.ring = !this.ring;
+         
+          update(dbRefcustomers, { ring: this.ring });           
+      });
+
+
+
+      }
+      
+
+    },
+
+      changeWin(){
+        location.reload();
+
+          const currentWindow = localStorage.getItem('currentWindow')
+
+          if(currentWindow == 'A'){
+            localStorage.setItem('currentWindow', 'B');
+            const currentWindow = localStorage.getItem('currentWindow')
+
+            console.log(currentWindow)
+
+          }
+          else if(currentWindow == 'B'){
+
+            localStorage.setItem('currentWindow', 'A');
+            const currentWindow = localStorage.getItem('currentWindow')
+
+            console.log(currentWindow)
+            
+          }
+
+        
+      }
+      
   },
       
 };
@@ -662,6 +1089,7 @@ onValue(
 
 <script setup>
 import { UserCircleIcon , BellAlertIcon , ForwardIcon, ArrowPathIcon, CheckBadgeIcon} from '@heroicons/vue/24/solid'
+
 
 
 </script>

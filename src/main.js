@@ -8,12 +8,13 @@ import router from './router'
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAF6AmQwc8_xQCsN9OCi_sQdbaKLFkSv9E",
-  authDomain: "fir-prac-6263d.firebaseapp.com",
-  projectId: "fir-prac-6263d",
-  storageBucket: "fir-prac-6263d.appspot.com",
-  messagingSenderId: "62625647160",
-  appId: "1:62625647160:web:eeeb21b67f0c6b2f7974cd"
+  apiKey: "AIzaSyDtsKwx7mcaSnoPnZ2hlcolB8qluY69LMQ",
+  authDomain: "fir-68a5f.firebaseapp.com",
+  databaseURL: "https://fir-68a5f-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "fir-68a5f",
+  storageBucket: "fir-68a5f.appspot.com",
+  messagingSenderId: "939974599498",
+  appId: "1:939974599498:web:40392f504dd093d1c257b3"
 };
 
 initializeApp(firebaseConfig);

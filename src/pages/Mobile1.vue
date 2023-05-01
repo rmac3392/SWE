@@ -78,7 +78,7 @@
         </div>
         <div class="buttons">
             <button>Cancel</button>
-        <a href = "Mobile2">  <button  @click="saveData()">Done</button> </a>
+         <button  @click="saveData()">Done</button>
         </div>
     </div>
   </template>
@@ -117,6 +117,7 @@ export default {
       counterVariable : null,
       counterVariableB: null,
       counter : null,
+      counterB: null,
     }
   },
   created (){
@@ -163,7 +164,7 @@ onValue(
         () => {
         }
       );
-// current numbers of que
+// current numbers of que A
       onValue(
         child(dbRef, "sCounter/sCounter"),
         (snapshot) => {
@@ -174,6 +175,17 @@ onValue(
           console.error(error);
         }
       );
+ // current numbers of que B
+ onValue(
+        child(dbRef, "sCounter/sCounterB"),
+        (snapshot) => {
+          this.counterB = Number(snapshot.val());
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );     
       
       
 
@@ -182,11 +194,13 @@ onValue(
   },
   methods: {
    
-    saveData() {
-
-      
+    saveData() {   
       const dbRef = ref(db, 'sCounter/sCounter');
+      const dbRefB = ref(db, 'sCounter/sCounterB');
+
       let counterVariable;
+      let counterVariableB;
+
       get(dbRef).then((snapshot) => {
          
           counterVariable = Number(snapshot.val());
@@ -194,19 +208,52 @@ onValue(
           const userId = `users/${counterVariable}`;
           const dbRefcustomers = ref(db, userId);
           
+          get(dbRefB).then((snapshot) => {
+            counterVariableB = Number(snapshot.val());
+            this.queNumB = Number(snapshot.val());
+            console.log(this.queNumB)
+            const userIdB = `usersB/${counterVariableB}`;
+            const dbRefcustomersB = ref(db, userIdB);
+            //B
+            if (counterVariable > counterVariableB){       
+                localStorage.setItem('que', this.queNumB);
+                const myVariableB = localStorage.getItem('que')
+
+                localStorage.setItem('window', 'B');
+
+
+                this.ring = false; 
+                const data = {
+                  id: this.id,
+                  fname: this.fname,
+                  mname: this.mname,
+                  lname: this.lname,
+                  edlevel: this.edlevel,
+                  grade: this.grade,
+                  tint: this.tint,
+                  tmisc: this.tmisc,
+                  queNum: this.queNumB,
+                  ring : false, }
+                update(dbRefcustomersB, { id: this.id });
+                update(dbRefcustomersB, { fname: this.fname });
+                update(dbRefcustomersB, { mname: this.mname });
+                update(dbRefcustomersB, { lname: this.lname });
+                update(dbRefcustomersB, { edlevel: this.edlevel });
+                update(dbRefcustomersB, { grade: this.grade });
+                update(dbRefcustomersB, { tint: this.tint });
+                update(dbRefcustomersB, { tmisc: this.tmisc });
+                update(dbRefcustomersB, { queNum: this.queNumB });
+                update(dbRefcustomersB, { ring: this.ring });
+                this.incCounterB();
+            }
+            //A
+          else{
           localStorage.setItem('que', this.queNum);
           const myVariable = localStorage.getItem('que')
+          localStorage.setItem('window', 'A');
+
           this.ring = false;
           
-
-
-        
-          
-
-         
-
-
-
           const data = {
             id: this.id,
             fname: this.fname,
@@ -231,14 +278,14 @@ onValue(
           update(dbRefcustomers, { queNum: this.queNum });
           update(dbRefcustomers, { ring: this.ring });
 
-
-
           this.incCounter();
+          }
 
-   
 
-          
-          
+
+          });
+     
+       
       });
    
 
@@ -249,6 +296,11 @@ onValue(
       const dbRef = ref(db, "sCounter");
       this.counter = this.counter + 1;
       update(dbRef, { sCounter: this.counter });
+    },
+    incCounterB() {
+      const dbRef = ref(db, "sCounter");
+      this.counterB = this.counterB + 1;
+      update(dbRef, { sCounterB: this.counterB });
     },
    
    

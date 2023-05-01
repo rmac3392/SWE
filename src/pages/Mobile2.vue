@@ -124,18 +124,23 @@ onValue(
         }
       );
        
-    this.myVariable = localStorage.getItem('que');
-    this.queCur = this.myVariable;
 
+// window recognizer
+this.window = localStorage.getItem('window');
+console.log("this is window "+this.window)
+// que recognizer
+
+if(this.window == "A"){
+  console.log("HI I'M WINDOW A")
+  this.myVariable = localStorage.getItem('que');
+    this.queCur = this.myVariable;
     if (this.myVariable > this.counterVariable){
-        
+        console.log("THIS IS TRUE")
         this.queCur = "A"+this.myVariable;
         this.queCurNum = this.myVariable;
     }
-
-
-    const ring = `users/${this.queCurNum}/ring`;
-
+const ring = `users/${this.queCurNum}/ring`;
+// A Ring
     onValue(
       child(dbRef, ring),
       (snapshot) => {
@@ -158,6 +163,44 @@ onValue(
         console.error(error);
       }
     );
+}
+//B ring
+else{
+  console.log("HI I'M WINDOW B")
+
+  this.myVariable = localStorage.getItem('que');
+    this.queCur = this.myVariable;
+    if (this.myVariable > this.counterVariable){
+        console.log("THIS IS TRUE")
+        this.queCur = "B"+this.myVariable;
+        this.queCurNum = this.myVariable;
+    }
+const ring = `usersB/${this.queCurNum}/ring`;
+    onValue(
+      child(dbRef, ring),
+      (snapshot) => {
+        console.log(snapshot.val())
+
+        if(snapshot.val()== true){
+
+          this.$refs.audio.play();
+
+          
+          }
+        else{
+            const audio = this.$refs.audio
+            audio.pause();
+            audio.currentTime = 0;
+        }
+       
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+
+}
+   
 
 
 
@@ -339,7 +382,7 @@ onValue(
 
 
       playAudio() {
-
+      
         if (counterVariable == queCur) {
           this.$refs.audio.play()
           
