@@ -10,7 +10,7 @@
                     <div class="element px-16">
                         <label for="email">Username</label>
                         <br>
-                        <input type="text" id="email" v-model="email" rounded-xl placeholder=" example@gmail.com     ">
+                        <input type="text" id="email" v-model="email" rounded-xl placeholder=" Username ">
                         <br>
                         <br>
                         <label for="password">Password </label>
@@ -18,19 +18,19 @@
                         <input type="password" id="password" v-model="password" placeholder="   **********">
                         <br>
                         <p v-f="errMsg">{{ errMsg	}}</p>
-
+  
                         <br>
                         <label for="user">User</label>
                         <br>
-                        <select name="user" id="user">
-                            <option value="administrator">Administrator</option>
+                        <select type="chooseuser" id="chooseuser"  v-model="chooseuser">
                             <option value="cashier">Cashier</option>
+                            <option value="admin">Admin</option>
                         </select>
                         <br>
                         <br>
                         <br>
                         <br>
-                        <button @click="register">LOGIN</button>
+                        <button @click="signin">LOGIN</button>
                         <p>Forgot Password? <span><a href="forgotPassword">CLICK HERE!</a></span></p>
                         <br>
                         <br>
@@ -39,89 +39,177 @@
             </div>
         </div>
     </div>
-</template>
-
-<script setup>
-
-let loggedin = localStorage.getItem('log-in');
-    
-
-localStorage.setItem('currentWindow', 'A');
-const currentWindow = localStorage.getItem('currentWindow')
-console.log("current window is: "+currentWindow)
-
-
-import { ref } from "vue";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useRouter} from "vue-router";
-import logo from "~/assets/images/logo.png";
-const email = ref("");
-const password = ref("");
-const errMsg = ref();
-const router = useRouter();
-
-
-
-
-
-
-const register =() => {
-    if( loggedin=="true"){
-        router.push("/cashierPage");
-     
-    }
-	signInWithEmailAndPassword(getAuth(),email.value, password.value)
-	.then((data) =>{
-		console.log("Sucessfully signed in!");
-        router.push("/cashierPage");
+  </template>
+  <script>
+    import { push } from "firebase/database";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+  import {
+    getDatabase,
+    ref,
+    child,
+    get,
+    update,
+    onValue,
+  } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+  
+  
+  const firebaseConfig = {
+      apiKey: "AIzaSyDtsKwx7mcaSnoPnZ2hlcolB8qluY69LMQ",
+      authDomain: "fir-68a5f.firebaseapp.com",
+      databaseURL: "https://fir-68a5f-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "fir-68a5f",
+      storageBucket: "fir-68a5f.appspot.com",
+      messagingSenderId: "939974599498",
+      appId: "1:939974599498:web:40392f504dd093d1c257b3",
+  }
+  
+  const app = initializeApp(firebaseConfig);
+  
+  const db = getDatabase();
+  
+  export default {
+    data() {
+      return {
+        errMsg: '',
+   
+      }
+    },
+    created (){
+      const dbRef = ref(db);
+      let loggedas = localStorage.getItem('loggedas');
+      let loggedin = localStorage.getItem('log-in');
+  
+  
+      localStorage.setItem('currentWindow', 'A');
+      const currentWindow = localStorage.getItem('currentWindow')
+      console.log("current window is: "+currentWindow)
+      if( loggedin=="true"){
+        if(loggedas=='admin'){
+          this.$router.push('/adminPage');
+        }
+        if(loggedas=='cashier'){
+          this.$router.push('/cashierPage');
+        }
+      }
+  
+  
+  
+    },
+    methods: {
+     signin(){
+      console.log(chooseuser.value)
+  
+      const dbRef = ref(db);
+      
+  
+  
+  
+      if(chooseuser.value=="cashier")  {
+        localStorage.setItem('loggedas', 'cashier');
+  
+        const emailVal = `cashier/${email.value}`;
         
-        localStorage.setItem('log-in', true);
-
-       
-
-		
-	})
-	.catch((error)=>{
-		console.log(error.code);
-		switch(error.code) {
-		
-		case "auth/invalid-email":
-		errMsg.value = "INVALID EMAIL!";
-		break;
-		
-		case "auth/user-not-found":
-		errMsg.value = "NO ACCOUNT WITH THAT EMAIL IS FOUND";
-		break;
-		
-		case "auth/wrong-password":
-		errMsg.value = "INCORRECT PASSWORD";
-		break;
-		
-		default:
-		errMsg.value = "Email or Password was incorrect";
-		break;
-
-		}
-
-	})
-};
-
-register();
-
-
-</script>
-
-<style scoped>
-.form {
+        onValue(
+          child(dbRef, emailVal),
+          (snapshot) => {
+            if(snapshot.val() == null){
+              this.errMsg = "Username invalid";
+            }
+            else {
+              this.errMsg = "";
+                onValue(
+                  child(dbRef, `cashier/${email.value}/password/`),
+                  (snapshot) => {
+                    if(snapshot.val() == password.value){
+                      this.$router.push('/cashierPage');
+                      localStorage.setItem('log-in', true);
+                      this.errMsg="";
+                    }
+                    else {
+                      this.errMsg = "INVALID PASSWORD";
+                    }
+                },
+                (error) => {
+                  console.error(error);
+                }
+              );  
+  
+            }
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  
+    }
+    else{
+      localStorage.setItem('loggedas', 'admin');
+  
+      const emailVal = `admin/${email.value}`;
+        
+        onValue(
+          child(dbRef, emailVal),
+          (snapshot) => {
+            if(snapshot.val() == null){
+              this.errMsg = "Username invalid";
+            }
+            else {
+              this.errMsg = "";
+                onValue(
+                  child(dbRef, `admin/${email.value}/password/`),
+                  (snapshot) => {
+                    if(snapshot.val() == password.value){
+                      this.$router.push('/adminPage');
+                      localStorage.setItem('log-in', true);
+                      this.errMsg="";
+                    }
+                    else {
+                      this.errMsg = "INVALID PASSWORD";
+                    }
+                },
+                (error) => {
+                  console.error(error);
+                }
+              );  
+  
+            }
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  
+  
+  
+    }
+  
+  
+     }
+    
+    }
+  }
+  
+    </script>
+  
+  
+  <script setup>
+  
+  import logo from "~/assets/images/logo.png";
+  
+  
+  </script>
+  
+  <style scoped>
+  .form {
     @apply grid grid-cols-2 m-4 bg-white;
     background: #FEFEFE;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.75);
     border-radius: 25px;
     width: 957px;
     height: 587px;
-}
-
-.left {
+  }
+  
+  .left {
     background: #0F172A;
     border: 1px solid #0F172A;
     border-radius: 25px;
@@ -129,15 +217,15 @@ register();
     background-repeat: no-repeat;
     background-size: cover;
     background-position:-550px;
-}
-
-.element {
+  }
+  
+  .element {
     padding-left: 90px;
     padding-right: 90px;
-}
-
-input,
-select {
+  }
+  
+  input,
+  select {
     border-radius: 30px;
     box-sizing: border-box;
     border-bottom: 2px solid #0F172A;
@@ -146,13 +234,13 @@ select {
     height: 38px;
     margin-left: auto;
     margin-right: auto;
-}
-
-select {
+  }
+  
+  select {
     text-align: center;
-}
-
-label {
+  }
+  
+  label {
     position: flex;
     width: 172px;
     height: 19px;
@@ -161,9 +249,9 @@ label {
     font-weight: 600;
     font-size: 15px;
     line-height: 18px;
-}
-
-button {
+  }
+  
+  button {
     border-radius: 30px;
     box-sizing: border-box;
     background-color: #0F172A;
@@ -172,61 +260,62 @@ button {
     width: 291px;
     height: 47px;
     left: 779px;
-
-}
-
-span:hover {
+  
+  }
+  
+  span:hover {
     color: blue;
     text-decoration: underline;
     font-size: small;
     cursor: pointer;
-}
-
-button:hover {
+  }
+  
+  button:hover {
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.50);
-}
-
-input:hover {
+  }
+  
+  input:hover {
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.50);
-}
-
-select:hover {
+  }
+  
+  select:hover {
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.50);
-}
-
-span {
+  }
+  
+  span {
     text-decoration: underline;
     font-size: small;
-}
-
-p {
+  }
+  
+  p {
     font-size: small;
     position: flex;
     text-align: center;
     margin-top: 10px;
-}
-
-label {
+  }
+  
+  label {
     color: #0F172A;
     position: flex;
-}
-
-img {
+  }
+  
+  img {
     margin-top: 5%;
     width: 105.26px;
     height: 100px;
     margin-left: auto;
     margin-right: auto;
-}
-
-.white {
+  }
+  
+  .white {
     display: flex;
     background-color: #ffffff99;
     height: 100%;
-}
-
-.flex {
+  }
+  
+  .flex {
     background-image: url(..\assets\images\loginBg.jpg);
     background-size: cover;
-}
-</style>
+  }
+  </style>
+  

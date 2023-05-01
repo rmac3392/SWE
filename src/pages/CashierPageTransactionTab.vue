@@ -891,7 +891,7 @@ onValue(
     logout(){
       localStorage.setItem('log-in', false);
       location.reload();
-
+      localStorage.setItem('loggedas', '');
     },
     incCounter() {
       const currentWindow = localStorage.getItem('currentWindow')

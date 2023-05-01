@@ -320,7 +320,7 @@ onValue(
       (snapshot) => {
         if(snapshot.val()!=null){ this.q2A = snapshot.val();
                                   this.q2Af = "A" + this.q2A;}
-        else { this.q2Af = '-'; }
+        else { this.q2Af = '-';}
       },
       (error) => {
         console.error(error);
