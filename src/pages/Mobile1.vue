@@ -5,7 +5,7 @@
                 <h3>{{ currentAtext }}</h3>
             </div>
             <div class="right">
-                <h3>B{{counterVariableB }}</h3>
+                <h3>{{currentBtext }}</h3>
             </div>
         </div>
         <div class="window">
@@ -114,6 +114,7 @@ export default {
   data() {
     return {
       currentAtext:'',
+      currentBtext:'',
       counterVariable : null,
       counterVariableB: null,
       counter : null,
@@ -141,7 +142,25 @@ onValue(
           console.error(error);
         }
       );
+// Currently Serving B
+onValue(
+        child(dbRef, "curB/curB"),
+        (snapshot) => {
+          this.currentB = Number(snapshot.val());
+          if(snapshot.val() == 0){
+              this.currentBtext = "-";
 
+          }
+          else{this.currentB = Number(snapshot.val());
+               this.currentBtext = "B"+Number(snapshot.val());}
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );   
+
+//COUNTER A
     onValue(
         child(dbRef, "Counter/Counter"),
         (snapshot) => {
@@ -223,17 +242,7 @@ onValue(
 
 
                 this.ring = false; 
-                const data = {
-                  id: this.id,
-                  fname: this.fname,
-                  mname: this.mname,
-                  lname: this.lname,
-                  edlevel: this.edlevel,
-                  grade: this.grade,
-                  tint: this.tint,
-                  tmisc: this.tmisc,
-                  queNum: this.queNumB,
-                  ring : false, }
+             
                 update(dbRefcustomersB, { id: this.id });
                 update(dbRefcustomersB, { fname: this.fname });
                 update(dbRefcustomersB, { mname: this.mname });
@@ -254,19 +263,6 @@ onValue(
 
           this.ring = false;
           
-          const data = {
-            id: this.id,
-            fname: this.fname,
-            mname: this.mname,
-            lname: this.lname,
-            edlevel: this.edlevel,
-            grade: this.grade,
-            tint: this.tint,
-            tmisc: this.tmisc,
-            queNum: this.queNum,
-            ring : false,
-           
-          }
           update(dbRefcustomers, { id: this.id });
           update(dbRefcustomers, { fname: this.fname });
           update(dbRefcustomers, { mname: this.mname });

@@ -7,7 +7,7 @@
                 <h3>{{ currentAtext }}</h3>
             </div>
             <div class="right">
-                <h3>B{{ counterVariableB }}</h3>
+                <h3>{{ currentBtext }}</h3>
             </div>
         </div>
         <div class="window">
@@ -30,12 +30,12 @@
             </div>
             <div class="assign">
                 <h2>Window B</h2>
-                <div class="txt"> {{ counterVariableB }}</div>
-                <div class="txt"> {{ counterVariableB+1 }}</div>
-                <div class="txt"> {{ counterVariableB+2 }}</div>
-                <div class="txt"> {{ counterVariableB+3 }}</div>
-                <div class="txt" id="cur"> {{ counterVariableB+4 }}</div>
-                <div class="txt"> {{ counterVariableB+5 }}</div>
+                <div class="txt"> {{ q1Bf }}</div>
+                <div class="txt"> {{ q2Bf }}</div>
+                <div class="txt"> {{ q3Bf}}</div>
+                <div class="txt"> {{ q4Bf }}</div>
+                <div class="txt" id="cur"> {{q5Bf  }}</div>
+                <div class="txt"> {{ q6Bf }}</div>
             </div>
         </div>
         <div class="personal">
@@ -82,15 +82,21 @@ export default {
   data() {
     return {
       currentAtext: '',
+      currentBtext: '',
       counterVariable: null,
       counterVariableB: '',
-      qA: '',
       q1Af : '',
       q2Af : '',
       q3Af: '',
       q4Af:'',
       q5Af:'',
       q6Af:'',
+      q1Bf : '',
+      q2Bf : '',
+      q3Bf: '',
+      q4Bf:'',
+      q5Bf:'',
+      q6Bf:'',
       queCur:'',
       audioLink: "https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/X2Download.app%20-%20Cycle%20Bell%20Ring%20Sound%20Effect%20_%20Non%20Copyright%20(128%20kbps).mp3?alt=media&token=760578d2-3675-45d3-a3ca-f357df3699b4",
 
@@ -123,7 +129,23 @@ onValue(
           console.error(error);
         }
       );
-       
+// Currently Serving B
+onValue(
+        child(dbRef, "curB/curB"),
+        (snapshot) => {
+          this.currentB = Number(snapshot.val());
+          if(snapshot.val() == 0){
+              this.currentBtext = "-";
+
+          }
+          else{this.currentB = Number(snapshot.val());
+               this.currentBtext = "B"+Number(snapshot.val());}
+        
+        },
+        (error) => {
+          console.error(error);
+        }
+      );        
 
 // window recognizer
 this.window = localStorage.getItem('window');
@@ -265,6 +287,28 @@ onValue(
     console.error(error);
   }
 );
+//B 1st q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+1}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q1B = snapshot.val();
+                                  this.q1Bf = "B" + this.q1B;}
+        else { this.q1Bf = "-"; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
 // A 2nd que
 onValue(
     child(dbRef, "Counter/Counter"),
@@ -277,6 +321,28 @@ onValue(
         if(snapshot.val()!=null){ this.q2A = snapshot.val();
                                   this.q2Af = "A" + this.q2A;}
         else { this.q2Af = '-'; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+//B 2nd q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+2}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q2B = snapshot.val();
+                                  this.q2Bf = "B" + this.q2B;}
+        else { this.q2Bf = "-"; }
       },
       (error) => {
         console.error(error);
@@ -309,6 +375,28 @@ onValue(
     console.error(error);
   }
 );
+//B 3RD q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+3}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q3B = snapshot.val();
+                                  this.q3Bf = "B" + this.q3B;}
+        else { this.q3Bf = "-"; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
 // A 4th que
 onValue(
     child(dbRef, "Counter/Counter"),
@@ -321,6 +409,28 @@ onValue(
         if(snapshot.val()!=null){ this.q4A = snapshot.val();
                                   this.q4Af = "A" + this.q4A;}
         else { this.q4Af = '-'; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+//B 4th q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+4}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q4B = snapshot.val();
+                                  this.q4Bf = "B" + this.q4B;}
+        else { this.q4Bf = "-"; }
       },
       (error) => {
         console.error(error);
@@ -353,6 +463,28 @@ onValue(
     console.error(error);
   }
 );
+//B 5th q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+5}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q5B = snapshot.val();
+                                  this.q5Bf = "B" + this.q5B;}
+        else { this.q5Bf = "-"; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
 
 // 6th que
 onValue(
@@ -367,6 +499,28 @@ onValue(
                                   this.q6Af = "A" + this.q6A;}
         else { this.q6Af = '-'; }
         
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+//B 6th q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+6}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q6B = snapshot.val();
+                                  this.q6Bf = "B" + this.q6B;}
+        else { this.q6Bf = "-"; }
       },
       (error) => {
         console.error(error);
