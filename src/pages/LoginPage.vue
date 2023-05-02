@@ -41,7 +41,7 @@
     </div>
   </template>
   <script>
-    import { push } from "firebase/database";
+  import { push } from "firebase/database";
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
   import {
     getDatabase,
@@ -103,8 +103,11 @@
       
   
   
-  
-      if(chooseuser.value=="cashier")  {
+      if(chooseuser.value == ""){
+        this.errMsg="Please choose what type of user are you"
+      }
+
+      else if(chooseuser.value=="cashier")  {
         localStorage.setItem('loggedas', 'cashier');
   
         const emailVal = `cashier/${email.value}`;

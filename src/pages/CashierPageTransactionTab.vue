@@ -890,8 +890,9 @@ onValue(
   methods: {
     logout(){
       localStorage.setItem('log-in', false);
-      location.reload();
       localStorage.setItem('loggedas', '');
+      location.reload();
+
     },
     incCounter() {
       const currentWindow = localStorage.getItem('currentWindow')

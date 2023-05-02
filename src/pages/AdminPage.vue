@@ -50,7 +50,7 @@
                       <p id="time">12:35</p>
                   </div>
                   <div class="image">
-                      <UserCircleIcon class="logout"/>   
+                      <UserCircleIcon @click="logout()" class="logout"/>   
                   </div>
               </div>
           </div>
@@ -76,6 +76,83 @@
       </div>
   </div>
 </template>
+<script>
+import { push } from "firebase/database";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  child,
+  get,
+  update,
+  onValue,
+} from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDtsKwx7mcaSnoPnZ2hlcolB8qluY69LMQ",
+    authDomain: "fir-68a5f.firebaseapp.com",
+    databaseURL: "https://fir-68a5f-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "fir-68a5f",
+    storageBucket: "fir-68a5f.appspot.com",
+    messagingSenderId: "939974599498",
+    appId: "1:939974599498:web:40392f504dd093d1c257b3",
+}
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase();
+
+export default {
+  data() {
+    return {
+      errMsg: '',
+ 
+    }
+  },
+  mounted (){
+    const dbRef = ref(db);
+    let loggedas = localStorage.getItem('loggedas');
+
+    let loggedin = localStorage.getItem('log-in');
+    console.log(loggedin)
+
+    if( loggedin==="false"){
+      console.log("true ang asd")
+      this.$router.push('/');
+    }
+
+
+    localStorage.setItem('currentWindow', 'A');
+    const currentWindow = localStorage.getItem('currentWindow')
+    console.log("current window is: "+currentWindow)
+    if( loggedin=="true"){
+      if(loggedas=='admin'){
+        this.$router.push('/adminPage');
+      }
+      if(loggedas=='cashier'){
+        this.$router.push('/cashierPage');
+      }
+    }
+
+
+
+
+  },
+  methods: {
+    logout(){
+      localStorage.setItem('log-in', false);
+      localStorage.setItem('loggedas', '');
+      location.reload();
+
+    },
+   
+  
+  }
+}
+
+  </script>
+
 <script setup>
 import { UserCircleIcon , UserPlusIcon,UserMinusIcon} from '@heroicons/vue/24/solid'
 </script>
