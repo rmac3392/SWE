@@ -254,6 +254,7 @@ onValue(
                 update(dbRefcustomersB, { queNum: this.queNumB });
                 update(dbRefcustomersB, { ring: this.ring });
                 this.incCounterB();
+                this.$router.push('/mobile2');
             }
             //A
           else{
@@ -275,6 +276,7 @@ onValue(
           update(dbRefcustomers, { ring: this.ring });
 
           this.incCounter();
+          this.$router.push('/mobile2');
           }
 
 

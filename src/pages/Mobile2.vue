@@ -1,5 +1,24 @@
 <template>
-    <div class="body">
+    <div class="container">
+      <div class="qOverlap" id="qOverlap"></div>
+    </div>
+    <div class="box" >
+      <div class="qLap" id="qLap">
+        <div class="details">
+          <!-- details for the queue number -->
+           <div class="x"><XMarkIcon class="commandIcon" @click="close"/></div> 
+           <div class="det">
+            <div class="mes">You Are Successfully Enqueued</div>
+          <div class="qMes">Your Queue No:</div>
+          <div class="qNum">A15</div>
+         
+           </div>
+
+        </div>
+      </div>
+    </div>
+
+      <div class="body">
         <div class="upper">
             <div class="left">
               <audio ref="audio" src="https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/X2Download.app%20-%20Cycle%20Bell%20Ring%20Sound%20Effect%20_%20Non%20Copyright%20(128%20kbps).mp3?alt=media&token=760578d2-3675-45d3-a3ca-f357df3699b4" loop></audio>
@@ -41,14 +60,15 @@
         <div class="personal">
             <h3 class="num">Queue No : {{ queCur }}</h3>
         </div>
+        <button @click="testAudio()">-{{ audioBool }}-</button>
+
     </div>
+    
     <audio :src="audioLink"></audio>
 
   </template>
   
   <script>
-
-  
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import {
   getDatabase,
@@ -60,7 +80,12 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 
 
-
+function close(){
+  const x = document.getElementById("qOverlap");
+  const y = document.getElementById("qLap");
+  x.classList.toggle("delete");
+  y.classList.toggle("del");
+}
 
 
 const firebaseConfig = {
@@ -98,6 +123,8 @@ export default {
       q5Bf:'',
       q6Bf:'',
       queCur:'',
+      test: false,
+      audioBool: '',
       audioLink: "https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/X2Download.app%20-%20Cycle%20Bell%20Ring%20Sound%20Effect%20_%20Non%20Copyright%20(128%20kbps).mp3?alt=media&token=760578d2-3675-45d3-a3ca-f357df3699b4",
 
 
@@ -533,6 +560,24 @@ onValue(
 );
   },
   methods: {
+    testAudio(){
+        this.test = !this.test;
+
+        if(this.test == true){
+          this.audioBool= 'ON';
+          this.$refs.audio.play()
+
+        }
+        else {
+          this.audioBool= 'OFF'
+          const audio = this.$refs.audio
+            audio.pause();
+            audio.currentTime = 0;
+        }
+
+        console.log(this.test);
+
+      },
 
 
       playAudio() {
@@ -543,6 +588,7 @@ onValue(
 
         }
       },
+      
    
   
   
@@ -558,10 +604,103 @@ onValue(
   
   </script>
   
-  <style scoped>
+  <script setup>
+  import {XMarkIcon} from '@heroicons/vue/24/solid'
+  </script>
+
+<style scoped>
+
+    .qOverlap.delete{
+      z-index: -1;
+    }
+    
+    .qLap.del{
+      z-index: -1;
+    }
+   
+
+    .x{
+      margin-top: 6px;
+      margin-right:6px;
+      padding: 0px;
+      margin-bottom: 0px;
+    }
+    .commandIcon{
+      position: flex;
+      justify-content: flex-end;
+      right:2px;
+      height: 30px;
+      width: 30px;
+      margin-left: auto;
+      margin-right: 0;
+    }
+
+    .mes{
+      font-weight: 800;
+      font-size: 20px;
+      margin-top: 3px;
+      margin-bottom: 2px;
+    }
+    .qMes{
+      font-weight: 500;
+      font-size: 18px;
+    }
+
+    .qNum{
+      font-weight: 800;
+      font-size: 65px;
+      background-color: #0F172A;
+      width: 170px;
+      color: #fefefe;
+      border-radius: 20px;
+      box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.3);
+      margin: 20px;
+    }
+    .det{
+      display:flex;
+      text-align: center;
+      color: #0F172A;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .box{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qLap{
+      position: absolute;
+      height: 250px;
+      width: 310px;
+      background-color: #fefefe;
+      bottom: 206px;
+      border-radius: 20px;
+      box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.7);
+      z-index:0;
+    }
+
+    .qOverlap{
+      position: absolute;
+      height: 750px;
+      width: 360px;
+      background-color: #0F172A;
+      bottom: -65px;
+      left: 0;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    .container{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
 
     h2{
-        font-size: 25px;
+      font-size: 25px;
     }
 
     .txt{
@@ -722,7 +861,6 @@ onValue(
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
         padding: 8px;
       }
-
       .a,.b{
         font-size: 20px;
       }

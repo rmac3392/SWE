@@ -23,8 +23,6 @@ const app = createApp(App)
 
 import { getDatabase, ref,child ,get , update  } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 
-
-
 app.use(router);
 
 app.mount('#app')

@@ -1,6 +1,4 @@
 <template>
-           
-
   <div class="flex h-full justify-center items-center  mx-0 w-full">
       <div class="queuePane">
           <br>
@@ -61,8 +59,6 @@
                           <div class="num">{{ q3Bf }}</div>
                       </div>
                       <div class="lineWindow">WINDOW B</div>
-                     
-                      
                   </div>
               </div>
               <div class="controls">
@@ -133,9 +129,13 @@
                           <input type="total" class="field9" id="total" v-bind:placeholder="total"><br>
                   </div>   
                   <div class="buttons">
-                      <button class="edit">EDIT</button>
+                      <button class="butLow">
+                        <PencilSquareIcon class="commandIcon"/>
+                        EDIT</button>
+                      <button class="butLow">
+                        <DocumentCheckIcon class="commandIcon"/>
+                        SAVE</button>
                   </div>
-                  
                   </div>
               <div class="tabs">
                   <div class="tabUp">
@@ -148,14 +148,356 @@
                   </div>
                   <div class="content">
                     <Transition name="fade" mode="out-in">
-                      <div v-if="currentTab == 0">
-                        Transactioms
+                      <div class="transactionContent" v-if="currentTab == 0">
+                        <table>
+                          <tr>
+                            <td class="lebel">ID No:</td>
+                            <td>20229464</td>
+                          </tr>
+                          <tr>
+                            <td class="lebel">First Name:</td>
+                            <td>Ryan James</td>
+                          </tr>
+                          <tr>
+                            <td class="lebel">Middle Name:</td>
+                            <td>Casquejo</td>
+                          </tr>
+                          <tr>
+                            <td class="lebel">Last Name:</td>
+                            <td>Macawili</td>
+                          </tr>
+                          <tr>
+                            <td class="lebel">Educational Level:</td>
+                            <td>Secondary</td>
+                          </tr>
+                          <tr>
+                            <td class="lebel">Grade/Year:</td>
+                            <td>12</td>
+                          </tr>
+                          <tr>
+                            <td class="lebel">Tuition Payment:</td>
+                            <td>9,000</td>
+                          </tr>
+                          <tr>
+                            <td class="lebel">Miscelleneus:</td>
+                            <td>1,500</td>
+                          </tr>
+                          <tr>
+                            <td class="lebel">Total Amount:</td>
+                            <td>10,500</td>
+                          </tr>
+                        </table>
+                        <div class="but">
+                          <button class="butLow">
+                            <ArchiveBoxXMarkIcon class="commandIcon"/>
+                            CANCEL</button>
+                          <button class="butLow">
+                            <CheckBadgeIcon class="commandIcon"/>
+                            DONE</button>
+                        </div>
                       </div>
-                      <div v-else-if="currentTab == 1">
-                        Invoive
+                      <div class="invoiceContent" v-else-if="currentTab == 1">
+                        <div class="assesment">
+                          <div class="head">
+                            <div class="logo">
+                              <img class="log" :src="logo" alt="logo">
+                            </div>
+                            <div class="schoolName">
+                              <div class="u">SAINT WILLIAM COOPERATIVE SCHOOL</div>
+                              <div class="l">STUDENTS' ACCOUNTING SECTION</div>
+                            </div>
+                            <div class="slip">
+                              <p class="asses">ASSESMENT SLIP</p>
+                            </div>
+                          </div>
+                          <div class="details">
+                            <div class="up">
+                              <div class="uleft">
+                              <p>MACAWILI, RYAN JAMES</p>
+                              <p>119930070139</p>
+                              </div>
+                              <div class="uright">
+                                <p>2nd QUARTER SY 2022-2023</p>
+                                <p>YEAR-12 ST. PIO</p>
+                              </div>
+                            </div>
+                            <div class="ud" > 
+                              <div class="subject">
+                                <p class="t">SUBJECT</p>
+                                <p>TECHNO32</p>
+                                <p>AUTOLAN32</p>
+                                <p>COMORG32</p>
+                                <p>ELDROID32</p>
+                                <p>FREIP</p>
+                                <p>INFOSEC32</p>
+                                <p>SOFTENG32</p>
+                                <br>
+                                <p>TOTAL UNITS</p>
+                              </div>
+                              <div class="unit">
+                                <p class="tu">UNITS</p>
+                                <p class="p">3.00</p>
+                                <p class="p">3.00</p>
+                                <p class="p">3.00</p>
+                                <p class="p">3.00</p>
+                                <p class="p">3.00</p>
+                                <p class="p">3.00</p>
+                                <p class="p">3.00</p>
+                                <br>
+                                <p class="p">21.0</p>
+                              </div>
+                              <div class="watermark">
+                            <img class="logs" :src="logo" alt="logo">
+                            </div>
+                              <div class="soa">
+                                <p class="tu">STATEMENT OF THE ACCOUNT</p>
+                                <div class="soaDetails">
+                                  <div class="sl">OLD ACCOUNT</div>
+                                  <div class="sr">9,499.50</div>
+                                </div>
+                                <hr>
+                                <div>FEES:</div>
+                                <div class="container">
+                                    <div class="fChildren">
+                                    <div class="fl">
+                                      <p>TUITION</p>
+                                      <p>LABARATORY</p>
+                                      <p>REGISTRATION</p>
+                                      <p>MISCELLANEUS</p>
+                                    </div>
+                                    <div class= "fr">
+                                      <p>23,280.00</p>
+                                      <p>2,200.00</p>
+                                      <p>752.00</p>
+                                      <p>1,400.00</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="soaDetails">
+                                  <div class="sl">TOTAL FEES</div>
+                                  <div class="sr">27,632.00</div>
+                                </div>
+                                <hr>
+                                <div class="soaDetails">
+                                  <div class="sl">TOTAL DUES</div>
+                                  <div class="sr">37,131.00</div>
+                                </div>
+                                <hr>
+                                <div>LESS:</div>
+                                <div class="container">
+                                    <div class="fChildren">
+                                    <div class="fl">
+                                      <p>PAYMENT</p>
+                                      <p>LABARATORY</p>
+                                      <p>REGISTRATION</p>
+                                      <p>MISCELLANEUS</p>
+                                    </div>
+                                    <div class= "fr">
+                                      <p>.00</p>
+                                      <p>.00</p>
+                                      <p>.00</p>
+                                      <p>.00</p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="soaDetails">
+                                  <div class="sl">BALANCE</div>
+                                  <div class="sr">37,131.00</div>
+                                </div>
+                                <hr>
+                              </div>
+                              <div class="payments">
+                                <p class="tup">PAYMENT(S)</p>
+                                <div class="paid">
+                                  <p>1,500.00</p>
+                                  <p>2,000.00</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="butter">
+                          <button class="butLow">
+                            <PaperAirplaneIcon class="commandIcon"/>
+                            SEND
+                            </button>
+                          <button class="butLow">
+                            <PrinterIcon class="commandIcon"/>
+                            PRINT
+                            </button>
+                        </div>
                       </div>
-                      <div v-else="currentTab == 2">
-                        History
+                      <div class="historyContent" v-else="currentTab == 2">
+                        <table class="hTable">
+                          <th class="hTh">Date</th>
+                          <th class="hTh">Time</th>
+                          <th class="hTh">OR No.</th>
+                          <th class="hTh">ID No.</th>
+                          <th class= "hTh">Name </th>
+                          <th class="hTh">Amount</th>
+                          <th class="hTh">Particulars</th>
+                          <th class="hTh">Cashier</th>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                          <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                            <tr class="hTr">
+                            <td class="hTd">05-1-2023</td>
+                            <td class="hTd">05:39</td>
+                            <td class="hTd">028402</td>
+                            <td class="hTd">119930070139</td>
+                            <td class="hTd">Macawili</td>
+                            <td class="hTd">2,500</td>
+                            <td class="hTd">Tuition</td>
+                            <td class="hTd">Hazel</td>
+                          </tr>
+                        </table>
                       </div>
                     </Transition>
                   </div>
@@ -163,14 +505,13 @@
           </div>
       </div>
   </div>
-
-  
- 
 </template>
-<script type="setup">
 
-</script>
 <script>
+
+
+
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import {
   getDatabase,
@@ -1084,23 +1425,248 @@ onValue(
 };
 </script>
 
-
-
-
-
 <script setup>
-import { UserCircleIcon , BellAlertIcon , ForwardIcon, ArrowPathIcon, CheckBadgeIcon} from '@heroicons/vue/24/solid'
-
-
-
+import { UserCircleIcon , BellAlertIcon , ForwardIcon, ArrowPathIcon, CheckBadgeIcon,DocumentCheckIcon,PencilSquareIcon,ArchiveBoxXMarkIcon,PrinterIcon,PaperAirplaneIcon} from '@heroicons/vue/24/solid'
+import logo from "~/assets/images/logo.png";
 </script>
 
-
-
-
-
-
 <style scoped>
+
+.hTable{
+  font-size: 14px;
+  width: 550px;
+  text-align:center;
+}
+.hTd{
+  font-size: 13px;
+}
+.hTable,.hTr,.hTd,.hTh{
+  border:1px solid #fefefe;
+}
+.butter{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.watermark{
+  display: flex;
+  justify-content: center;
+}
+.logs{
+    position:absolute;
+    height: 250x;
+    width: 250px;
+    margin-top: 0px;
+    margin-left:250px;
+    z-index:0;
+    opacity:0.2;
+  }
+  .fl{
+    text-align:start;
+    width:50%;
+  }
+  .fr{
+    text-align:end;
+    width:50%;
+  }
+  .container{
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    margin-bottom:5px;
+  }
+  .fChildren{
+    display:flex;
+    width:65%;
+  }
+
+  hr{
+    border-top: 1px dashed #3f3f46;
+    margin-top:0px;
+  }
+  .sl{
+    text-align:start;
+    width:50%;
+
+  }
+  .sr{
+    text-align:end;
+    width:50%;
+  }
+  .soaDetails{
+    display:flex;
+  }
+  .p{
+    text-align: center;
+  }
+  .t{
+    font-weight: 900;
+    margin-bottom:3px;
+  }
+  .tu{
+    font-weight: 900;
+    margin-bottom:3px;
+    text-align: center;
+  }
+
+
+  .tup{
+    font-weight: 900;
+    margin-bottom:3px;    
+  }
+  .ud{
+    display:flex;
+  }
+
+  .subject{
+    width: 17%;
+    height: 225px;
+  }
+
+  .unit{
+    width: 10%;
+    height: 225px;
+  }
+
+  .soa{
+    width: 56%;
+    height: 240px;
+    padding-left:3px;
+    padding-right:3px;
+    z-index:0;
+  }
+
+  .payments{
+    width: 18%;
+    height: 225px;
+    text-align: end;
+  }
+
+
+  .uleft{
+    width: 50%;
+    text-align:start;
+  }
+  .uright{
+    width: 50%;
+    text-align: end;
+  }
+
+  .up{
+    display:flex;
+    margin-bottom: 8px;
+  }
+
+  .details{
+    color:#3f3f46;
+    font-size: 10px;
+    letter-spacing:1.5px;
+    font-weight: 700;
+    
+  }
+  .asses{
+    font-weight: 500;
+    font-size:13px;
+  }
+  .u{
+    font-weight: 900;
+    font-size:16px;
+    text-decoration-line: underline;
+    font-family: "Times New Roman", Times, serif;
+    padding:0px;
+    margin-top:5px;
+    height:19px;
+    text-underline-offset: 3px;
+  }
+
+  .l{
+    font-weight: 600;
+    font-size:11px;
+    padding:0px;
+    margin:0px;
+    letter-spacing:2.5px;
+  }
+.log{
+  height: 42px;
+  width: 42px;
+}
+.schoolName{
+  height:100%;
+  width: 66%;
+}
+.logo{
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  height: 100%;
+  width: 12%;
+}
+.slip{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height: 100%;
+  width: 22%;
+  margin-right:3px;
+}
+
+
+.assesment{
+  background-color: #fefefe;
+  height: 373px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  padding:8px;
+}
+
+.head{
+  display:flex;
+  background-color: #166534;
+  height: 13%;
+  padding:0px;
+  margin-bottom: 15px;
+}
+.lebel{
+  font-weight: 500;
+}
+
+.but{
+  display: flex;
+}
+
+.butLow{
+  display: flex;
+  background-color: #fefefe;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  margin-left: 10px;
+  height: 65px;
+  width: 150px;
+  margin-top: 13px;
+  color: #0F172A;
+  font-weight: 900;
+}
+
+table{
+  width:58%;
+  border: 1px solid #fefefe;
+  text-align: left;
+  font-size: 20px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.transactionContent{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+td,th,table{
+  border: 1px solid #1E293B;
+}
+
 .edit:hover{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
   background-color: grey;
@@ -1109,11 +1675,8 @@ import { UserCircleIcon , BellAlertIcon , ForwardIcon, ArrowPathIcon, CheckBadge
 .logout:hover{
   color: grey;
 }
-.invoiceTab:hover{
-  background-color: grey;
-  color: #fefefe;
-}
-.historyTab:hover{
+
+.general-tab:hover{
   background-color: grey;
   color: #fefefe;
 }
@@ -1193,8 +1756,9 @@ input{
 }
 
 .buttons{
-  padding-top: 30px;
-  padding-left: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 button{
   position: flex;
@@ -1233,7 +1797,7 @@ button{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
   border-radius: 12px;
   margin: 5px;
-  margin-left: 90px;
+  margin-left: 102px;
 }
 .field2{
   width: 200px;
@@ -1385,8 +1949,6 @@ input:hover{
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  
-  border-radius: 12px;
   height: 65px;
   width: 150px;
   margin-top: 13px;
@@ -1396,6 +1958,16 @@ input:hover{
 
 .commandBox:hover .commandIcon{
   color:#fefefe;
+}
+
+.butLow:hover .commandIcon{
+  color:#fefefe;
+}
+
+.butLow:hover{
+  background-color: grey;
+  color: #fefefe;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
 }
 
 .commandBox:hover .commandsIcon{
