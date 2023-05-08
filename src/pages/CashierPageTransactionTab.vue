@@ -62,13 +62,13 @@
                   </div>
               </div>
               <div class="controls">
-                  <button class="commandBox" @click="callUser()">
-                      <BellAlertIcon class="commandIcon"/> CALL</button>
-                  <button class="commandBox" @click="incCounter">
-                      <ForwardIcon class="commandIcon"/>NEXT</button>
-                  <button class="commandBox">
+                  <button class="commandBox" @click="callUser()" id="call">
+                      <BellAlertIcon class="commandIcon" /> CALL</button>
+                  <button class="commandBox" @click="incCounter" id="next">
+                      <ForwardIcon class="commandIcon" id="nextIcon"/>NEXT</button>
+                  <button class="commandBox" id="transfer">
                       <ArrowPathIcon class="commandsIcon"/>TRANSFER</button>
-                  <button class="commandBox" @click="doneUser()">
+                  <button class="commandBox" @click="doneUser()" id="done">
                       <CheckBadgeIcon class="commandIcon"/>DONE</button>
                       
                       <button class="commandBox" @click="changeWin()" >
@@ -1229,6 +1229,19 @@ onValue(
   
   
   methods: {
+    
+   clickedNext(){
+   document.getElementById("next").disabled = true;
+   document.getElementById("done").disabled = false;
+   console.log("Clicked next");
+}
+,
+ clickedDone(){
+  document.getElementById("next").disabled = false;
+  document.getElementById("done").disabled = true;
+  console.log("Clicked done");
+},
+
     logout(){
       localStorage.setItem('log-in', false);
       localStorage.setItem('loggedas', '');
@@ -1236,8 +1249,8 @@ onValue(
 
     },
     incCounter() {
+      this.clickedNext();
       const currentWindow = localStorage.getItem('currentWindow')
-
       
       if(currentWindow=='A'){
         if(this.currentA == 0){
@@ -1305,6 +1318,7 @@ onValue(
 
 
     doneUser(){
+      this.clickedDone();
       const currentWindow = localStorage.getItem('currentWindow')
 
       if(currentWindow =='A'){
@@ -1354,6 +1368,7 @@ onValue(
 
 
     callUser() {        
+      
       const currentWindow = localStorage.getItem('currentWindow')
 
       if(currentWindow == 'A'){

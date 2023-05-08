@@ -31,10 +31,10 @@
         </div>
         <div class="window">
             <div class="a">
-                Window A
+               
             </div>
             <div class="b">
-                Window B
+               
             </div>
         </div>
         <div class="queue">
@@ -56,12 +56,35 @@
                 <div class="txt" id="cur"> {{q5Bf  }}</div>
                 <div class="txt"> {{ q6Bf }}</div>
             </div>
-        </div>
+        </div>     
         <div class="personal">
             <h3 class="num">Queue No : {{ queCur }}</h3>
+          </div>
+          <div class="controls">
+              <div class="conRight">
+            <div class="editIcon">
+              <ArchiveBoxXMarkIcon class="commandsIcon"/>
+            </div>
+            <div class="text">
+              CANCEL
+            </div>
+          </div>
+          <div class="conLeft">
+            <input type="checkbox" id="check" @click="testAudio()">
+            <label for="check" class="button"></label>
+            <div class="text">
+              NOTIFY
+            </div>
+          </div>
+          <div class="conRight" @click="redirect()">
+            <div class="editIcon">
+              <PencilSquareIcon class="commandsIcon"/>
+            </div>
+            <div class="text">
+              EDIT
+            </div>
+          </div>
         </div>
-        <button @click="testAudio()">-{{ audioBool }}-</button>
-
     </div>
     
     <audio :src="audioLink"></audio>
@@ -69,6 +92,9 @@
   </template>
   
   <script>
+
+
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import {
   getDatabase,
@@ -560,6 +586,7 @@ onValue(
 );
   },
   methods: {
+   
     testAudio(){
         this.test = !this.test;
 
@@ -590,7 +617,9 @@ onValue(
       },
       
    
-  
+       redirect(){
+      this.$router.push('/mobile3');
+}
   
   
    
@@ -605,10 +634,88 @@ onValue(
   </script>
   
   <script setup>
-  import {XMarkIcon} from '@heroicons/vue/24/solid'
+  import {XMarkIcon,PencilSquareIcon,ArchiveBoxXMarkIcon} from '@heroicons/vue/24/solid'
   </script>
 
 <style scoped>
+
+.text{
+  margin-right: 3px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.commandsIcon{
+      position: flex;
+      justify-content: flex-end;
+      color: #fefefe;
+      height: 40px;
+      width: 40px;
+      margin-left: auto;
+      margin-right: 0;
+    }
+
+.button{
+    background-color: #ffffff;
+    width: 70px;
+    height: 30px;
+    border-radius: 200px;
+    cursor: pointer;
+    display:flex;
+    transition: 0.2s;
+    margin: 5px;
+}
+
+.button::before{
+    position: flex;
+    content: '';
+    background-color: #D9D9D9;
+    width: 20px;
+    height: 20px;
+    border-radius: 200px;
+    margin: 5px;
+    transition: 0.2s;
+    
+}
+
+input:checked + .button{
+    background-color: #334155;
+}
+input:checked + .button::before{
+    transform: translateX(40px);
+}
+input{
+    display: none;
+}
+
+.controls{
+      display: flex;
+      height: 56px;
+      color: #fefefe;
+
+    }
+
+    .conLeft{
+      display: flex;
+      width: 50%;
+      padding: 3px;
+      align-items: center;
+      justify-content: center;
+      background-color: #0F172A;
+      
+      flex-direction: column;
+    }
+
+    .conRight{
+      display: flex;
+      width: 50%;
+      align-items: center;
+      justify-content: center;
+      padding: 3px;
+      background-color: #0F172A;
+      /* border: 1px solid red; */
+      flex-direction: column;
+    }
 
     .qOverlap.delete{
       z-index: -1;
@@ -633,6 +740,7 @@ onValue(
       width: 30px;
       margin-left: auto;
       margin-right: 0;
+      
     }
 
     .mes{
@@ -640,10 +748,12 @@ onValue(
       font-size: 20px;
       margin-top: 3px;
       margin-bottom: 2px;
+      
     }
     .qMes{
       font-weight: 500;
       font-size: 18px;
+     
     }
 
     .qNum{
@@ -655,6 +765,7 @@ onValue(
       border-radius: 20px;
       box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.3);
       margin: 20px;
+    
     }
     .det{
       display:flex;
@@ -663,11 +774,13 @@ onValue(
       align-items: center;
       justify-content: center;
       flex-direction: column;
+      
     }
     .box{
       display: flex;
       align-items: center;
       justify-content: center;
+     
     }
 
     .qLap{
@@ -690,12 +803,14 @@ onValue(
       left: 0;
       z-index: 0;
       opacity: 0.5;
+      
     }
 
     .container{
       display: flex;
       align-items: center;
       justify-content: center;
+      
     }
 
 
@@ -713,6 +828,7 @@ onValue(
         margin-bottom: 8px;
         border-radius: 8px;
         font-size: 22px;
+        
     }
     .current{
         background-color: #334155;
@@ -725,6 +841,7 @@ onValue(
         background-color: #334155;
         color: #fefefe;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+        
     }
     .no{
         width: 100%;
@@ -735,6 +852,7 @@ onValue(
         text-align: center;
         font-weight: 700;
         font-size: 22px;
+        
     }
 
     .txt{
@@ -753,6 +871,7 @@ onValue(
         margin-bottom: 8px;
         border-radius: 8px;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+        
     }
 
 
@@ -765,27 +884,30 @@ onValue(
         align-items: center;
         text-align: center;
         font-weight: 700;
+        
     }
     .personal{
-        margin-top: 15px;
-        background-color: #0F172A;
+        background-color: #d9d9d9;
         width: 360px;
         border-radius: 10px,10px,10px,10px;
-        padding: 15px;
+        padding: 0px;
         text-align: center;
     }
 
     .num{
-        font-size: 43px;
+      color: #0F172A;
+        font-weight: 700;
+        font-size: 45px;
     }
 
     .queue{
         display: flex;
-        height: 485px;
+        height: 500px;
         width: 325px;
         background-color: #fefefe;
         margin-left: 18px;
         border-radius: 10px;
+        margin-top: 15px;
     }
     .body {
       background-color: #D9D9D9;
@@ -794,6 +916,8 @@ onValue(
       justify-content: center; /* Centers elements horizontally */
       flex-direction: column;
       box-sizing: border-box;
+      
+      
     }
     .upper{
       background-color: #D9D9D9;
@@ -810,6 +934,7 @@ onValue(
       justify-content: center; /* Centers elements horizontally */
       align-items: center; 
       margin-bottom: 3px;
+      
     }
 
     .a{
@@ -841,6 +966,7 @@ onValue(
       width: 15px; 
       padding: 15px;
       text-align: center;
+     
     }
 
     h3{
@@ -860,6 +986,7 @@ onValue(
         border-radius: 20px;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
         padding: 8px;
+        
       }
       .a,.b{
         font-size: 20px;

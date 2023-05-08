@@ -77,14 +77,14 @@
             
         </div>
         <div class="buttons">
-            <button>Cancel</button>
-         <button  @click="saveData()">Done</button>
+          <button @click="back()">Cancel</button>
+         <button  @click="saveData()">Save</button>
         </div>
     </div>
   </template>
   
   <script>
-  import { push } from "firebase/database";
+import { push } from "firebase/database";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import {
   getDatabase,
@@ -212,16 +212,17 @@ onValue(
 
   },
   methods: {
-   
+    back(){
+     this.$router.push('/mobile2');
+    },
+
     saveData() {   
       const dbRef = ref(db, 'sCounter/sCounter');
       const dbRefB = ref(db, 'sCounter/sCounterB');
-
       let counterVariable;
       let counterVariableB;
 
       get(dbRef).then((snapshot) => {
-         
           counterVariable = Number(snapshot.val());
           this.queNum = Number(snapshot.val());
           const userId = `users/${counterVariable}`;

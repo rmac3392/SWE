@@ -13,9 +13,9 @@ const router = createRouter({
         { path: "/cashierPage", component:() => import("~/pages/CashierPageTransactionTab.vue")},
         { path: "/mobile1", component:() => import("~/pages/Mobile1.vue")},
         { path: "/mobile2", component:() => import("~/pages/Mobile2.vue")},
+        { path: "/mobile3", component:() => import("~/pages/Mobile3.vue")},
         { path: "/testing", component:() => import("~/pages/testing.vue")},
         { path: "/testing2", component:() => import("~/pages/testing2.vue")},
-
     ]
 });
 
