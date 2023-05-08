@@ -317,7 +317,7 @@
   }
   
   .flex {
-    background-image: url(..\assets\images\loginBg.jpg);
+    background-image: url(../assets/images/loginBg.jpg);
     background-size: cover;
   }
   </style>
