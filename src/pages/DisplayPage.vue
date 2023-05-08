@@ -43,14 +43,13 @@
                       </div>
                         <div class="windowSide">
                           <div class="windowNum">
-                            <p class="label">Window B</p>
+                            <p class="label">WINDOW B</p>
                             <p class="items"> B-{{counterVariableB+1}}</p>
                             <p class="items"> B-{{counterVariableB+2}}</p>
                             <p class="items"> B-{{counterVariableB+3}}</p>
                             <p class="items"> B-{{counterVariableB+4}}</p>
                             <p class="items"> B-{{counterVariableB+5}}</p>
                           </div>
-
                         </div>
                       </div>
                 </div>
@@ -136,7 +135,6 @@ onValue(
         child(dbRef, "Counter/Counter"),
         (snapshot) => {
           this.counterVariable = Number(snapshot.val());
-        
         },
         (error) => {
           console.error(error);

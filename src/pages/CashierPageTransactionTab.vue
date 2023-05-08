@@ -62,17 +62,16 @@
                   </div>
               </div>
               <div class="controls">
-                  <button class="commandBox" @click="callUser()" id="call">
-                      <BellAlertIcon class="commandIcon" /> CALL</button>
-                  <button class="commandBox" @click="incCounter" id="next">
-                      <ForwardIcon class="commandIcon" id="nextIcon"/>NEXT</button>
-                  <button class="commandBox" id="transfer">
+                  <button class="commandBox" @click="callUser()">
+                      <BellAlertIcon class="commandIcon"/> CALL</button>
+                  <button class="commandBox" @click="incCounter">
+                      <ForwardIcon class="commandIcon"/>NEXT</button>
+                  <button class="commandBox">
                       <ArrowPathIcon class="commandsIcon"/>TRANSFER</button>
-                  <button class="commandBox" @click="doneUser()" id="done">
+                  <button class="commandBox" @click="doneUser()">
                       <CheckBadgeIcon class="commandIcon"/>DONE</button>
                       
-                      <button class="commandBox" @click="changeWin()" >
-                      <CheckBadgeIcon class="commandIcon"/>Change Window</button>
+             
               </div>
           </div>
       </div>
@@ -80,8 +79,8 @@
           <div class="upper ">
               <div class="userInfo">
                   <div class="user">
-                      <p>Name: <span id="userName">Ryan James Macawili</span></p>
-                      <p>ID No: <span id="userId">20229464</span></p>
+                      <p>Name: <span id="userName">{{ currentCashier }}</span></p>
+                      <p>ID No: <span id="userId">{{currentCashierId}}</span></p>
                   </div>
                   <div class="dateTime">
                       <p id="date">{{ currentDate }}</p>
@@ -152,39 +151,39 @@
                         <table>
                           <tr>
                             <td class="lebel">ID No:</td>
-                            <td>20229464</td>
+                            <td>{{ id }}</td>
                           </tr>
                           <tr>
                             <td class="lebel">First Name:</td>
-                            <td>Ryan James</td>
+                            <td>{{ fname }}</td>
                           </tr>
                           <tr>
                             <td class="lebel">Middle Name:</td>
-                            <td>Casquejo</td>
+                            <td>{{ mname }}</td>
                           </tr>
                           <tr>
                             <td class="lebel">Last Name:</td>
-                            <td>Macawili</td>
+                            <td>{{ lname }}</td>
                           </tr>
                           <tr>
                             <td class="lebel">Educational Level:</td>
-                            <td>Secondary</td>
+                            <td>{{ edlevel }}</td>
                           </tr>
                           <tr>
                             <td class="lebel">Grade/Year:</td>
-                            <td>12</td>
+                            <td>{{ grade }}</td>
                           </tr>
                           <tr>
                             <td class="lebel">Tuition Payment:</td>
-                            <td>9,000</td>
+                            <td>{{ tint }}</td>
                           </tr>
                           <tr>
                             <td class="lebel">Miscelleneus:</td>
-                            <td>1,500</td>
+                            <td>{{ tmisc }}</td>
                           </tr>
                           <tr>
                             <td class="lebel">Total Amount:</td>
-                            <td>10,500</td>
+                            <td>{{ total }}</td>
                           </tr>
                         </table>
                         <div class="but">
@@ -213,8 +212,8 @@
                           <div class="details">
                             <div class="up">
                               <div class="uleft">
-                              <p>MACAWILI, RYAN JAMES</p>
-                              <p>119930070139</p>
+                              <p>{{ lname }}, {{ fname }}</p>
+                              <p>{{ id }}</p>
                               </div>
                               <div class="uright">
                                 <p>2nd QUARTER SY 2022-2023</p>
@@ -309,8 +308,8 @@
                               <div class="payments">
                                 <p class="tup">PAYMENT(S)</p>
                                 <div class="paid">
-                                  <p>1,500.00</p>
-                                  <p>2,000.00</p>
+                                  <p>{{ tint }}</p>
+                                  <p>{{ tmisc }}</p>
                                 </div>
                               </div>
                             </div>
@@ -338,14 +337,14 @@
                           <th class="hTh">Particulars</th>
                           <th class="hTh">Cashier</th>
                           <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
+                            <td class="hTd">{{ hisDate1 }}</td>
+                            <td class="hTd">{{ hisTime1 }}</td>
                             <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
+                            <td class="hTd">{{ id }}</td>
+                            <td class="hTd">{{ hisLname1 }}</td>
+                            <td class="hTd">{{ hisTotal1 }}</td>
                             <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
+                            <td class="hTd">{{ hisCashier1 }}</td>
                           </tr>
                           <tr class="hTr">
                             <td class="hTd">05-1-2023</td>
@@ -543,6 +542,14 @@ const db = getDatabase();
 export default {
   
   data() {
+    const dataProperties = {};
+    for (let i = 1; i <= 4; i++) {
+    dataProperties[`hisDate${i}`] = '';
+    dataProperties[`hisTime${i}`] = '';
+    dataProperties[`hisLname${i}`] = '';
+    dataProperties[`hisTotal${i}`] = '';
+    dataProperties[`hisCashier${i}`] = '';
+  }
     return {
       currentAtext : '',
       currentBtext : '',
@@ -571,6 +578,12 @@ export default {
       q3Bf : '',
       q4Bf: '',
       curWinText: '',
+      currentCashier: '',
+      currentCashierId: '',
+      ...this.dataProperties
+
+
+
 
 
     };
@@ -584,6 +597,12 @@ export default {
     console.log(this.currentA)
     this.loggedin = localStorage.getItem('log-in');
     console.log(this.loggedin)
+    this.currentCashier = localStorage.getItem('currentCashier');
+    this.currentCashierId = localStorage.getItem('currentCashierId');
+
+    
+    
+
 
     if(this.loggedin=="false"){
       console.log("true ang asd")
@@ -660,7 +679,7 @@ onValue(
 onValue(
         child(dbRefB, "CounterB/CounterB"),
         (snapshot) => {
-          this.counterVariableB = snapshot.val();
+          this.counterVariableB = Number(snapshot.val());
         },
         (error) => {
           console.error(error);
@@ -835,8 +854,13 @@ onValue(
 
     
 
-// a CURRENT
-    onValue(
+
+
+
+//WINDOW A USER INFO
+if(currentWindow=='A'){
+  // a CURRENT
+  onValue(
     child(dbRef, "curA/curA"),
     (snapshot) => {
     const counterValue = snapshot.val();
@@ -845,6 +869,17 @@ onValue(
       child(dbRef, userId),
       (snapshot) => {
         this.id = Number(snapshot.val());
+        for (let i = 1; i <= 16; i++) {
+          onValue(child(dbRef, `History/${this.id}/${i}/date`), (snapshot) => { this[`hisDate${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/time`), (snapshot) => { this[`hisTime${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/lname`), (snapshot) => { this[`hisLname${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/total`), (snapshot) => { this[`hisTotal${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/cashier`), (snapshot) => { this[`hisCashier${i}`] = snapshot.val() });
+        }
+
+                  
+
+
       },
       (error) => {
         console.error(error);
@@ -855,30 +890,6 @@ onValue(
     console.error(error);
   }
 );
-// B CURRENT
-onValue(
-    child(dbRef, "curB/curB"),
-    (snapshot) => {
-    const counterValue = snapshot.val();
-    const userId = `usersB/${counterValue}/id/`;
-    onValue(
-      child(dbRef, userId),
-      (snapshot) => {
-        this.id = Number(snapshot.val());
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  },
-  (error) => {
-    console.error(error);
-  }
-);
-
-
-//WINDOW A USER INFO
-if(currentWindow=='A'){
 // first name
 onValue(
   child(dbRef, "curA/curA"),
@@ -1043,6 +1054,34 @@ onValue(
 
 //window B USER INFO
 else{
+  
+// B CURRENT
+onValue(
+    child(dbRef, "curB/curB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue}/id/`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        this.id = Number(snapshot.val());
+        for (let i = 1; i <= 16; i++) {
+          onValue(child(dbRef, `History/${this.id}/${i}/date`), (snapshot) => { this[`hisDate${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/time`), (snapshot) => { this[`hisTime${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/lname`), (snapshot) => { this[`hisLname${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/total`), (snapshot) => { this[`hisTotal${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/cashier`), (snapshot) => { this[`hisCashier${i}`] = snapshot.val() });
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
 // first name
 onValue(
   child(dbRef, "curB/curB"),
@@ -1052,7 +1091,7 @@ onValue(
     onValue(
       child(dbRef, userId),
       (snapshot) => {
-        this.fname = snapshot.val(); 
+        this.fname = snapshot.val()+" "; 
       },
       (error) => {
         console.error(error);
@@ -1229,19 +1268,6 @@ onValue(
   
   
   methods: {
-    
-   clickedNext(){
-   document.getElementById("next").disabled = true;
-   document.getElementById("done").disabled = false;
-   console.log("Clicked next");
-}
-,
- clickedDone(){
-  document.getElementById("next").disabled = false;
-  document.getElementById("done").disabled = true;
-  console.log("Clicked done");
-},
-
     logout(){
       localStorage.setItem('log-in', false);
       localStorage.setItem('loggedas', '');
@@ -1249,8 +1275,8 @@ onValue(
 
     },
     incCounter() {
-      this.clickedNext();
       const currentWindow = localStorage.getItem('currentWindow')
+
       
       if(currentWindow=='A'){
         if(this.currentA == 0){
@@ -1318,7 +1344,6 @@ onValue(
 
 
     doneUser(){
-      this.clickedDone();
       const currentWindow = localStorage.getItem('currentWindow')
 
       if(currentWindow =='A'){
@@ -1368,7 +1393,6 @@ onValue(
 
 
     callUser() {        
-      
       const currentWindow = localStorage.getItem('currentWindow')
 
       if(currentWindow == 'A'){
