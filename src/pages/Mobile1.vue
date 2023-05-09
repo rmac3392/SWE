@@ -119,6 +119,11 @@ export default {
       counterVariableB: null,
       counter : null,
       counterB: null,
+      currentTime: "",
+      currentDate: "",
+      hisCtr: null,
+      randomNumber: null,
+      formattedRandomNumber: null
     }
   },
   created (){
@@ -204,9 +209,17 @@ onValue(
         (error) => {
           console.error(error);
         }
-      );     
+      );
+
       
-      
+      setInterval(() => {
+      const now = new Date();
+      const hour = now.getHours().toString().padStart(2, '0');
+      const minute = now.getMinutes().toString().padStart(2, '0');
+      this.currentTime = `${hour}:${minute}`;
+      this.currentDate = now.toLocaleDateString();
+
+    }, 1000);  
 
 
 
@@ -220,29 +233,46 @@ onValue(
       let counterVariable;
       let counterVariableB;
 
+      //A GETTER
       get(dbRef).then((snapshot) => {
          
+        //A  
           counterVariable = Number(snapshot.val());
           this.queNum = Number(snapshot.val());
+          
+          //USER A variables address 
           const userId = `users/${counterVariable}`;
           const dbRefcustomers = ref(db, userId);
+          //USER A HISTORY ADDRESS
+          const hisId = `users/${counterVariable}/id`;
+          const dbRefHis = ref(db, hisId);
+
+
           
+          //B GETTER
           get(dbRefB).then((snapshot) => {
+            //B
             counterVariableB = Number(snapshot.val());
             this.queNumB = Number(snapshot.val());
-            console.log(this.queNumB)
+            //USER B variables address 
             const userIdB = `usersB/${counterVariableB}`;
             const dbRefcustomersB = ref(db, userIdB);
-            //B
-            if (counterVariable > counterVariableB){       
-                localStorage.setItem('que', this.queNumB);
-                const myVariableB = localStorage.getItem('que')
+           
+            
 
+
+
+            //B CONDITION
+            if (counterVariable > counterVariableB){       
+               // local storage B
+                localStorage.setItem('que', this.queNumB);
+                const myVariableB = localStorage.getItem('que');
                 localStorage.setItem('window', 'B');
 
 
                 this.ring = false; 
-             
+
+                //Que Information B
                 update(dbRefcustomersB, { id: this.id });
                 update(dbRefcustomersB, { fname: this.fname });
                 update(dbRefcustomersB, { mname: this.mname });
@@ -253,10 +283,57 @@ onValue(
                 update(dbRefcustomersB, { tmisc: this.tmisc });
                 update(dbRefcustomersB, { queNum: this.queNumB });
                 update(dbRefcustomersB, { ring: this.ring });
+
+                //INC VARIABLES FOR HISTORY
+                this.idNum = this.id;
+                const userIdHistory = `History/${this.idNum}`;
+                const dbRefCTR = ref(db, `History/${this.idNum}/ctr`);
+                const dbRefHistory = ref(db, userIdHistory);
+
+                this.randomNumber = Math.floor(Math.random() * 999999) + 1;
+                this.formattedRandomNumber = this.formatNumber(this.randomNumber, 6);
+                this.parti = "Tuition";
+
+                get(dbRefCTR).then((snapshot) => {
+                        //INCREMENT                
+                        this.ctr = snapshot.val();
+                        this.ctr = this.ctr+1;
+                        update(dbRefHistory, { ctr: this.ctr});
+                        const userIdHistoryNum = `History/${this.idNum}/${this.ctr}`;
+                        const dbRefHistoryNum = ref(db, userIdHistoryNum);
+                        update(dbRefHistoryNum, { date: this.currentDate});
+                        update(dbRefHistoryNum, { time: this.currentTime});
+                        update(dbRefHistoryNum, { lname: this.lname});
+
+                        update(dbRefHistoryNum, { orno: this.formattedRandomNumber});
+                        update(dbRefHistoryNum, { id: this.idNum});
+                        update(dbRefHistoryNum, { parti: this.parti});
+
+
+
+
+                        this.total = this.tmisc + this.tint;
+                        update(dbRefHistoryNum, { total: this.total});
+                        
+                        const dbRefCC = ref(db, "currentCashierB"); 
+                        get(dbRefCC).then((snapshot) => {     
+
+                          this.cashier = snapshot.val();
+
+                          update(dbRefHistoryNum, { cashier: this.cashier});
+
+
+                         });
+
+
+
+                      
+                });
+
                 this.incCounterB();
-                this.$router.push('/mobile2');
+                 this.$router.push('/mobile2');
             }
-            //A
+            //A CONDITION
           else{
           localStorage.setItem('que', this.queNum);
           const myVariable = localStorage.getItem('que')
@@ -275,15 +352,70 @@ onValue(
           update(dbRefcustomers, { queNum: this.queNum });
           update(dbRefcustomers, { ring: this.ring });
 
+
+                          //INC VARIABLES
+                this.idNum = this.id;
+                const userIdHistory = `History/${this.idNum}`;
+                const dbRefCTR = ref(db, `History/${this.idNum}/ctr`);
+                const dbRefHistory = ref(db, userIdHistory);
+
+                this.randomNumber = Math.floor(Math.random() * 999999) + 1;
+                this.formattedRandomNumber = this.formatNumber(this.randomNumber, 6);
+                this.parti = "Tuition";
+
+
+                get(dbRefCTR).then((snapshot) => {
+                        //INCREMENT                
+                        this.ctr = snapshot.val();
+                        this.ctr = this.ctr+1;
+                        update(dbRefHistory, { ctr: this.ctr});
+                        const userIdHistoryNum = `History/${this.idNum}/${this.ctr}`;
+                        const dbRefHistoryNum = ref(db, userIdHistoryNum);
+                        update(dbRefHistoryNum, { date: this.currentDate});
+                        update(dbRefHistoryNum, { time: this.currentTime});
+                        update(dbRefHistoryNum, { lname: this.lname});
+
+                        update(dbRefHistoryNum, { orno: this.formattedRandomNumber});
+                        update(dbRefHistoryNum, { id: this.idNum});
+                        update(dbRefHistoryNum, { parti: this.parti});
+                    
+
+                        this.total = this.tmisc + this.tint;
+                        update(dbRefHistoryNum, { total: this.total});
+                        
+                        const dbRefCC = ref(db, "currentCashierA"); 
+                        get(dbRefCC).then((snapshot) => {     
+
+                          this.cashier = snapshot.val();
+
+                          update(dbRefHistoryNum, { cashier: this.cashier});
+
+
+                         });
+
+                        
+                        
+                      
+                });
+
           this.incCounter();
-          this.$router.push('/mobile2');
+           this.$router.push('/mobile2');
           }
+
+
+
           });
      
        
       });
+   
+
  
 
+    },
+    formatNumber(number, length) {
+      const str = number.toString();
+      return str.padStart(length, '0').replace(/(\d{3})(?=\d)/g, '$1');
     },
     incCounter() {
       const dbRef = ref(db, "sCounter");
