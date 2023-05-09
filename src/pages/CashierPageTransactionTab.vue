@@ -64,14 +64,12 @@
               <div class="controls">
                   <button class="commandBox" @click="callUser()">
                       <BellAlertIcon class="commandIcon"/> CALL</button>
-                  <button class="commandBox" @click="incCounter">
+                  <button class="commandBox" @click="incCounter()" id="next" >
                       <ForwardIcon class="commandIcon"/>NEXT</button>
                   <button class="commandBox">
                       <ArrowPathIcon class="commandsIcon"/>TRANSFER</button>
-                  <button class="commandBox" @click="doneUser()">
+                  <button class="commandBox" @click="doneUser()" id="done">
                       <CheckBadgeIcon class="commandIcon"/>DONE</button>
-                      
-             
               </div>
           </div>
       </div>
@@ -555,7 +553,7 @@ export default {
       currentBtext : '',
       currentA: 0,
       currentB: 0,
-      counterVariable: null,
+      counterVariable: '',
       counterVariableB: '',
       q1Af : '',
       q2Af : '',
@@ -637,7 +635,6 @@ onValue(
           }
           else{this.currentA = Number(snapshot.val());
                this.currentAtext = "A"+Number(snapshot.val());}
-        
         },
         (error) => {
           console.error(error);
@@ -1265,9 +1262,10 @@ onValue(
     
   },
   
-  
+
   
   methods: {
+
     logout(){
       localStorage.setItem('log-in', false);
       localStorage.setItem('loggedas', '');
@@ -1292,7 +1290,7 @@ onValue(
           }
 
           else if(this.currentA != 0){
-            alert("PLEASE PRESS DONE BEFORE PROCEEDING!");
+            // alert("PLEASE PRESS DONE BEFORE PROCEEDING!");
           }
           const dbRef = ref(db, 'Counter/Counter');
           let counterVariable;

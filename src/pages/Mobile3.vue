@@ -125,6 +125,9 @@ export default {
     const dbRef = ref(db);
     const dbRefB = ref(db);
 
+
+
+
   // Currently Serving A
 onValue(
         child(dbRef, "curA/curA"),
@@ -221,26 +224,31 @@ onValue(
       const dbRefB = ref(db, 'sCounter/sCounterB');
       let counterVariable;
       let counterVariableB;
+      const myVariable = localStorage.getItem('myQ')
+        //window recognizer
+        this.window = localStorage.getItem('window');
+        console.log("this is window "+this.window)
 
       get(dbRef).then((snapshot) => {
           counterVariable = Number(snapshot.val());
           this.queNum = Number(snapshot.val());
-          const userId = `users/${counterVariable}`;
+          const userId = `users/${myVariable}`;
           const dbRefcustomers = ref(db, userId);
           
           get(dbRefB).then((snapshot) => {
             counterVariableB = Number(snapshot.val());
             this.queNumB = Number(snapshot.val());
             console.log(this.queNumB)
-            const userIdB = `usersB/${counterVariableB}`;
+        
+
+            const userIdB = `usersB/${myVariable}`;
             const dbRefcustomersB = ref(db, userIdB);
+
+
             //B
-            if (counterVariable > counterVariableB){       
-                localStorage.setItem('que', this.queNumB);
-                const myVariableB = localStorage.getItem('que')
+            if (this.window =='B'){       
 
-                localStorage.setItem('window', 'B');
-
+              console.log("this is window B working")
 
                 this.ring = false; 
              
@@ -259,9 +267,10 @@ onValue(
             }
             //A
           else{
-          localStorage.setItem('que', this.queNum);
-          const myVariable = localStorage.getItem('que')
-          localStorage.setItem('window', 'A');
+
+            console.log("this is window A working")
+
+ 
 
           this.ring = false;
           

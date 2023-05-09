@@ -7,51 +7,49 @@
               <p class="title1">PERSONAL INFORMATION</p>
               
               <label for="fname">First Name</label>
-              <input type="text" id="fname" class="field1"><br>
+              <input type="text" id="fname" class="field1" v-model="fname"><br>
 
               <label for="mname">Middle Name</label>
-              <input type="text" id="mname"  class="field2"><br>
+              <input type="text" id="mname"  class="field2" v-model="mname"><br>
 
               <label for="lname">Last Name</label>
-              <input type="text" id="lname"  class="field3"><br>
+              <input type="text" id="lname"  class="field3" v-model="lname"><br>
 
               <label for="bdate">Birthdate</label>
-              <input type="date" name="" id="bdate"  class="field4"><br>
+              <input type="date" name="" id="bdate"  class="field4" v-model="bdate"><br>
 
               <label for="age">Age</label>
-              <input type="text" id="age"  class="field5"><br>
+              <input type="text" id="age"  class="field5" v-model="age"> <br>
 
               <label for="email">Email</label>
-              <input type="email" name="" id="email"  class="field6"><br>
-
-              <label for="Address">Address</label>
-              <input type="text" id="address"  class="field7"><br>
+              <input type="email" name="" id="email"  class="field6" v-model="email"><br>
 
               <p class="title1">ACCOUNT INFORMATION</p>
+
               <label for="userType">User Type</label>
-              <select name="user" id="userType"  class="field8">
+              <select name="user" id="userType"  class="field8" v-model="userType">
                 <option value="administrator">Administrator</option>
                 <option value="cashier">Cashier</option>
               </select><br>
 
               <label for="userType">Window</label>
-              <select name="user" id="userType"  class="field8">
-                <option value="administrator">A</option>
-                <option value="cashier">B</option>
+              <select name="user" id="userType"  class="field7" v-model="window">
+                <option value="A">A</option>
+                <option value="B">B</option>
               </select><br>
 
               <label for="id">ID No.</label>
-              <input type="number" id="id"  class="field9"><br>
+              <input type="number" id="id"  class="field9" v-model="id"><br>
 
               <label for="username">Username</label>
-              <input type="text" id="username"  class="field10"><br>
+              <input type="text" id="username"  class="field10" v-model="username"><br>
 
               <label for="password">Password</label>
-              <input type="password" id="password"  class="field11"><br>
+              <input type="password" id="password"  class="field11" v-model="password"><br>
 
               <div class="buttons">
                 <button class="cancelBut">CANCEL</button>
-                <button class="saveBut">SAVE</button>
+                <button class="saveBut" @click="saveUserData">SAVE</button>
               </div>
             </div>
           </div>
@@ -81,6 +79,8 @@
                         <UserMinusIcon class="icon"/>DELETE</button>
                       <button class="controls">
                         UPDATE</button>
+                        <button class="controls" @click="reset">
+                        RESET</button>
                       <input type="text" class="search" placeholder="Search...">
                   </div>
                   <div class="tabDown">
@@ -144,6 +144,7 @@ import {
   child,
   get,
   update,
+  remove,
   onValue,
 } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 
@@ -168,6 +169,7 @@ export default {
       errMsg: '',
       currentAdmin: '',
       currentAdminId:'',
+      name : '',
  
     }
   },
@@ -205,10 +207,90 @@ export default {
 
   },
   methods: {
+    saveUserData(){
+
+      const admin = ref(db, 'admin/');
+      const adminDyna = ref(db, `admin/${this.username}`)
+      const cashier = ref(db, `cashier/${this.username}`);
+      const cashierDyna = ref(db, `cashier/${this.username}`);
+
+
+
+      if(this.userType =='administrator'){
+        console.log("admin saved")
+        update(adminDyna, { fname: this.fname });
+        update(adminDyna, { mname: this.mname });
+        update(adminDyna, { lname: this.lname });
+        update(adminDyna, { bdate: this.bdate });
+        update(adminDyna, { age: this.age });
+        update(adminDyna, { email: this.email });
+        update(adminDyna, { address: this.userType });
+        update(adminDyna, { userType: this.userType });
+        update(adminDyna, { window: this.window });
+        update(adminDyna, { id: this.id });
+        update(adminDyna, { name: this.fname });
+        update(adminDyna, { username: this.username });
+        update(adminDyna, { password: this.password });
+
+
+
+      }
+      else if(this.userType=='cashier'){
+        console.log("cashier saved")
+
+        update(cashierDyna, { fname: this.fname });
+        update(cashierDyna, { mname: this.mname });
+        update(cashierDyna, { lname: this.lname });
+        update(cashierDyna, { bdate: this.bdate });
+        update(cashierDyna, { age: this.age });
+        update(cashierDyna, { email: this.email });
+        update(cashierDyna, { address: this.userType });
+        update(cashierDyna, { userType: this.userType });
+        update(cashierDyna, { window: this.window });
+        update(cashierDyna, { id: this.id });
+        update(cashierDyna, { name: this.fname });
+        update(cashierDyna, { username: this.username });
+        update(cashierDyna, { password: this.password });
+
+
+
+      }
+
+
+
+    },
     logout(){
       localStorage.setItem('log-in', false);
       localStorage.setItem('loggedas', '');
       location.reload();
+
+    },
+    reset(){
+      
+      const counterA = ref(db, 'Counter/');
+      update(counterA, { Counter:0 });
+      const counterB = ref(db, 'CounterB/');
+      update(counterB, { CounterB:0 });
+
+      const currA = ref(db, 'curA/');
+      update(currA, { curA:0 });
+      const currB = ref(db, 'curB/');
+      update(currB, { curB:0 });
+
+      const SC = ref(db, 'sCounter/');
+      update(SC, { sCounter:1 });
+      const scC = ref(db, 'sCounter/');
+      update(scC, { sCounterB:1 });
+
+      const deletePath = ref(db, `users`)
+      remove(deletePath).then(() => {console.log("location removed");});
+      const deletePathB = ref(db, `usersB`)
+      remove(deletePathB).then(() => {console.log("location removed");});
+
+
+
+
+
 
     },
    
@@ -224,6 +306,10 @@ import { UserCircleIcon , UserPlusIcon,UserMinusIcon} from '@heroicons/vue/24/so
 
 <style scoped>
 
+label{
+  font-weight:600;
+  font-size: 16px;
+}
 .btnClass{
   position: flex;
   background-color: #fefefe;
@@ -363,7 +449,7 @@ select:hover{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
   border-radius: 12px;
   margin: 5px;
-  margin-left: 93px;
+  margin-left: 89px;
 }
 .field8{
   text-align: center;

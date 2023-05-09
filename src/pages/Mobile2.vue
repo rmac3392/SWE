@@ -22,6 +22,7 @@
         <div class="upper">
             <div class="left">
               <audio ref="audio" src="https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/X2Download.app%20-%20Cycle%20Bell%20Ring%20Sound%20Effect%20_%20Non%20Copyright%20(128%20kbps).mp3?alt=media&token=760578d2-3675-45d3-a3ca-f357df3699b4" loop></audio>
+              <audio ref="audioNotif" src="https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/Ting.mp3?alt=media&token=b6a9303f-03ef-4551-a09c-c3787d92ec8b" ></audio>
 
                 <h3>{{ currentAtext }}</h3>
             </div>
@@ -62,7 +63,7 @@
           </div>
           <div class="controls">
               <div class="conRight">
-            <div class="editIcon">
+            <div class="editIcon" @click="cancel()">
               <ArchiveBoxXMarkIcon class="commandsIcon"/>
             </div>
             <div class="text">
@@ -73,7 +74,7 @@
             <input type="checkbox" id="check" @click="testAudio()">
             <label for="check" class="button"></label>
             <div class="text">
-              NOTIFY
+              NOTIFY  
             </div>
           </div>
           <div class="conRight" @click="redirect()">
@@ -88,6 +89,8 @@
     </div>
     
     <audio :src="audioLink"></audio>
+    <audio :src="audioNotif"></audio>
+
 
   </template>
   
@@ -101,9 +104,11 @@ import {
   ref,
   child,
   get,
+  remove,
   update,
   onValue,
 } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
 
 
 function close(){
@@ -123,6 +128,7 @@ const firebaseConfig = {
     messagingSenderId: "939974599498",
     appId: "1:939974599498:web:40392f504dd093d1c257b3",
   };
+
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
@@ -152,7 +158,9 @@ export default {
       test: false,
       audioBool: '',
       audioLink: "https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/X2Download.app%20-%20Cycle%20Bell%20Ring%20Sound%20Effect%20_%20Non%20Copyright%20(128%20kbps).mp3?alt=media&token=760578d2-3675-45d3-a3ca-f357df3699b4",
-
+      audioNotif: "https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/Ting.mp3?alt=media&token=b6a9303f-03ef-4551-a09c-c3787d92ec8b",
+      isMuted: false,
+      speakThis: '',
 
      
 
@@ -166,7 +174,7 @@ export default {
     const dbRefB = ref(db);
 
   // Currently Serving A
-onValue(
+  onValue(
         child(dbRef, "curA/curA"),
         (snapshot) => {
           this.currentA = Number(snapshot.val());
@@ -175,7 +183,36 @@ onValue(
 
           }
           else{this.currentA = Number(snapshot.val());
-               this.currentAtext = "A"+Number(snapshot.val());}
+               this.currentAtext = "A"+Number(snapshot.val());
+
+                  if(this.window =='A'){
+                  this.myVariable = localStorage.getItem('que');
+                  this.queCurR = this.myVariable;
+
+                  
+                  const ring = `users/${this.queCurR}/lname`;
+                  onValue(
+                    child(dbRef, ring),
+                    (snapshot) => {
+                      
+                        if(this.currentA+1 == this.queCurR){
+                          console.log("this is true this should be using voice");
+                            this.speakThis = "Current number is: "+this.currentAtext+"........."+"It is almost your turn, Please be ready" + ".."+snapshot.val();
+                            const synth = window.speechSynthesis;
+                            const utterance = new SpeechSynthesisUtterance(this.speakThis);
+                            synth.speak(utterance);
+                        }
+
+                    },
+                    (error) => {
+                      console.error(error);
+                    }
+                  );
+
+                  }
+
+              
+             }
         
         },
         (error) => {
@@ -192,13 +229,46 @@ onValue(
 
           }
           else{this.currentB = Number(snapshot.val());
-               this.currentBtext = "B"+Number(snapshot.val());}
+               this.currentBtext = "B"+Number(snapshot.val());
+
+               if(this.window =='B'){
+                  this.myVariable = localStorage.getItem('que');
+                  this.queCurRB = this.myVariable;
+
+                  if(this.currentB+1 == this.queCurRB){
+                    console.log("this is true");
+
+                    const ring = `usersB/${this.queCurRB}/lname`;
+                  onValue(
+                    child(dbRef, ring),
+                    (snapshot) => {
+                      
+                        if(this.currentA+1 == this.queCurRB){
+                          console.log("this is true this should be using voice B");
+                            this.speakThis = "Current number is: "+this.currentBtext+"........."+"It is almost your turn, Please be ready" + ".."+snapshot.val();
+                            const synth = window.speechSynthesis;
+                            const utterance = new SpeechSynthesisUtterance(this.speakThis);
+                            synth.speak(utterance);
+                        }
+
+                    },
+                    (error) => {
+                      console.error(error);
+                    }
+                  );
+
+                  }
+
+                  }
+              
+              }
         
         },
         (error) => {
           console.error(error);
         }
       );        
+       
 
 // window recognizer
 this.window = localStorage.getItem('window');
@@ -213,6 +283,8 @@ if(this.window == "A"){
         console.log("THIS IS TRUE")
         this.queCur = "A"+this.myVariable;
         this.queCurNum = this.myVariable;
+        localStorage.setItem('myQ', this.queCurNum);
+
     }
 const ring = `users/${this.queCurNum}/ring`;
 // A Ring
@@ -249,6 +321,8 @@ else{
         console.log("THIS IS TRUE")
         this.queCur = "B"+this.myVariable;
         this.queCurNum = this.myVariable;
+        localStorage.setItem('myQ', this.queCurNum);
+
     }
 const ring = `usersB/${this.queCurNum}/ring`;
     onValue(
@@ -586,36 +660,46 @@ onValue(
 );
   },
   methods: {
+    cancel(){
+      this.myNum = localStorage.getItem('myQ');
+      const db = getDatabase();
+
+      
+      
+      if(this.window =='A'){  
+
+        const deletePath = ref(db, `users/${this.myNum}`)
+        remove(deletePath).then(() => {console.log("location removed");});
+
+      }
+      else {
+
+        const deletePath = ref(db, `usersB/${this.myNum}`)
+        remove(deletePath).then(() => {console.log("location removed");});
+        
+      }
+
+
+
+    },
    
     testAudio(){
         this.test = !this.test;
+        this.isMuted = !this.isMuted;
 
         if(this.test == true){
-          this.audioBool= 'ON';
-          this.$refs.audio.play()
+          this.$refs.audio.volume = 1;
+          this.$refs.audioNotif.play()
 
         }
         else {
-          this.audioBool= 'OFF'
-          const audio = this.$refs.audio
-            audio.pause();
-            audio.currentTime = 0;
+          this.$refs.audio.volume = 0;
         }
 
-        console.log(this.test);
 
       },
 
 
-      playAudio() {
-      
-        if (counterVariable == queCur) {
-          this.$refs.audio.play()
-          
-
-        }
-      },
-      
    
        redirect(){
       this.$router.push('/mobile3');
