@@ -26,7 +26,7 @@
                           <p class="windowName">Window B</p>
                         </div>
                         <div class="lowB">
-                          <p class="queue">B{{ counterVariableB }}</p>
+                          <p class="queue">{{ currentBtext }}</p>
                         </div>
                       </div>
                     </div>
@@ -43,17 +43,20 @@
                       </div>
                         <div class="windowSide">
                           <div class="windowNum">
-                            <p class="label">WINDOW B</p>
-                            <p class="items"> B-{{counterVariableB+1}}</p>
-                            <p class="items"> B-{{counterVariableB+2}}</p>
-                            <p class="items"> B-{{counterVariableB+3}}</p>
-                            <p class="items"> B-{{counterVariableB+4}}</p>
-                            <p class="items"> B-{{counterVariableB+5}}</p>
+                            <p class="label">Window B</p>
+                            <p class="items"> {{q1Bf}}</p>
+                            <p class="items"> {{q2Bf}}</p>
+                            <p class="items"> {{q3Bf}}</p>
+                            <p class="items"> {{q4Bf}}</p>
+                            <p class="items"> {{q5Bf}}</p>
                           </div>
+
                         </div>
                       </div>
                 </div>
               </div>
+              <audio ref="audioNotif" src="https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/Announcement%20FX.mp3?alt=media&token=127c3677-c804-4523-a5bd-dd4438ce56ba" ></audio>
+
           </div>
       </div>
 </template>
@@ -91,6 +94,7 @@ export default {
   data() {
     return {
       currentAtext: '',
+      currentBtext: '',
       counterVariable: null,
       counterVariableB: '',
       qA: '',
@@ -99,6 +103,11 @@ export default {
       q3Af: '',
       q4Af:'',
       q5Af:'',
+      q1Bf : '',
+      q2Bf : '',
+      q3Bf: '',
+      q4Bf:'',
+      q5Bf:'',
      
 
     };
@@ -121,38 +130,86 @@ onValue(
 
           }
           else{this.currentA = Number(snapshot.val());
-               this.currentAtext = "A"+Number(snapshot.val());}
+               this.currentAtext = "A"+Number(snapshot.val());
+
+               this.$refs.audioNotif.play();
+
+         
+
+              onValue(
+                child(dbRef, `users/${this.currentA}/lname`),
+                (snapshot) => {
+                                 
+                  this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter B.";
+                  this.$refs.audioNotif.play();
+
+
+                  const synth = window.speechSynthesis;
+                  const utterance = new SpeechSynthesisUtterance(this.speakThis);
+                  setTimeout(() => {
+                    synth.speak(utterance);
+                  }, 2500);
+              
+                
+                },
+                (error) => {
+                  console.error(error);
+                }
+              );
+              
+              }
         
         },
         (error) => {
           console.error(error);
         }
       );
-
-
-// COUNTER A 
+// Currently Serving B
 onValue(
-        child(dbRef, "Counter/Counter"),
+        child(dbRef, "curB/curB"),
         (snapshot) => {
-          this.counterVariable = Number(snapshot.val());
+          this.currentA = Number(snapshot.val());
+          if(snapshot.val() == 0){
+              this.currentBtext = "-";
+
+          }
+          else{
+
+            
+            
+               this.currentB = Number(snapshot.val());
+               this.currentBtext = "B"+Number(snapshot.val());
+
+
+
+              onValue(
+                child(dbRef, `usersB/${this.currentB}/lname`),
+                (snapshot) => {
+                                 
+                  this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter B.";
+                  this.$refs.audioNotif.play();
+
+
+                  const synth = window.speechSynthesis;
+                  const utterance = new SpeechSynthesisUtterance(this.speakThis);
+                  setTimeout(() => {
+                    synth.speak(utterance);
+                  }, 2500);
+              
+                
+                },
+                (error) => {
+                  console.error(error);
+                }
+              );
+              
+              }
+        
         },
         (error) => {
           console.error(error);
         }
       );
-// COUNTER B
-onValue(
-        child(dbRefB, "CounterB/CounterB"),
-        (snapshot) => {
-          this.counterVariableB = snapshot.val();
-        },
-        (error) => {
-          console.error(error);
-        },
-        () => {
-        }
-      );
-
 
 
 //A 1st q
@@ -177,6 +234,29 @@ onValue(
     console.error(error);
   }
 );
+//B 1st q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+1}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q1B = snapshot.val();
+                                  this.q1Bf = "B" + this.q1B;}
+        else { this.q1Bf = "-"; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+
 // A 2nd que
 onValue(
     child(dbRef, "Counter/Counter"),
@@ -189,6 +269,28 @@ onValue(
         if(snapshot.val()!=null){ this.q2A = snapshot.val();
                                   this.q2Af = "A" + this.q2A;}
         else { this.q2Af = '-'; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+//B 2nd q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+2}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q2B = snapshot.val();
+                                  this.q2Bf = "B" + this.q2B;}
+        else { this.q2Bf = "-"; }
       },
       (error) => {
         console.error(error);
@@ -221,6 +323,28 @@ onValue(
     console.error(error);
   }
 );
+//B 3RD q
+onValue(
+    child(dbRef, "CounterB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+3}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q3B = snapshot.val();
+                                  this.q3Bf = "B" + this.q3B;}
+        else { this.q3Bf = "-"; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
 // A 4th que
 onValue(
     child(dbRef, "Counter/Counter"),
@@ -233,6 +357,28 @@ onValue(
         if(snapshot.val()!=null){ this.q4A = snapshot.val();
                                   this.q4Af = "A" + this.q4A;}
         else { this.q4Af = '-'; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
+// B 4th que
+onValue(
+    child(dbRef, "CounteB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+4}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q4B = snapshot.val();
+                                  this.q4Bf = "A" + this.q4B;}
+        else { this.q4Bf = '-'; }
       },
       (error) => {
         console.error(error);
@@ -265,6 +411,28 @@ onValue(
     console.error(error);
   }
 );
+// B 5th que
+onValue(
+    child(dbRef, "CounteB/CounterB"),
+    (snapshot) => {
+    const counterValue = snapshot.val();
+    const userId = `usersB/${counterValue+5}/queNum`;
+    onValue(
+      child(dbRef, userId),
+      (snapshot) => {
+        if(snapshot.val()!=null){ this.q5B = snapshot.val();
+                                  this.q5Bf = "A" + this.q5B;}
+        else { this.q5Bf = '-'; }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  },
+  (error) => {
+    console.error(error);
+  }
+);
   }
 }
  
@@ -287,12 +455,6 @@ async function onLogin() {
 </script>
 
 <style scoped>
-
-img{
-  height:335px;
-  width:335px;
-  border-radius: 20px;
-}
 
 .label{
   text-align: center;
@@ -438,7 +600,7 @@ img{
 }
 
 .flex {
-  background-image: url(../assets/images/loginBg.jpg);
+  background-image: url(..\assets\images\loginBg.jpg);
   background-size: cover;
 }
 </style>

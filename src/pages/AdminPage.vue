@@ -5,32 +5,50 @@
             <div class="field">
               <p class="title">USER'S INFORMATION</p>
               <p class="title1">PERSONAL INFORMATION</p>
+              
               <label for="fname">First Name</label>
               <input type="text" id="fname" class="field1"><br>
+
               <label for="mname">Middle Name</label>
               <input type="text" id="mname"  class="field2"><br>
+
               <label for="lname">Last Name</label>
               <input type="text" id="lname"  class="field3"><br>
+
               <label for="bdate">Birthdate</label>
               <input type="date" name="" id="bdate"  class="field4"><br>
+
               <label for="age">Age</label>
               <input type="text" id="age"  class="field5"><br>
+
               <label for="email">Email</label>
               <input type="email" name="" id="email"  class="field6"><br>
+
               <label for="Address">Address</label>
               <input type="text" id="address"  class="field7"><br>
+
               <p class="title1">ACCOUNT INFORMATION</p>
               <label for="userType">User Type</label>
               <select name="user" id="userType"  class="field8">
                 <option value="administrator">Administrator</option>
                 <option value="cashier">Cashier</option>
               </select><br>
+
+              <label for="userType">Window</label>
+              <select name="user" id="userType"  class="field8">
+                <option value="administrator">A</option>
+                <option value="cashier">B</option>
+              </select><br>
+
               <label for="id">ID No.</label>
               <input type="number" id="id"  class="field9"><br>
+
               <label for="username">Username</label>
               <input type="text" id="username"  class="field10"><br>
+
               <label for="password">Password</label>
               <input type="password" id="password"  class="field11"><br>
+
               <div class="buttons">
                 <button class="cancelBut">CANCEL</button>
                 <button class="saveBut">SAVE</button>
@@ -42,8 +60,8 @@
           <div class="upper ">
               <div class="userInfo">
                   <div class="user">
-                      <p>Name: <span id="userName">Ryan James Macawili</span></p>
-                      <p>ID No: <span id="userId">20229464</span></p>
+                      <p>Name: <span id="userName">{{ currentAdmin }}</span></p>
+                      <p>ID No: <span id="userId">{{ currentAdminId }}</span></p>
                   </div>
                   <div class="dateTime">
                       <p id="date">March 31, 2023</p>
@@ -66,10 +84,51 @@
                       <input type="text" class="search" placeholder="Search...">
                   </div>
                   <div class="tabDown">
-                      <div class="transactionTab">Cashier</div>
+                      <div class="transactionTab">Cashier
+                  
+                      </div>
+                    
                       <div class="invoiceTab">Accounting</div>
                   </div>
                   <div class="content">
+                    <div class="historyContent">
+                        <table class="hTable">
+                          <th class="hTh">ID No.</th>
+                          <th class="hTh">First Name</th>
+                          <th class="hTh">Middle Name</th>
+                          <th class="hTh">Last Name</th>
+                          <th class="hTh">Birthdate</th>
+                          <th class="hTh">Age</th>
+                          <th class= "hTh">E-mail</th>
+                          <th class="hTh">Amount</th>
+                          <th class="hTh">Address</th>
+                          <th class="hTh">User Type</th>
+                          <th class="hTh">Select</th>
+
+
+                          <tr v-for="index in 16" :key="index" class="hTr">
+                            <td class="hTd">1</td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"><button class="btnClass">-</button></td>
+
+
+                            </tr>
+
+  
+                                          
+                          
+                          
+                        </table>
+                      </div>
+                      
                   </div>
               </div>
           </div>
@@ -107,6 +166,8 @@ export default {
   data() {
     return {
       errMsg: '',
+      currentAdmin: '',
+      currentAdminId:'',
  
     }
   },
@@ -116,6 +177,8 @@ export default {
 
     let loggedin = localStorage.getItem('log-in');
     console.log(loggedin)
+    this.currentAdmin = localStorage.getItem('currentAdmin');
+    this.currentAdminId = localStorage.getItem('currentAdminId');
 
     if( loggedin==="false"){
       console.log("true ang asd")
@@ -134,6 +197,8 @@ export default {
         this.$router.push('/cashierPage');
       }
     }
+
+  
 
 
 
@@ -158,6 +223,27 @@ import { UserCircleIcon , UserPlusIcon,UserMinusIcon} from '@heroicons/vue/24/so
 </script>
 
 <style scoped>
+
+.btnClass{
+  position: flex;
+  background-color: #fefefe;
+  border-radius: 10px;
+  width: 40px;
+  height: 20px;
+  color: #0F172A;
+  font-weight: 700;
+}
+.hTable,.hTr,.hTd,.hTh{
+  border:1px solid #fefefe;
+}
+.hTd{
+  font-size: 13px;
+}
+.hTable{
+  font-size: 14px;
+  width: 900px;
+  text-align:center;
+}
 
 .icon{
   width: 45px;
@@ -351,6 +437,8 @@ input{
   background: #1E293B;
   border: 1px solid #293549;
   border-radius: 0px 15px 15px 15px;
+  color: white;
+  padding: 16px;
 }
 .tabs{
   padding: 15px;
