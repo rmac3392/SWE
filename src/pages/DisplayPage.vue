@@ -456,6 +456,11 @@ async function onLogin() {
 
 <style scoped>
 
+img{
+  height: 325px;
+  width: 325px;
+}
+
 .label{
   text-align: center;
   color: #0F172A;
