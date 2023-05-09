@@ -80,7 +80,6 @@
       let loggedin = localStorage.getItem('log-in');
   
   
-      localStorage.setItem('currentWindow', 'A');
       const currentWindow = localStorage.getItem('currentWindow')
       console.log("current window is: "+currentWindow)
       if( loggedin=="true"){
@@ -124,9 +123,60 @@
                   child(dbRef, `cashier/${email.value}/password/`),
                   (snapshot) => {
                     if(snapshot.val() == password.value){
-                      this.$router.push('/cashierPage');
-                      localStorage.setItem('log-in', true);
-                      this.errMsg="";
+                       this.$router.push('/cashierPage');
+                       localStorage.setItem('log-in', true);
+
+                       this.errMsg="";
+                       onValue(
+                        child(dbRef, `cashier/${email.value}/name`),
+                        (snapshot) => {
+                          localStorage.setItem('currentCashier', snapshot.val());
+                          this.currentCashier= snapshot.val();
+
+                         
+                          // WINDOW IDENTIFIER
+                          onValue(
+                            child(dbRef, `cashier/${email.value}/window`),
+                            (snapshot) => {
+
+                              if(snapshot.val()=='A'){
+                                update(dbRef, { currentCashierA: this.currentCashier });
+                                localStorage.setItem('currentWindow', 'A');
+
+                              }
+                              else if(snapshot.val()=='B'){
+                                localStorage.setItem('currentWindow', 'B');
+
+                                update(dbRef, { currentCashierB: this.currentCashier });
+
+                              }
+
+                          
+                              
+                            },
+                            (error) => {
+                              console.error(error);
+                            }
+                          );
+                          
+                        },
+                        (error) => {
+                          console.error(error);
+                        }
+
+                      );
+                      onValue(
+                        child(dbRef, `cashier/${email.value}/id`),
+                        (snapshot) => {
+                          localStorage.setItem('currentCashierId', snapshot.val());
+
+                          
+                        },
+                        (error) => {
+                          console.error(error);
+                        }
+                      );
+                  
                     }
                     else {
                       this.errMsg = "INVALID PASSWORD";
@@ -135,9 +185,11 @@
                 (error) => {
                   console.error(error);
                 }
+                
               );  
   
             }
+            
         },
         (error) => {
           console.error(error);
@@ -165,6 +217,27 @@
                       this.$router.push('/adminPage');
                       localStorage.setItem('log-in', true);
                       this.errMsg="";
+                      onValue(
+                      child(dbRef, `admin/${email.value}/name/`),
+                      (snapshot) => {
+                        localStorage.setItem('currentAdmin', snapshot.val());
+
+                      },
+                      (error) => {
+                        console.error(error);
+                      }
+                    );
+                    onValue(
+                      child(dbRef, `admin/${email.value}/id/`),
+                      (snapshot) => {
+                        localStorage.setItem('currentAdminId', snapshot.val());
+
+                      },
+                      (error) => {
+                        console.error(error);
+                      }
+                    );
+
                     }
                     else {
                       this.errMsg = "INVALID PASSWORD";
@@ -317,7 +390,7 @@
   }
   
   .flex {
-    background-image: url(../assets/images/loginBg.jpg);
+    background-image: url(..\assets\images\loginBg.jpg);
     background-size: cover;
   }
   </style>
