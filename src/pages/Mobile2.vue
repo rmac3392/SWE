@@ -10,7 +10,7 @@
            <div class="det">
             <div class="mes">You Are Successfully Enqueued</div>
           <div class="qMes">Your Queue No:</div>
-          <div class="qNum">A15</div>
+          <div class="qNum">{{queCur}}</div>
          
            </div>
 
