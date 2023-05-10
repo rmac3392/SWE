@@ -48,8 +48,10 @@
               <input type="password" id="password"  class="field11" v-model="password"><br>
 
               <div class="buttons">
-                <button class="cancelBut">CANCEL</button>
-                <button class="saveBut" @click="saveUserData">SAVE</button>
+                <button class="cancelBut">
+                  <i class="fa-solid fa-rectangle-xmark fa-2xl"></i><span class="t">CANCEL</span></button>
+                <button class="saveBut" @click="saveUserData">
+                  <i class="fa-solid fa-square-check fa-2xl"></i><span class="t">SAVE</span></button>
               </div>
             </div>
           </div>
@@ -74,24 +76,22 @@
               <div class="tabs">
                   <div class="tabUp">
                       <button class="controls">
-                        <UserPlusIcon class="icon"/>ADD</button>
+                        <i class="fa-solid fa-user-plus fa-2xl"></i> <span class="t">ADD</span></button>
                       <button class="controls">
-                        <UserMinusIcon class="icon"/>DELETE</button>
+                        <i class="fa-solid fa-user-minus fa-2xl"></i> <span class="t">DELETE</span></button>
                       <button class="controls">
-                        UPDATE</button>
+                        <i class="fa-solid fa-user-pen fa-2xl"></i> <span class="t">UPDATE</span></button>
                         <button class="controls" @click="reset">
-                        RESET</button>
+                          <i class="fa-solid fa-eraser fa-2xl"></i><span class="t">RESET</span></button>
                       <input type="text" class="search" placeholder="Search...">
                   </div>
                   <div class="tabDown">
-                      <div class="transactionTab">Cashier
-                  
-                      </div>
-                    
-                      <div class="invoiceTab">Accounting</div>
+                      <div :class="currentTab == 0 ? 'tab-active' : 'general-tab'" @click="currentTab = 0">Cashier</div>
+                      <div :class="currentTab == 1 ? 'tab-active' : 'general-tab'" @click="currentTab = 1">Adminastrator</div>
                   </div>
-                  <div class="content">
-                    <div class="historyContent">
+                <div class="content">
+                  <Transition name="fade" mode="out-in">
+                      <div class="transactionContent" v-if="currentTab == 0">
                         <table class="hTable">
                           <th class="hTh">ID No.</th>
                           <th class="hTh">First Name</th>
@@ -100,12 +100,11 @@
                           <th class="hTh">Birthdate</th>
                           <th class="hTh">Age</th>
                           <th class= "hTh">E-mail</th>
-                          <th class="hTh">Amount</th>
-                          <th class="hTh">Address</th>
+                          <th class="hTh">Window</th>
                           <th class="hTh">User Type</th>
+                          <th class="hTh">Username</th>
+                          <th class="hTh">Password</th>
                           <th class="hTh">Select</th>
-
-
                           <tr v-for="index in 16" :key="index" class="hTr">
                             <td class="hTd">1</td>
                             <td class="hTd"></td>
@@ -117,19 +116,43 @@
                             <td class="hTd"></td>
                             <td class="hTd"></td>
                             <td class="hTd"></td>
+                            <td class="hTd"></td>
                             <td class="hTd"><button class="btnClass">-</button></td>
-
-
                             </tr>
-
-  
-                                          
-                          
-                          
                         </table>
                       </div>
-                      
-                  </div>
+                      <div class="invoiceContent" v-else-if="currentTab == 1">
+                        <table class="hTable">
+                          <th class="hTh">ID No.</th>
+                          <th class="hTh">First Name</th>
+                          <th class="hTh">Middle Name</th>
+                          <th class="hTh">Last Name</th>
+                          <th class="hTh">Birthdate</th>
+                          <th class="hTh">Age</th>
+                          <th class= "hTh">E-mail</th>
+                          <th class="hTh">Window</th>
+                          <th class="hTh">User Type</th>
+                          <th class="hTh">Username</th>
+                          <th class="hTh">Password</th>
+                          <th class="hTh">Select</th>
+                          <tr v-for="index in 16" :key="index" class="hTr">
+                            <td class="hTd">1</td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"></td>
+                            <td class="hTd"><button class="btnClass">-</button></td>
+                            </tr>
+                        </table>
+                      </div>
+                  </Transition>
+                </div>
               </div>
           </div>
       </div>
@@ -150,13 +173,14 @@ import {
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDtsKwx7mcaSnoPnZ2hlcolB8qluY69LMQ",
-    authDomain: "fir-68a5f.firebaseapp.com",
-    databaseURL: "https://fir-68a5f-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "fir-68a5f",
-    storageBucket: "fir-68a5f.appspot.com",
-    messagingSenderId: "939974599498",
-    appId: "1:939974599498:web:40392f504dd093d1c257b3",
+  apiKey: "AIzaSyBCYeQpyCqsu2zMsH69d3QKdxYLc0N5K5o",
+  authDomain: "q-mate-e981c.firebaseapp.com",
+  databaseURL: "https://q-mate-e981c-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "q-mate-e981c",
+  storageBucket: "q-mate-e981c.appspot.com",
+  messagingSenderId: "177787216625",
+  appId: "1:177787216625:web:0ed0fa8b9407709986bf50",
+  measurementId: "G-1XSWKNTPYD"
 }
 
 const app = initializeApp(firebaseConfig);
@@ -170,7 +194,7 @@ export default {
       currentAdmin: '',
       currentAdminId:'',
       name : '',
- 
+      currentTab: 0,
     }
   },
   mounted (){
@@ -306,6 +330,26 @@ import { UserCircleIcon , UserPlusIcon,UserMinusIcon} from '@heroicons/vue/24/so
 
 <style scoped>
 
+.transactionContent,.invoiceContent{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.content{
+  height: 468px;
+  background: #1E293B;
+  border: 1px solid #293549;
+  border-radius: 0px 15px 15px 15px;
+  color: white;
+  padding: 16px;
+}
+
+.t{
+  margin-left: 8px;
+}
+
 label{
   font-weight:600;
   font-size: 16px;
@@ -354,9 +398,18 @@ select:hover{
   box-shadow: 0px 4px 4px rgba(255, 255, 255, 0.5);
 }
 
-.invoiceTab:hover{
-    background-color: grey;
-    color: #fefefe;
+.general-tab:hover{
+  background-color: grey;
+  color: #fefefe;
+}
+
+.fade-leave-active {
+  transition: opacity 0.1s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 .buttons{
@@ -367,7 +420,7 @@ select:hover{
   display: flex;
   width: 150px;
   height: 45px;
-  margin-top: 15px;
+  margin-top: 5px;
   justify-content: center;
   align-items: center;
   margin-left: 35px;
@@ -376,7 +429,7 @@ select:hover{
   display: flex;
   width: 150px;
   height: 45px;
-  margin-top: 15px;
+  margin-top: 5px;
   justify-content: center;
   align-items: center;
   margin-left: 35px;
@@ -507,7 +560,7 @@ label{
 }
 
 .controls{
-  margin-right: 5px;
+  margin-right: 15px;
   height: 45px;
   width: 150px;
 }
@@ -516,12 +569,6 @@ label{
 input{
   color:#fefefe;
   padding-left: 10px;
-}
-
-.content{
-  height: 465px;
-  background: #1E293B;
-  border: 1px solid #293549;
   border-radius: 0px 15px 15px 15px;
   color: white;
   padding: 16px;
@@ -530,7 +577,6 @@ input{
   padding: 15px;
 }
 .search{
-  margin-left: 315px;
   margin-bottom: 10px;
   width: 200px;
   height: 30px;
@@ -539,13 +585,14 @@ input{
   border-radius: 12px;
   padding-left: 10px;
   color: #fefefe;
+  margin-left: 118px;
 }
 .tabDown{
   display: flex;
 }
-.transactionTab{
+.tab-active {
   display: flex;
-  width: 120px;
+  width: 130px;
   height: 25px;
   background: #1E293B;
   border-width: 1px 1px 0px 1px;
@@ -559,9 +606,9 @@ input{
   align-items: center;
   cursor: pointer;
 }
-.invoiceTab{
+.general-tab {
   display: flex;
-  width: 120px;
+  width: 130px;
   height: 25px;
   background: #fefefe;
   border-width: 1px 1px 0px 1px;
@@ -581,7 +628,7 @@ button{
   background-color: #fefefe;
   border-radius: 10px;
   width: 85%;
-  height: 38px;
+  height: 42px;
   color: #0F172A;
   font-weight: 700;
   justify-content: center;
