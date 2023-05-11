@@ -10,12 +10,12 @@
                     <div class="element px-16">
                         <label for="email">Username</label>
                         <br>
-                        <input type="text" id="email" v-model="email" rounded-xl placeholder=" Username ">
+                        <input type="text" id="email" v-model="email" rounded-xl placeholder="Username ">
                         <br>
                         <br>
                         <label for="password">Password </label>
                         <br>
-                        <input type="password" id="password" v-model="password" placeholder="   **********">
+                        <input type="password" id="password" v-model="password" placeholder="**********">
                         <br>
                         <p v-f="errMsg">{{ errMsg	}}</p>
   
@@ -54,7 +54,7 @@
   
   
   const firebaseConfig = {
-    apiKey: "AIzaSyBCYeQpyCqsu2zMsH69d3QKdxYLc0N5K5o",
+  apiKey: "AIzaSyBCYeQpyCqsu2zMsH69d3QKdxYLc0N5K5o",
   authDomain: "q-mate-e981c.firebaseapp.com",
   databaseURL: "https://q-mate-e981c-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "q-mate-e981c",
@@ -62,7 +62,8 @@
   messagingSenderId: "177787216625",
   appId: "1:177787216625:web:0ed0fa8b9407709986bf50",
   measurementId: "G-1XSWKNTPYD"
-  }
+};
+
   
   const app = initializeApp(firebaseConfig);
   
@@ -301,6 +302,10 @@
     padding-right: 90px;
   }
   
+  input{
+    padding-left: 15px;
+  }
+
   input,
   select {
     border-radius: 30px;
@@ -311,7 +316,6 @@
     height: 38px;
     margin-left: auto;
     margin-right: auto;
-    padding-left:10px;
   }
   
   select {
@@ -392,7 +396,7 @@
   }
   
   .flex {
-    background-image: url(../assets/images/loginBg.jpg);
+    background-image: url(..\assets\images\loginBg.jpg);
     background-size: cover;
   }
   </style>

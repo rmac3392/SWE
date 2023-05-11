@@ -64,12 +64,14 @@
               <div class="controls">
                   <button class="commandBox" @click="callUser()">
                       <BellAlertIcon class="commandIcon"/> CALL</button>
-                  <button class="commandBox" @click="incCounter()" id="next" >
+                  <button class="commandBox" @click="incCounter()">
                       <ForwardIcon class="commandIcon"/>NEXT</button>
                   <button class="commandBox">
                       <ArrowPathIcon class="commandsIcon"/>TRANSFER</button>
-                  <button class="commandBox" @click="doneUser()" id="done">
+                  <button class="commandBox" @click="doneUser()">
                       <CheckBadgeIcon class="commandIcon"/>DONE</button>
+                      
+             
               </div>
           </div>
       </div>
@@ -334,166 +336,20 @@
                           <th class="hTh">Amount</th>
                           <th class="hTh">Particulars</th>
                           <th class="hTh">Cashier</th>
-                          <tr class="hTr">
-                            <td class="hTd">{{ hisDate1 }}</td>
-                            <td class="hTd">{{ hisTime1 }}</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">{{ id }}</td>
-                            <td class="hTd">{{ hisLname1 }}</td>
-                            <td class="hTd">{{ hisTotal1 }}</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">{{ hisCashier1 }}</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                          <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
-                            <tr class="hTr">
-                            <td class="hTd">05-1-2023</td>
-                            <td class="hTd">05:39</td>
-                            <td class="hTd">028402</td>
-                            <td class="hTd">119930070139</td>
-                            <td class="hTd">Macawili</td>
-                            <td class="hTd">2,500</td>
-                            <td class="hTd">Tuition</td>
-                            <td class="hTd">Hazel</td>
-                          </tr>
+
+                            <tr v-for="index in 16" :key="index" class="hTr">
+                            <td class="hTd">{{ getHisDate(index) }}</td>
+                            <td class="hTd">{{ getHisTime(index) }}</td>
+                            <td class="hTd">{{ getHisOrno(index)}}</td>
+                            <td class="hTd">{{ getHisId(index) }}</td>
+                            <td class="hTd">{{ getHisLname(index) }}</td>
+                            <td class="hTd">{{ getHisTotal(index) }}</td>
+                            <td class="hTd">{{ getHisParti(index) }}</td>
+                            <td class="hTd">{{ getHisCashier(index) }}</td>
+                            </tr>
+                                          
+                          
+                          
                         </table>
                       </div>
                     </Transition>
@@ -533,7 +389,8 @@ const firebaseConfig = {
   messagingSenderId: "177787216625",
   appId: "1:177787216625:web:0ed0fa8b9407709986bf50",
   measurementId: "G-1XSWKNTPYD"
-  };
+};
+
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
@@ -542,25 +399,28 @@ export default {
   
   data() {
     const dataProperties = {};
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 16 ; i++) {
     dataProperties[`hisDate${i}`] = '';
     dataProperties[`hisTime${i}`] = '';
     dataProperties[`hisLname${i}`] = '';
     dataProperties[`hisTotal${i}`] = '';
     dataProperties[`hisCashier${i}`] = '';
-  }
+    dataProperties[`hisOrno${i}`] = '';
+    dataProperties[`hisId${i}`] = '';
+    dataProperties[`hisParti${i}`] = '';
+                                      }
     return {
       currentAtext : '',
       currentBtext : '',
       currentA: 0,
       currentB: 0,
-      counterVariable: '',
+      counterVariable: null,
       counterVariableB: '',
       q1Af : '',
       q2Af : '',
       q3Af: '',
       q4Af:'',
-      id: null ,
+      id: '' ,
       fname : '',
       mname : '',
       lname : '',
@@ -636,6 +496,7 @@ onValue(
           }
           else{this.currentA = Number(snapshot.val());
                this.currentAtext = "A"+Number(snapshot.val());}
+        
         },
         (error) => {
           console.error(error);
@@ -677,7 +538,7 @@ onValue(
 onValue(
         child(dbRefB, "CounterB/CounterB"),
         (snapshot) => {
-          this.counterVariableB = Number(snapshot.val());
+          this.counterVariableB = snapshot.val();
         },
         (error) => {
           console.error(error);
@@ -866,13 +727,23 @@ if(currentWindow=='A'){
     onValue(
       child(dbRef, userId),
       (snapshot) => {
-        this.id = Number(snapshot.val());
+        this.id = snapshot.val();
         for (let i = 1; i <= 16; i++) {
-          onValue(child(dbRef, `History/${this.id}/${i}/date`), (snapshot) => { this[`hisDate${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/date`), (snapshot) => { 
+            this[`hisDate${i}`] = snapshot.val();
+            if(snapshot.val()==null){
+              this[`hisDate${i}`] = '-';    
+            }
+        });
           onValue(child(dbRef, `History/${this.id}/${i}/time`), (snapshot) => { this[`hisTime${i}`] = snapshot.val() });
           onValue(child(dbRef, `History/${this.id}/${i}/lname`), (snapshot) => { this[`hisLname${i}`] = snapshot.val() });
           onValue(child(dbRef, `History/${this.id}/${i}/total`), (snapshot) => { this[`hisTotal${i}`] = snapshot.val() });
           onValue(child(dbRef, `History/${this.id}/${i}/cashier`), (snapshot) => { this[`hisCashier${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/orno`), (snapshot) => { this[`hisOrno${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/id`), (snapshot) => { this[`hisId${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/parti`), (snapshot) => { this[`hisParti${i}`] = snapshot.val() });
+
+
         }
 
                   
@@ -1064,11 +935,19 @@ onValue(
       (snapshot) => {
         this.id = Number(snapshot.val());
         for (let i = 1; i <= 16; i++) {
-          onValue(child(dbRef, `History/${this.id}/${i}/date`), (snapshot) => { this[`hisDate${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/date`), (snapshot) => { 
+            this[`hisDate${i}`] = snapshot.val();
+            if(snapshot.val()==null){
+              this[`hisDate${i}`] = '-';
+            }
+        });
           onValue(child(dbRef, `History/${this.id}/${i}/time`), (snapshot) => { this[`hisTime${i}`] = snapshot.val() });
           onValue(child(dbRef, `History/${this.id}/${i}/lname`), (snapshot) => { this[`hisLname${i}`] = snapshot.val() });
           onValue(child(dbRef, `History/${this.id}/${i}/total`), (snapshot) => { this[`hisTotal${i}`] = snapshot.val() });
           onValue(child(dbRef, `History/${this.id}/${i}/cashier`), (snapshot) => { this[`hisCashier${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/orno`), (snapshot) => { this[`hisOrno${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/id`), (snapshot) => { this[`hisId${i}`] = snapshot.val() });
+          onValue(child(dbRef, `History/${this.id}/${i}/parti`), (snapshot) => { this[`hisParti${i}`] = snapshot.val() });
         }
       },
       (error) => {
@@ -1263,10 +1142,33 @@ onValue(
     
   },
   
-
+  
   
   methods: {
-
+    getHisDate(index) {
+      return this[`hisDate${index}`];
+    },
+    getHisTime(index) {
+      return this[`hisTime${index}`];
+    },
+    getHisLname(index) {
+      return this[`hisLname${index}`];
+    },
+    getHisTotal(index) {
+      return this[`hisTotal${index}`];
+    },
+    getHisCashier(index) {
+      return this[`hisCashier${index}`];
+    },
+    getHisOrno(index) {
+      return this[`hisOrno${index}`];
+    },
+    getHisId(index) {
+      return this[`hisId${index}`];
+    },
+    getHisParti(index) {
+      return this[`hisParti${index}`];
+    },
     logout(){
       localStorage.setItem('log-in', false);
       localStorage.setItem('loggedas', '');
@@ -1291,7 +1193,7 @@ onValue(
           }
 
           else if(this.currentA != 0){
-            // alert("PLEASE PRESS DONE BEFORE PROCEEDING!");
+            alert("PLEASE PRESS DONE BEFORE PROCEEDING!");
           }
           const dbRef = ref(db, 'Counter/Counter');
           let counterVariable;

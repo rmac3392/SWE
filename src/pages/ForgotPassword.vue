@@ -3,7 +3,7 @@
         <div class="white h-full justify-center items-center w-full mx-0">
             <div class="form py-2">
                 <div class="x">
-                    <XMarkIcon class="exit"/>
+                    <XMarkIcon class="exit"  @click="back"/>
                 </div>
                 <div class="lower">
                     <img :src="logo" alt="logo">
@@ -23,6 +23,16 @@
 <script setup>
 import logo from "~/assets/images/logo.png";
 import {XMarkIcon} from '@heroicons/vue/24/solid';
+</script>
+
+<script>
+export default {
+  methods: {
+    back() {
+        this.$router.push('/');
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -128,7 +138,7 @@ input {
 }
 
 .flex {
-    background-image: url(..\assets\images\loginBg.jpg);
+    background-image: url(../assets/images/loginBg.jpg);
     background-size: cover;
     width: 100%;
 }</style>
