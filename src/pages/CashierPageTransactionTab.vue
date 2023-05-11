@@ -1149,7 +1149,7 @@ onValue(
     
     printPage() {
       console.log("print");
-      const printWindow = window.open('http://192.168.1.236:5173/invoice', 'printWindow');
+      const printWindow = window.open('https://qmate.vercel.app/invoice', 'printWindow');
       printWindow.onload = function() {
         setTimeout(function(){
           printWindow.print();
