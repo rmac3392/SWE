@@ -320,7 +320,7 @@
                             <PaperAirplaneIcon class="commandIcon"/>
                             SEND
                             </button>
-                          <button class="butLow">
+                          <button class="butLow"  @click="printPage">
                             <PrinterIcon class="commandIcon"/>
                             PRINT
                             </button>
@@ -448,6 +448,7 @@ export default {
     };
   },
   
+
   
   
   mounted() {
@@ -1145,6 +1146,18 @@ onValue(
   
   
   methods: {
+    
+    printPage() {
+      console.log("print");
+      const printWindow = window.open('http://192.168.1.236:5173/invoice', 'printWindow');
+      printWindow.onload = function() {
+        setTimeout(function(){
+          printWindow.print();
+          printWindow.close();
+        }, 500);
+      };
+    },
+
     getHisDate(index) {
       return this[`hisDate${index}`];
     },
@@ -1175,6 +1188,9 @@ onValue(
       location.reload();
 
     },
+
+
+
     incCounter() {
       const currentWindow = localStorage.getItem('currentWindow')
 
@@ -1290,6 +1306,7 @@ onValue(
 
       
     },
+
 
 
 

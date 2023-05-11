@@ -118,10 +118,24 @@
     </div>
   </div>
 </div>
+
 </template>
 
 <script setup>
   import logo from "~/assets/images/logo.png";
+</script>
+
+<script>
+  export default {
+    methods: {
+    printPage() {
+      const printWindow = window.open('http://192.168.1.236:5173/invoice', 'printWindow');
+      printWindow.onload = function() {
+        printWindow.print();
+      };
+    }
+  }
+}
 </script>
 
 <style>
@@ -184,7 +198,7 @@
     height: 250x;
     width: 250px;
     margin-top: 0px;
-    margin-left:250px;
+    margin-left:300px;
     z-index:0;
     opacity:0.2;
   }
@@ -294,10 +308,15 @@
 }
 
 .assesment{
+  filter: drop-shadow;
   background-color: #fefefe;
   height: 373px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.1), 
+            0px 2px 4px rgba(0,0,0,0.1), 
+            0px 4px 8px rgba(0,0,0,0.1), 
+            0px 8px 16px rgba(0,0,0,0.1);
   padding:8px;
+  print-color-adjust: exact;
 }
 .head{
   display:flex;
