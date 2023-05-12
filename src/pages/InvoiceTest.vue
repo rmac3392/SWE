@@ -128,12 +128,6 @@
 <script>
   export default {
     methods: {
-    printPage() {
-      const printWindow = window.open('http://192.168.1.236:5173/invoice', 'printWindow');
-      printWindow.onload = function() {
-        printWindow.print();
-      };
-    }
   }
 }
 </script>

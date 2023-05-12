@@ -17,6 +17,7 @@ const router = createRouter({
         { path: "/testing", component:() => import("~/pages/testing.vue")},
         { path: "/testing2", component:() => import("~/pages/testing2.vue")},
         { path: "/invoice", component:() => import("~/pages/InvoiceTest.vue")},
+        { path: "/receipt", component:() => import("~/pages/ReceiptTest.vue")},
     ]
 });
 
