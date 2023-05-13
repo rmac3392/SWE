@@ -123,7 +123,7 @@ export default {
     
 // Currently Serving A
 onValue(
-        child(dbRef, "curA/curA"),
+        child((dbRef, "curA/curA"),
         (snapshot) => {
           this.currentA = Number(snapshot.val());
           if(snapshot.val() == 0){
