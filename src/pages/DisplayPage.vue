@@ -141,7 +141,7 @@ onValue(
                 child(dbRef, `users/${this.currentA}/lname`),
                 (snapshot) => {
                                  
-                  this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter B.";
+                  this.speakThis = "ATTENTION"+"(pause: 3)" + this.currentAtext +"(pause: 2)"+"Mister or Miss"+snapshot.val()+"(pause: 5)"+"Please proceed to Counter B.";
                   this.$refs.audioNotif.play();
 
 
@@ -187,7 +187,7 @@ onValue(
                 child(dbRef, `usersB/${this.currentB}/lname`),
                 (snapshot) => {
                                  
-                  this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter B.";
+                  this.speakThis = "ATTENTION"+"(pause: 3)" + this.currentBtext +"(pause: 4)"+"Mister or Miss"+snapshot.val()+"(pause: 3)"+"Please proceed to Counter B.";
                   this.$refs.audioNotif.play();
 
 
