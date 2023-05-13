@@ -141,17 +141,10 @@ onValue(
                 child(dbRef, `users/${this.currentA}/lname`),
                 (snapshot) => {
                 
-                  this.speakAttention = "Attention"
-                  this.$refs.audioNotif.play();
+                  
                   const synth = window.speechSynthesis;
-                  const utterAttention = new SpeechSynthesisUtterance(this.speakAttention);
-                  
-                  setTimeout(() => {
-                    synth.speak(utterAttention);
-                  }, 1000);
-                  
-                  
-                  this.speakThis = "ATTENTION" + this.currentAtext +"Mister or Miss"+snapshot.val()+"Please proceed to Counter B.";
+
+                    this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter A.";
                   this.$refs.audioNotif.play();
 
                   const utterance = new SpeechSynthesisUtterance(this.speakThis);
@@ -195,7 +188,7 @@ onValue(
                 child(dbRef, `usersB/${this.currentB}/lname`),
                 (snapshot) => {
                                  
-                  this.speakThis = "ATTENTION"+("...") + this.currentBtext +("...")+"Mister or Miss"+snapshot.val()+("...")+"Please proceed to Counter B.";
+                    this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter B.";
                   this.$refs.audioNotif.play();
 
 
