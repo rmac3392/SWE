@@ -187,7 +187,7 @@ onValue(
                 child(dbRef, `usersB/${this.currentB}/lname`),
                 (snapshot) => {
                                  
-                  this.speakThis = "ATTENTION"+"     " + this.currentBtext +"     "+"Mister or Miss"+snapshot.val()+""     ""+"Please proceed to Counter B.";
+                  this.speakThis = "ATTENTION"+"     " + this.currentBtext +"     "+"Mister or Miss"+snapshot.val()+"     "+"Please proceed to Counter B.";
                   this.$refs.audioNotif.play();
 
 
