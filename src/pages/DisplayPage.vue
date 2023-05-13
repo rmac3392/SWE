@@ -43,7 +43,7 @@
                       </div>
                         <div class="windowSide">
                           <div class="windowNum">
-                            <p class="label">WINDOW B</p>
+                            <p class="label">Window B</p>
                             <p class="items"> {{q1Bf}}</p>
                             <p class="items"> {{q2Bf}}</p>
                             <p class="items"> {{q3Bf}}</p>
@@ -140,13 +140,12 @@ onValue(
               onValue(
                 child(dbRef, `users/${this.currentA}/lname`),
                 (snapshot) => {
-                
-                  
-                  const synth = window.speechSynthesis;
-
-                    this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter A.";
+                                 
+                  this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter B.";
                   this.$refs.audioNotif.play();
 
+
+                  const synth = window.speechSynthesis;
                   const utterance = new SpeechSynthesisUtterance(this.speakThis);
                   setTimeout(() => {
                     synth.speak(utterance);
@@ -188,7 +187,7 @@ onValue(
                 child(dbRef, `usersB/${this.currentB}/lname`),
                 (snapshot) => {
                                  
-                    this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter B.";
+                  this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter B.";
                   this.$refs.audioNotif.play();
 
 
