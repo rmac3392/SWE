@@ -120,6 +120,14 @@ export default {
     const dbRef = ref(db);
     const dbRefB = ref(db);
 
+  
+            const dbRefRingerA= ref(db, `ringA`);
+            update(dbRefRingerA, {ringA: false});   
+
+            const dbRefRingerB= ref(db, `ringB`);
+            update(dbRefRingerB, {ringB: false});    
+        
+
     
 // Currently Serving A
 onValue(
@@ -133,25 +141,38 @@ onValue(
           else{this.currentA = Number(snapshot.val());
                this.currentAtext = "A"+Number(snapshot.val());
 
-               this.$refs.audioNotif.play();
 
          
 
               onValue(
                 child(dbRef, `users/${this.currentA}/lname`),
                 (snapshot) => {
-                                 
-                  this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter B.";
-                  this.$refs.audioNotif.play();
+                  this.temp = snapshot.val();
+                  if(this.temp===null){
+                    console.log("this is a");
+                  }            
+                  else{
+                    this.name = snapshot.val();
+                    onValue(
+                        child(dbRef, `ringA/ringA`),
+                        (snapshot) => {
+                          this.snapshotval = snapshot.val();
+                            if(this.snapshotval==true){
+                              this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.name+"..."+"Please proceed to Counter A.";
+                              this.$refs.audioNotif.play();
+                              const synth = window.speechSynthesis;
+                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
 
+                              setTimeout(() => {
+                                synth.speak(utterance);
+                              }, 2800);
 
-                  const synth = window.speechSynthesis;
-                  const utterance = new SpeechSynthesisUtterance(this.speakThis);
-                  setTimeout(() => {
-                    synth.speak(utterance);
-                  }, 2500);
-              
-                
+                            }
+
+                    });
+
+                  }
+
                 },
                 (error) => {
                   console.error(error);
@@ -175,9 +196,7 @@ onValue(
 
           }
           else{
-
-            
-            
+      
                this.currentB = Number(snapshot.val());
                this.currentBtext = "B"+Number(snapshot.val());
 
@@ -186,18 +205,32 @@ onValue(
               onValue(
                 child(dbRef, `usersB/${this.currentB}/lname`),
                 (snapshot) => {
-                                 
-                  this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+snapshot.val()+"..."+"Please proceed to Counter B.";
-                  this.$refs.audioNotif.play();
+                  this.temp = snapshot.val();
+                  if(this.temp===null){
+                    console.log("this is b");
+                  }             
+                  else{
+                    this.name = snapshot.val();
+                    onValue(
+                        child(dbRef, `ringB/ringB`),
+                        (snapshot) => {
+                          this.snapshotval = snapshot.val();
+                            if(this.snapshotval==true){
+                              this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.name+"..."+"Please proceed to Counter B.";
+                              this.$refs.audioNotif.play();
+                              const synth = window.speechSynthesis;
+                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
 
+                              setTimeout(() => {
+                                synth.speak(utterance);
+                              }, 2800);
 
-                  const synth = window.speechSynthesis;
-                  const utterance = new SpeechSynthesisUtterance(this.speakThis);
-                  setTimeout(() => {
-                    synth.speak(utterance);
-                  }, 2500);
-              
-                
+                            }
+
+                    });
+
+                  }
+
                 },
                 (error) => {
                   console.error(error);

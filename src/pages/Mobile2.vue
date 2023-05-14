@@ -173,6 +173,8 @@ data() {
 mounted() {
   const dbRef = ref(db);
   const dbRefB = ref(db);
+  this.$refs.audio.volume = 0;
+
 
 // Currently Serving A
 onValue(
@@ -370,7 +372,7 @@ onValue(
         // }
         // else {
         //   const audio = this.$refs.audio
-        //   audio.pause();
+          // audio.pause();
         //   audio.currentTime = 0;
         // }
       },
@@ -671,12 +673,24 @@ methods: {
 
       const deletePath = ref(db, `users/${this.myNum}`)
       remove(deletePath).then(() => {console.log("location removed");});
+      
+      const temp = 0;
+      const dbRefCur = ref(db, `curA/`);
+          get(dbRefCur).then((snapshot) => {
+            update(dbRefCur, { curA: 0 });
+          });
 
     }
     else {
 
       const deletePath = ref(db, `usersB/${this.myNum}`)
       remove(deletePath).then(() => {console.log("location removed");});
+      
+     
+      const dbRefCur = ref(db, `curB/`);
+          get(dbRefCur).then((snapshot) => {
+            update(dbRefCur, { curB: 0 });
+          });
       
     }
 

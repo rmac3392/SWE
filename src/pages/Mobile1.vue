@@ -285,53 +285,53 @@ methods: {
               update(dbRefcustomersB, { queNum: this.queNumB });
               update(dbRefcustomersB, { ring: this.ring });
 
-              //INC VARIABLES FOR HISTORY
-              this.idNum = this.id;
-              const userIdHistory = `History/${this.idNum}`;
-              const dbRefCTR = ref(db, `History/${this.idNum}/ctr`);
-              const dbRefHistory = ref(db, userIdHistory);
+              // //INC VARIABLES FOR HISTORY
+              // this.idNum = this.id;
+              // const userIdHistory = `History/${this.idNum}`;
+              // const dbRefCTR = ref(db, `History/${this.idNum}/ctr`);
+              // const dbRefHistory = ref(db, userIdHistory);
 
-              this.randomNumber = Math.floor(Math.random() * 999999) + 1;
-              this.formattedRandomNumber = this.formatNumber(this.randomNumber, 6);
-              this.parti = "Tuition";
+              // this.randomNumber = Math.floor(Math.random() * 999999) + 1;
+              // this.formattedRandomNumber = this.formatNumber(this.randomNumber, 6);
+              // this.parti = "Tuition";
 
-              get(dbRefCTR).then((snapshot) => {
-                      //INCREMENT                
-                      this.ctr = snapshot.val();
-                      this.ctr = this.ctr+1;
-                      update(dbRefHistory, { ctr: this.ctr});
-                      const userIdHistoryNum = `History/${this.idNum}/${this.ctr}`;
-                      const dbRefHistoryNum = ref(db, userIdHistoryNum);
-                      update(dbRefHistoryNum, { date: this.currentDate});
-                      update(dbRefHistoryNum, { time: this.currentTime});
-                      update(dbRefHistoryNum, { lname: this.lname});
+              // get(dbRefCTR).then((snapshot) => {
+              //         //INCREMENT                
+              //         this.ctr = snapshot.val();
+              //         this.ctr = this.ctr+1;
+              //         update(dbRefHistory, { ctr: this.ctr});
+              //         const userIdHistoryNum = `History/${this.idNum}/${this.ctr}`;
+              //         const dbRefHistoryNum = ref(db, userIdHistoryNum);
+              //         update(dbRefHistoryNum, { date: this.currentDate});
+              //         update(dbRefHistoryNum, { time: this.currentTime});
+              //         update(dbRefHistoryNum, { lname: this.lname});
 
-                      update(dbRefHistoryNum, { orno: this.formattedRandomNumber});
-                      update(dbRefHistoryNum, { id: this.idNum});
-                      update(dbRefHistoryNum, { parti: this.parti});
-
-
+              //         update(dbRefHistoryNum, { orno: this.formattedRandomNumber});
+              //         update(dbRefHistoryNum, { id: this.idNum});
+              //         update(dbRefHistoryNum, { parti: this.parti});
 
 
-                      this.total = this.tmisc + this.tint;
-                      update(dbRefHistoryNum, { total: this.total});
+
+
+              //         this.total = this.tmisc + this.tint;
+              //         update(dbRefHistoryNum, { total: this.total});
                       
-                      const dbRefCC = ref(db, "currentCashierB"); 
-                      get(dbRefCC).then((snapshot) => {     
+              //         const dbRefCC = ref(db, "currentCashierB"); 
+              //         get(dbRefCC).then((snapshot) => {     
 
-                        this.cashier = snapshot.val();
+              //           this.cashier = snapshot.val();
 
-                        update(dbRefHistoryNum, { cashier: this.cashier});
+              //           update(dbRefHistoryNum, { cashier: this.cashier});
 
 
-                       });
+              //          });
 
 
 
                     
-              });
+              // });
 
-              this.incCounterB();
+               this.incCounterB();
                this.$router.push('/mobile2');
           }
           //A CONDITION
@@ -354,52 +354,52 @@ methods: {
         update(dbRefcustomers, { ring: this.ring });
 
 
-                        //INC VARIABLES
-              this.idNum = this.id;
-              const userIdHistory = `History/${this.idNum}`;
-              const dbRefCTR = ref(db, `History/${this.idNum}/ctr`);
-              const dbRefHistory = ref(db, userIdHistory);
+        //                 //INC VARIABLES
+        //       this.idNum = this.id;
+        //       const userIdHistory = `History/${this.idNum}`;
+        //       const dbRefCTR = ref(db, `History/${this.idNum}/ctr`);
+        //       const dbRefHistory = ref(db, userIdHistory);
 
-              this.randomNumber = Math.floor(Math.random() * 999999) + 1;
-              this.formattedRandomNumber = this.formatNumber(this.randomNumber, 6);
-              this.parti = "Tuition";
+        //       this.randomNumber = Math.floor(Math.random() * 999999) + 1;
+        //       this.formattedRandomNumber = this.formatNumber(this.randomNumber, 6);
+        //       this.parti = "Tuition";
 
 
-              get(dbRefCTR).then((snapshot) => {
-                      //INCREMENT                
-                      this.ctr = snapshot.val();
-                      this.ctr = this.ctr+1;
-                      update(dbRefHistory, { ctr: this.ctr});
-                      const userIdHistoryNum = `History/${this.idNum}/${this.ctr}`;
-                      const dbRefHistoryNum = ref(db, userIdHistoryNum);
-                      update(dbRefHistoryNum, { date: this.currentDate});
-                      update(dbRefHistoryNum, { time: this.currentTime});
-                      update(dbRefHistoryNum, { lname: this.lname});
+        //       get(dbRefCTR).then((snapshot) => {
+        //               //INCREMENT                
+        //               this.ctr = snapshot.val();
+        //               this.ctr = this.ctr+1;
+        //               update(dbRefHistory, { ctr: this.ctr});
+        //               const userIdHistoryNum = `History/${this.idNum}/${this.ctr}`;
+        //               const dbRefHistoryNum = ref(db, userIdHistoryNum);
+        //               update(dbRefHistoryNum, { date: this.currentDate});
+        //               update(dbRefHistoryNum, { time: this.currentTime});
+        //               update(dbRefHistoryNum, { lname: this.lname});
 
-                      update(dbRefHistoryNum, { orno: this.formattedRandomNumber});
-                      update(dbRefHistoryNum, { id: this.idNum});
-                      update(dbRefHistoryNum, { parti: this.parti});
+        //               update(dbRefHistoryNum, { orno: this.formattedRandomNumber});
+        //               update(dbRefHistoryNum, { id: this.idNum});
+        //               update(dbRefHistoryNum, { parti: this.parti});
                   
 
-                      this.total = this.tmisc + this.tint;
-                      update(dbRefHistoryNum, { total: this.total});
+        //               this.total = this.tmisc + this.tint;
+        //               update(dbRefHistoryNum, { total: this.total});
                       
-                      const dbRefCC = ref(db, "currentCashierA"); 
-                      get(dbRefCC).then((snapshot) => {     
+        //               const dbRefCC = ref(db, "currentCashierA"); 
+        //               get(dbRefCC).then((snapshot) => {     
 
-                        this.cashier = snapshot.val();
+        //                 this.cashier = snapshot.val();
 
-                        update(dbRefHistoryNum, { cashier: this.cashier});
+        //                 update(dbRefHistoryNum, { cashier: this.cashier});
 
 
-                       });
+        //                });
 
                       
                       
                     
-              });
+        //       });
 
-        this.incCounter();
+         this.incCounter();
          this.$router.push('/mobile2');
         }
 

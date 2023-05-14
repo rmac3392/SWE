@@ -99,39 +99,38 @@
                   </div>
                       <div class="personal">
                           <label for="id" class="name">ID#</label>
-                          <input type="text" class="field1" id="id"   v-bind:placeholder="id"><br>
+                          <input type="text" class="field1" id="id"    v-model="idT"><br>
                           <label for="fname" class="name" >First Name</label>
-                          <input type="text" class="field2" id="fname" v-bind:placeholder="fname"><br>
+                          <input type="text" class="field2" id="fname"  v-model="fnameT"><br>
                           <label for="mname" class="name">Middle Name</label>
-                          <input type="text" class="field3" id="mname" v-bind:placeholder="mname"><br>
+                          <input type="text" class="field3" id="mname"  v-model="mnameT"><br>
                           <label for="lname" class="name">Last Name</label>
-                          <input type="text" class="field4" id="lname" v-bind:placeholder="lname"><br>
+                          <input type="text" class="field4" id="lname"  v-model="lnameT"><br>
                       </div>
                   <div class="title">
                       <p>EDUCATIONAL INFORMATION</p>
                   </div>
                   <div class="educational">
                           <label for="educ" class="name">Educ. Level</label>
-                          <input type="text" class="field5" id="educ" v-bind:placeholder="edlevel"><br>
+                          <input type="text" class="field5" id="educ"  v-model="edlevelT"><br>
                           <label for="level" class="name">Grade/Year</label>
-                          <input type="text" class="field6" id="level" v-bind:placeholder="grade"><br>
+                          <input type="text" class="field6" id="level"  v-model="gradeT"><br>
                   </div>
                   <div class="title">
                       <p>PAYMENT INFORMATION</p>
                   </div>   
                   <div class="payment">
                           <label for="tuition" class="name">Tuition Fees</label>
-                          <input type="text" class="field7" id="tuition" v-bind:placeholder="tint"><br>
+                          <input type="text" class="field7" id="tuition"  v-model="tintT"><br>
                           <label for="misc" class="name" >Miscellaneus</label>
-                          <input type="text" class="field8" id="tmisc" v-bind:placeholder="tmisc"><br>
-                          <label for="mname" class="name">Total Amount</label>
-                          <input type="total" class="field9" id="total" v-bind:placeholder="total"><br>
+                          <input type="text" class="field8" id="tmisc"  v-model="tmiscT"><br>
+
                   </div>   
                   <div class="buttons">
-                      <button class="butLow">
+                      <button class="butLow" @click="editInfo()">
                         <PencilSquareIcon class="commandIcon"/>
                         EDIT</button>
-                      <button class="butLow">
+                      <button class="butLow" @click="saveInfo()">
                         <DocumentCheckIcon class="commandIcon"/>
                         SAVE</button>
                   </div>
@@ -187,10 +186,10 @@
                           </tr>
                         </table>
                         <div class="but">
-                          <button class="butLow">
+                          <button class="butLow" @click= "cancelTransaction">
                             <ArchiveBoxXMarkIcon class="commandIcon"/>
                             CANCEL</button>
-                          <button class="butLow" @click="printPage1">
+                          <button class="butLow" @click="doneTransaction">
                             <CheckBadgeIcon class="commandIcon" />
                             DONE</button>
                         </div>
@@ -362,9 +361,6 @@
 
 <script>
 
-
-
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
 import {
   getDatabase,
@@ -373,6 +369,7 @@ import {
   get,
   update,
   onValue,
+  remove
 } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
 import { routerKey } from 'vue-router';
 
@@ -428,6 +425,14 @@ export default {
       grade : '',
       tint: null ,
       tmisc: null ,
+      idT: '' ,
+      fnameT : '',
+      mnameT : '',
+      lnameT : '',
+      edlevelT : '',
+      gradeT : '',
+      tintT: null ,
+      tmiscT: null ,
       currentTime: "",
       currentDate: "",
       currentTab: 0,
@@ -439,7 +444,9 @@ export default {
       curWinText: '',
       currentCashier: '',
       currentCashierId: '',
-      ...this.dataProperties
+      ...this.dataProperties,
+      ringA : false,
+      ringB: false,
 
 
 
@@ -1203,7 +1210,7 @@ onValue(
 
 
     incCounter() {
-      const currentWindow = localStorage.getItem('currentWindow')
+      const currentWindow = localStorage.getItem('currentWindow');
 
       
       if(currentWindow=='A'){
@@ -1323,6 +1330,16 @@ onValue(
 
     callUser() {        
       const currentWindow = localStorage.getItem('currentWindow')
+        if(currentWindow=='A'){
+            const dbRefRinger= ref(db, `ringA`);
+            this.ringA = !this.ringA;
+            update(dbRefRinger, {ringA: this.ringA});          
+        }
+        else if(currentWindow=='B'){
+            const dbRefRinger= ref(db, `ringB`);
+            this.ringB = !this.ringB;
+            update(dbRefRinger, {ringB: this.ringB});    
+        }
 
       if(currentWindow == 'A'){
       const dbRef = ref(db, 'Counter/Counter');
@@ -1363,30 +1380,134 @@ onValue(
       
 
     },
+    editInfo(){
+      this.idT = this.id;
+      this.fnameT = this.fname;
+      this.mnameT = this.mname;
+      this.lnameT = this.lname;
+      this.edlevelT = this.edlevel;
+      this.gradeT = this.grade;
+      this.tintT = this.tint;
+      this.tmiscT = this.tmisc;
+    },
+    saveInfo(){
 
-      changeWin(){
-        location.reload();
+      const currentWindow = localStorage.getItem('currentWindow');
+      
+      if(currentWindow === 'A'){
 
-          const currentWindow = localStorage.getItem('currentWindow')
+        const dbRefcustomers = ref(db, `users/${this.currentA}`);
 
-          if(currentWindow == 'A'){
-            localStorage.setItem('currentWindow', 'B');
-            const currentWindow = localStorage.getItem('currentWindow')
+              //Que Information B
+              update(dbRefcustomers, { id: this.idT });
+              update(dbRefcustomers, { fname: this.fnameT });
+              update(dbRefcustomers, { mname: this.mnameT });
+              update(dbRefcustomers, { lname: this.lnameT });
+              update(dbRefcustomers, { edlevel: this.edlevelT });
+              update(dbRefcustomers, { grade: this.gradeT });
+              update(dbRefcustomers, { tint: this.tintT });
+              update(dbRefcustomers, { tmisc: this.tmiscT });
+        
+      }// if A
+      else if(currentWindow === 'A'){
 
-            console.log(currentWindow)
+        const dbRefcustomers = ref(db, `usersB/${this.currentB}`);
 
-          }
-          else if(currentWindow == 'B'){
+              //Que Information B
+              update(dbRefcustomers, { id: this.idT });
+              update(dbRefcustomers, { fname: this.fnameT });
+              update(dbRefcustomers, { mname: this.mnameT });
+              update(dbRefcustomers, { lname: this.lnameT });
+              update(dbRefcustomers, { edlevel: this.edlevelT });
+              update(dbRefcustomers, { grade: this.gradeT });
+              update(dbRefcustomers, { tint: this.tintT });
+              update(dbRefcustomers, { tmisc: this.tmiscT });
 
-            localStorage.setItem('currentWindow', 'A');
-            const currentWindow = localStorage.getItem('currentWindow')
+        }// if B
 
-            console.log(currentWindow)
-            
-          }
+    },
+    doneTransaction(){
+      const currentWindow = localStorage.getItem('currentWindow');
+
+        const userIdHistory = `History/${this.id}`;
+        const dbRefCTR = ref(db, `History/${this.id}/ctr`);
+        const dbRefHistory = ref(db, userIdHistory);
+        get(dbRefCTR).then((snapshot) => {
+                      //INCREMENT                
+                      this.ctr = snapshot.val();
+                      this.ctr = this.ctr+1;
+                      this.parti = "Tuition";
+
+                     this.randomNumber = Math.floor(Math.random() * 999999) + 1;
+                     this.formattedRandomNumber = this.formatNumber(this.randomNumber, 6);
+
+                      update(dbRefHistory, { ctr: this.ctr});
+                      const userIdHistoryNum = `History/${this.id}/${this.ctr}`;
+                      const dbRefHistoryNum = ref(db, userIdHistoryNum);
+                      update(dbRefHistoryNum, { date: this.currentDate});
+                      update(dbRefHistoryNum, { time: this.currentTime});
+                      update(dbRefHistoryNum, { lname: this.lname});
+                      update(dbRefHistoryNum, { id: this.id});
+                      this.total = this.tmisc + this.tint;
+                      update(dbRefHistoryNum, { total: this.total});
+                      update(dbRefHistoryNum, { parti: this.parti});
+                      update(dbRefHistoryNum, { orno: this.formattedRandomNumber});
+
+
+                      const dbRefCC = ref(db, "currentCashierA"); 
+                      const dbRefCCB = ref(db, "currentCashierB"); 
+
+
+
+                      if(currentWindow=='A'){
+                        get(dbRefCC).then((snapshot) => {     
+                        this.cashier = snapshot.val();
+                        update(dbRefHistoryNum, { cashier: this.cashier});
+                        
+                      });
+                    }
+                      else if(currentWindow=='B'){
+                        get(dbRefCCB).then((snapshot) => {     
+                        this.cashier = snapshot.val();
+                        update(dbRefHistoryNum, { cashier: this.cashier});
+                        
+                      });                      
+                    }
+                 
+              });
 
         
+
+    },
+    formatNumber(number, length) {
+    const str = number.toString();
+    return str.padStart(length, '0').replace(/(\d{3})(?=\d)/g, '$1');
+  },
+    cancelTransaction(){
+      const currentWindow = localStorage.getItem('currentWindow');
+      if(currentWindow==='A'){
+
+
+
+        const deletePathA = ref(db, `users/${this.currentA}`);
+        remove(deletePathA).then(() => {console.log("location removed and Transaction canceled");});
+        
+        const updateCurA = ref(db,`curA`);
+        update(updateCurA, {curA: 0});
+        console.log(this.currentA);
+
       }
+      else if(currentWindow==='B'){
+
+        const updateCurB = ref(db,`curB`);
+        update(updateCurB, {curB: 0});
+
+        const deletePathB = ref(db, `users/${this.currentB}`);
+        remove(deletePathB).then(() => {console.log("location removed and Transaction canceled");});
+      }
+       
+    },
+
       
   },
       
