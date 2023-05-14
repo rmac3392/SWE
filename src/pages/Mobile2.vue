@@ -120,14 +120,14 @@ y.classList.toggle("del");
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBCYeQpyCqsu2zMsH69d3QKdxYLc0N5K5o",
-  authDomain: "q-mate-e981c.firebaseapp.com",
-  databaseURL: "https://q-mate-e981c-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "q-mate-e981c",
-  storageBucket: "q-mate-e981c.appspot.com",
-  messagingSenderId: "177787216625",
-  appId: "1:177787216625:web:0ed0fa8b9407709986bf50",
-  measurementId: "G-1XSWKNTPYD"
+apiKey: "AIzaSyBCYeQpyCqsu2zMsH69d3QKdxYLc0N5K5o",
+authDomain: "q-mate-e981c.firebaseapp.com",
+databaseURL: "https://q-mate-e981c-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId: "q-mate-e981c",
+storageBucket: "q-mate-e981c.appspot.com",
+messagingSenderId: "177787216625",
+appId: "1:177787216625:web:0ed0fa8b9407709986bf50",
+measurementId: "G-1XSWKNTPYD"
 };
 
 
@@ -196,7 +196,7 @@ onValue(
                   child(dbRef, ring),
                   (snapshot) => {
                     
-                      if(this.currentA+1 == this.queCurR){
+                      if(this.currentA+3 == this.queCurR){
                         console.log("this is true this should be using voice");
                           this.speakThis = "Current number is: "+this.currentAtext+"........."+"It is almost your turn, Please be ready" + ".."+snapshot.val();
                           const synth = window.speechSynthesis;
@@ -244,7 +244,7 @@ onValue(
                   child(dbRef, ring),
                   (snapshot) => {
                     
-                      if(this.currentA+1 == this.queCurRB){
+                      if(this.currentA+3 == this.queCurRB){
                         console.log("this is true this should be using voice B");
                           this.speakThis = "Current number is: "+this.currentBtext+"........."+"It is almost your turn, Please be ready" + ".."+snapshot.val();
                           const synth = window.speechSynthesis;
@@ -680,6 +680,7 @@ methods: {
       
     }
 
+    this.$router.push("/mobile1");
 
 
   },

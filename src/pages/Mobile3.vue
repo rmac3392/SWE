@@ -97,14 +97,14 @@ onValue,
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBCYeQpyCqsu2zMsH69d3QKdxYLc0N5K5o",
-  authDomain: "q-mate-e981c.firebaseapp.com",
-  databaseURL: "https://q-mate-e981c-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "q-mate-e981c",
-  storageBucket: "q-mate-e981c.appspot.com",
-  messagingSenderId: "177787216625",
-  appId: "1:177787216625:web:0ed0fa8b9407709986bf50",
-  measurementId: "G-1XSWKNTPYD"
+apiKey: "AIzaSyBCYeQpyCqsu2zMsH69d3QKdxYLc0N5K5o",
+authDomain: "q-mate-e981c.firebaseapp.com",
+databaseURL: "https://q-mate-e981c-default-rtdb.asia-southeast1.firebasedatabase.app",
+projectId: "q-mate-e981c",
+storageBucket: "q-mate-e981c.appspot.com",
+messagingSenderId: "177787216625",
+appId: "1:177787216625:web:0ed0fa8b9407709986bf50",
+measurementId: "G-1XSWKNTPYD"
 }
 
 const app = initializeApp(firebaseConfig);
@@ -261,9 +261,8 @@ methods: {
               update(dbRefcustomersB, { grade: this.grade });
               update(dbRefcustomersB, { tint: this.tint });
               update(dbRefcustomersB, { tmisc: this.tmisc });
-              update(dbRefcustomersB, { queNum: this.queNumB });
               update(dbRefcustomersB, { ring: this.ring });
-              this.incCounterB();
+              // this.incCounterB();
               this.$router.push('/mobile2');
           }
           //A
@@ -283,10 +282,9 @@ methods: {
         update(dbRefcustomers, { grade: this.grade });
         update(dbRefcustomers, { tint: this.tint });
         update(dbRefcustomers, { tmisc: this.tmisc });
-        update(dbRefcustomers, { queNum: this.queNum });
         update(dbRefcustomers, { ring: this.ring });
 
-        this.incCounter();
+        // this.incCounter();
         this.$router.push('/mobile2');
         }
         });

@@ -22,7 +22,10 @@
               <input type="text" id="age"  class="field5" v-model="age"> <br>
 
               <label for="email">Email</label>
-              <input type="email" name="" id="email"  class="field6" v-model="email"><br>
+              <input type="email" name="email" id="email"  class="field6" v-model="email"><br>
+
+              <label for="address">Address</label>
+              <input type="address" name="address" id="address"  class="field7" v-model="address"><br>
 
               <p class="title1">ACCOUNT INFORMATION</p>
 
@@ -38,17 +41,17 @@
                 <option value="B">B</option>
               </select><br>
 
-              <label for="id">ID No.</label>
-              <input type="number" id="id"  class="field9" v-model="id"><br>
 
               <label for="username">Username</label>
               <input type="text" id="username"  class="field10" v-model="username"><br>
 
               <label for="password">Password</label>
               <input type="password" id="password"  class="field11" v-model="password"><br>
+              <br>
+              <label>{{ errMsg }}</label>
 
               <div class="buttons">
-                <button class="cancelBut">
+                <button class="cancelBut" @click="cancel">
                   <i class="fa-solid fa-rectangle-xmark fa-2xl"></i><span class="t">CANCEL</span></button>
                 <button class="saveBut" @click="saveUserData">
                   <i class="fa-solid fa-square-check fa-2xl"></i><span class="t">SAVE</span></button>
@@ -64,8 +67,8 @@
                       <p>ID No: <span id="userId">{{ currentAdminId }}</span></p>
                   </div>
                   <div class="dateTime">
-                      <p id="date">March 31, 2023</p>
-                      <p id="time">12:35</p>
+                      <p id="date">{{ currentDate }}</p>
+                      <p id="time">{{ currentTime }}</p>
                   </div>
                   <div class="image">
                       <UserCircleIcon @click="logout()" class="logout"/>   
@@ -75,11 +78,11 @@
           <div class="bottom">
               <div class="tabs">
                   <div class="tabUp">
-                      <button class="controls">
+                      <button class="controls" @click="addIntent">
                         <i class="fa-solid fa-user-plus fa-2xl"></i> <span class="t">ADD</span></button>
-                      <button class="controls">
+                      <button class="controls" @click="deleteData">
                         <i class="fa-solid fa-user-minus fa-2xl"></i> <span class="t">DELETE</span></button>
-                      <button class="controls">
+                      <button class="controls" @click="updateIntent">
                         <i class="fa-solid fa-user-pen fa-2xl"></i> <span class="t">UPDATE</span></button>
                         <button class="controls" @click="reset">
                           <i class="fa-solid fa-eraser fa-2xl"></i><span class="t">RESET</span></button>
@@ -87,68 +90,56 @@
                   </div>
                   <div class="tabDown">
                       <div :class="currentTab == 0 ? 'tab-active' : 'general-tab'" @click="currentTab = 0">Cashier</div>
-                      <div :class="currentTab == 1 ? 'tab-active' : 'general-tab'" @click="currentTab = 1">Adminastrator</div>
+                      <div :class="currentTab == 1 ? 'tab-active' : 'general-tab'" @click="currentTab = 1">Administrator</div>
                   </div>
                 <div class="content">
                   <Transition name="fade" mode="out-in">
                       <div class="transactionContent" v-if="currentTab == 0">
                         <table class="hTable">
-                          <th class="hTh">ID No.</th>
+                          <th class="hTh">ID</th>
                           <th class="hTh">First Name</th>
                           <th class="hTh">Middle Name</th>
                           <th class="hTh">Last Name</th>
                           <th class="hTh">Birthdate</th>
                           <th class="hTh">Age</th>
                           <th class= "hTh">E-mail</th>
+                          <th class="hTh">Address</th>
                           <th class="hTh">Window</th>
-                          <th class="hTh">User Type</th>
-                          <th class="hTh">Username</th>
-                          <th class="hTh">Password</th>
-                          <th class="hTh">Select</th>
                           <tr v-for="index in 16" :key="index" class="hTr">
-                            <td class="hTd">1</td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"><button class="btnClass">-</button></td>
-                            </tr>
+                            <td class="hTd"><button class="btnClass" @click="getIndexCashier($event,index)">{{ getuserIdCashier(index) }}</button></td>
+                            <td class="hTd">{{ getuserFnameCashier(index) }}</td>
+                            <td class="hTd">{{ getuserMnameCashier(index) }}</td>
+                            <td class="hTd">{{ getuserLnameCashier(index) }}</td>
+                            <td class="hTd">{{ getuserBdateCashier(index) }}</td>
+                            <td class="hTd">{{ getuserAgeCashier(index) }}</td>
+                            <td class="hTd">{{ getuserEmailCashier(index) }}</td>
+                            <td class="hTd">{{ getuserAddressCashier(index) }}</td>
+                            <td class="hTd">{{ getWin(index) }}</td>
+
+                          </tr>
                         </table>
                       </div>
                       <div class="invoiceContent" v-else-if="currentTab == 1">
                         <table class="hTable">
-                          <th class="hTh">ID No.</th>
+                          <th class="hTh">ID</th>
                           <th class="hTh">First Name</th>
                           <th class="hTh">Middle Name</th>
                           <th class="hTh">Last Name</th>
                           <th class="hTh">Birthdate</th>
                           <th class="hTh">Age</th>
                           <th class= "hTh">E-mail</th>
-                          <th class="hTh">Window</th>
-                          <th class="hTh">User Type</th>
-                          <th class="hTh">Username</th>
-                          <th class="hTh">Password</th>
-                          <th class="hTh">Select</th>
+                          <th class="hTh">Address</th>
                           <tr v-for="index in 16" :key="index" class="hTr">
-                            <td class="hTd">1</td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"></td>
-                            <td class="hTd"><button class="btnClass">-</button></td>
-                            </tr>
+                            <td class="hTd"><button class="btnClass" @click="getIndexAdmin($event,index)">{{ getuserIdAdmin(index) }}</button></td>
+                            <td class="hTd">{{ getuserFnameAdmin(index) }}</td>
+                            <td class="hTd">{{ getuserMnameAdmin(index) }}</td>
+                            <td class="hTd">{{ getuserLnameAdmin(index) }}</td>
+                            <td class="hTd">{{ getuserBdateAdmin(index) }}</td>
+                            <td class="hTd">{{ getuserAgeAdmin(index) }}</td>
+                            <td class="hTd">{{ getuserEmailAdmin(index) }}</td>
+                            <td class="hTd">{{ getuserAddressAdmin(index) }}</td>
+
+                          </tr>
                         </table>
                       </div>
                   </Transition>
@@ -181,7 +172,8 @@ const firebaseConfig = {
   messagingSenderId: "177787216625",
   appId: "1:177787216625:web:0ed0fa8b9407709986bf50",
   measurementId: "G-1XSWKNTPYD"
-}
+};
+
 
 const app = initializeApp(firebaseConfig);
 
@@ -189,12 +181,57 @@ const db = getDatabase();
 
 export default {
   data() {
+    const dataPropertiesCashier = {};
+    for (let i = 1; i <= 16 ; i++) {
+    dataPropertiesCashier[`userAddressCashier${i}`] = '';
+    dataPropertiesCashier[`userAgeCashier${i}`] = '';
+    dataPropertiesCashier[`userBdateCashier${i}`] = '';
+    dataPropertiesCashier[`userEmailCashier${i}`] = '';
+    dataPropertiesCashier[`userFnameCashier${i}`] = '';
+    dataPropertiesCashier[`userIdCashier${i}`] = null;
+    dataPropertiesCashier[`userLnameCashier${i}`] = '';
+    dataPropertiesCashier[`userMnameCashier${i}`] = '';
+    dataPropertiesCashier[`userNameCashier${i}`] = '';
+    dataPropertiesCashier[`userWindowCashier${i}`] = '';
+                                      }
+
+    const dataPropertiesAdmin = {};
+    for (let i = 1; i <= 16 ; i++) {
+      dataPropertiesAdmin[`userAddressAdmin${i}`] = '';
+      dataPropertiesAdmin[`userAgeAdmin${i}`] = '';
+      dataPropertiesAdmin[`userBdateAdmin${i}`] = '';
+      dataPropertiesAdmin[`userEmailAdmin${i}`] = '';
+      dataPropertiesAdmin[`userFnameAdmin${i}`] = '';
+      dataPropertiesAdmin[`userIdAdmin${i}`] = '';
+      dataPropertiesAdmin[`userLnameAdmin${i}`] = '';
+      dataPropertiesAdmin[`userMnameAdmin${i}`] = '';
+      dataPropertiesAdmin[`userNameAdmin${i}`] = '';
+                                      }
+
+
+
     return {
       errMsg: '',
       currentAdmin: '',
       currentAdminId:'',
       name : '',
       currentTab: 0,
+      ...this.dataPropertiesCashier,
+      ...this.dataPropertiesAdmin,
+      fname: '',
+      mname: '',
+      lname: '',
+      bdate: '',
+      age: '',
+      email: '',
+      address: '',
+      userType: '',
+      window: '',
+      username: '',
+      password: '',
+      currentTime: "",
+      currentDate: "",
+
     }
   },
   mounted (){
@@ -207,14 +244,11 @@ export default {
     this.currentAdminId = localStorage.getItem('currentAdminId');
 
     if( loggedin==="false"){
-      console.log("true ang asd")
-      this.$router.push('/');
+       this.$router.push('/');
     }
 
 
-    localStorage.setItem('currentWindow', 'A');
-    const currentWindow = localStorage.getItem('currentWindow')
-    console.log("current window is: "+currentWindow)
+
     if( loggedin=="true"){
       if(loggedas=='admin'){
         this.$router.push('/adminPage');
@@ -224,9 +258,55 @@ export default {
       }
     }
 
-  
 
+        for (let i = 1; i <= 16; i++) {
 
+            onValue(child(dbRef, `userlistAdmin/${i}/userType`), (snapshot) => {
+            this[`userType${i}`] = snapshot.val();
+
+            onValue(child(dbRef, `userlistAdmin/${i}/address`), (snapshot) => { this[`userAddressAdmin${i}`] = snapshot.val(); console.log(snapshot.val()) });
+            onValue(child(dbRef, `userlistAdmin/${i}/age`), (snapshot) => { this[`userAgeAdmin${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistAdmin/${i}/bdate`), (snapshot) => { this[`userBdateAdmin${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistAdmin/${i}/email`), (snapshot) => { this[`userEmailAdmin${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistAdmin/${i}/fname`), (snapshot) => { this[`userFnameAdmin${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistAdmin/${i}/id`), (snapshot) => { this[`userIdAdmin${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistAdmin/${i}/lname`), (snapshot) => { this[`userLnameAdmin${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistAdmin/${i}/mname`), (snapshot) => { this[`userMnameAdmin${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistAdmin/${i}/name`), (snapshot) => { this[`userNameAdmin${i}`] = snapshot.val() });
+
+            //changes userListAdmin values.
+
+          
+        });
+
+        onValue(child(dbRef, `userlistCashier/${i}/userType`), (snapshot) => {
+          this[`userType${i}`] = snapshot.val();
+
+          if (this[`userType${i}`] === "cashier") {
+
+            onValue(child(dbRef, `userlistCashier/${i}/address`), (snapshot) => { this[`userAddressCashier${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistCashier/${i}/age`), (snapshot) => { this[`userAgeCashier${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistCashier/${i}/bdate`), (snapshot) => { this[`userBdateCashier${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistCashier/${i}/email`), (snapshot) => { this[`userEmailCashier${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistCashier/${i}/fname`), (snapshot) => { this[`userFnameCashier${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistCashier/${i}/id`), (snapshot) => { this[`userIdCashier${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistCashier/${i}/lname`), (snapshot) => { this[`userLnameCashier${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistCashier/${i}/mname`), (snapshot) => { this[`userMnameCashier${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistCashier/${i}/name`), (snapshot) => { this[`userNameCashier${i}`] = snapshot.val() });
+            onValue(child(dbRef, `userlistCashier/${i}/window`), (snapshot) => { this[`userWindowCashier${i}`] = snapshot.val() });
+
+          }
+        });
+
+        }
+
+ //time
+ setInterval(() => {
+      const now = new Date();
+      this.currentTime = now.toLocaleTimeString();
+      this.currentDate = now.toLocaleDateString();
+
+    }, 1000);       
 
 
   },
@@ -238,50 +318,398 @@ export default {
       const cashier = ref(db, `cashier/${this.username}`);
       const cashierDyna = ref(db, `cashier/${this.username}`);
 
+      const intent = localStorage.getItem('intent');
 
+      if(intent === 'add'){
+        if(this.userType =='administrator'){
+        const dbRef = ref(db);
 
-      if(this.userType =='administrator'){
-        console.log("admin saved")
-        update(adminDyna, { fname: this.fname });
-        update(adminDyna, { mname: this.mname });
-        update(adminDyna, { lname: this.lname });
-        update(adminDyna, { bdate: this.bdate });
-        update(adminDyna, { age: this.age });
-        update(adminDyna, { email: this.email });
-        update(adminDyna, { address: this.userType });
-        update(adminDyna, { userType: this.userType });
-        update(adminDyna, { window: this.window });
-        update(adminDyna, { id: this.id });
-        update(adminDyna, { name: this.fname });
-        update(adminDyna, { username: this.username });
-        update(adminDyna, { password: this.password });
+          const dbRefCashierChecker = ref(db, `cashier/${this.username}`);
+          get(dbRefCashierChecker).then((snapshot) => {
+            if(snapshot.val()!=null){
 
+              this.errMsg="Username is already taken by a cashier";
+              }
+              else{
+                const dbRefAlreadyTaken= ref(db,`admin/${this.username}`);
+                get(dbRefAlreadyTaken).then((snapshot) => {
+                  
+                if(snapshot.val()!=null){
+                  this.errMsg = "Username is already taken"
+                }
+                else{
+                  
+                  
+                  this.errMsg = ""
 
+                    console.log("admin saved")
+                    update(adminDyna, { fname: this.fname });
+                    update(adminDyna, { mname: this.mname });
+                    update(adminDyna, { lname: this.lname });
+                    update(adminDyna, { bdate: this.bdate });
+                    update(adminDyna, { age: this.age });
+                    update(adminDyna, { email: this.email });
+                    update(adminDyna, { address: this.address });
+                    update(adminDyna, { userType: this.userType });
+                    update(adminDyna, { window: this.window });
+                    update(adminDyna, { name: this.fname });
+                    update(adminDyna, { password: this.password });
 
+                    const dbRefCTRA = ref(db, `userlistAdmin/ctr`);
+                    const dbRefCTRR = ref(db, `userlistAdmin`);
+
+                    get(dbRefCTRA).then((snapshot) => {
+                  //INCREMENT                
+                  this.ctr = snapshot.val();
+                  if(this.ctr==null){
+                    this.ctr = 1;
+                    const adminDyna = ref(db, `admin/${this.username}`)
+                    update(adminDyna, { id: snapshot.val()+1 });
+
+                    update(dbRefCTRR, { ctr: this.ctr});
+                      const dbRefAdmin = ref(db, `userlistAdmin/${this.ctr}`);
+                      update(dbRefAdmin, { id: snapshot.val()+1});
+                      update(dbRefAdmin, { fname: this.fname });
+                      update(dbRefAdmin, { mname: this.mname });
+                      update(dbRefAdmin, { lname: this.lname });
+                      update(dbRefAdmin, { bdate: this.bdate });
+                      update(dbRefAdmin, { age: this.age });
+                      update(dbRefAdmin, { email: this.email });
+                      update(dbRefAdmin, { address: this.address });
+                      update(dbRefAdmin, { username: this.username });
+                      update(dbRefAdmin, { userType: this.userType });
+                      update(dbRefAdmin, { window: this.window });
+                      update(dbRefAdmin, { name: this.fname });
+                  }
+                  else {
+                      const adminDyna = ref(db, `admin/${this.username}`)
+                      update(adminDyna, { id: snapshot.val()+1});
+
+                      this.ctr = this.ctr+1;
+                      update(dbRefCTRR, { ctr: this.ctr});
+                      const dbRefAdmin = ref(db, `userlistAdmin/${this.ctr}`);
+                      update(dbRefAdmin, { id: snapshot.val()+1 });
+                      update(dbRefAdmin, { fname: this.fname });
+                      update(dbRefAdmin, { mname: this.mname });
+                      update(dbRefAdmin, { lname: this.lname });
+                      update(dbRefAdmin, { bdate: this.bdate });
+                      update(dbRefAdmin, { age: this.age });
+                      update(dbRefAdmin, { username: this.username });
+                      update(dbRefAdmin, { email: this.email });
+                      update(dbRefAdmin, { address: this.address });
+                      update(dbRefAdmin, { userType: this.userType });
+                      update(dbRefAdmin, { window: this.window });
+                      update(dbRefAdmin, { name: this.fname });
+                                }                 
+                        });
+                      }   
+
+                      });
+              }        
+                     
+            });
+      
       }
       else if(this.userType=='cashier'){
-        console.log("cashier saved")
+        const dbRef = ref(db);
 
-        update(cashierDyna, { fname: this.fname });
-        update(cashierDyna, { mname: this.mname });
-        update(cashierDyna, { lname: this.lname });
-        update(cashierDyna, { bdate: this.bdate });
-        update(cashierDyna, { age: this.age });
-        update(cashierDyna, { email: this.email });
-        update(cashierDyna, { address: this.userType });
-        update(cashierDyna, { userType: this.userType });
-        update(cashierDyna, { window: this.window });
-        update(cashierDyna, { id: this.id });
-        update(cashierDyna, { name: this.fname });
-        update(cashierDyna, { username: this.username });
-        update(cashierDyna, { password: this.password });
+        const dbRefAdminChecker = ref(db, `admin/${this.username}`);
+          let counterVariable;
+          get(dbRefAdminChecker).then((snapshot) => {
+            if(snapshot.val() !=null){
+            this.errMsg="Username is already Admin";
+            console.log(snapshot.val());
+          }
+          else{
+            const dbRefUserCheckerC = ref(db,`cashier/${this.username}`);
+            get(dbRefUserCheckerC).then((snapshot) => {
+              if(snapshot.val()!=null){
+                this.errMsg="USERNAME ALREADY TAKEN";
+                console.log(snapshot.val());
+              }
+              else{
+                this.errMsg="";
+
+                console.log("cashier saved");
+            
+                update(cashierDyna, { fname: this.fname });
+                update(cashierDyna, { mname: this.mname });
+                update(cashierDyna, { lname: this.lname });
+                update(cashierDyna, { bdate: this.bdate });
+                update(cashierDyna, { age: this.age });
+                update(cashierDyna, { email: this.email });
+                update(cashierDyna, { address: this.userType });
+                update(cashierDyna, { userType: this.userType });
+                update(cashierDyna, { window: this.window });
+                update(cashierDyna, { name: this.fname });
+                update(cashierDyna, { password: this.password });
+        
+                const dbRefCTR = ref(db, `userlist/ctr`);
+                const dbRefCTRR = ref(db, `userlist`);
+        
+                const dbRefCTRC = ref(db, `userlistCashier/ctr`);
+                const dbRefCTRRC = ref(db, `userlistCashier`);
+                
+        
+        
+                get(dbRefCTRC).then((snapshot) => {
+                            //INCREMENT                
+                            this.ctr = snapshot.val();
+                            if(this.ctr==null){
+                              this.ctr = 1;
+                              const cashierDyna = ref(db, `cashier/${this.username}`);
+                                update(cashierDyna, { id: snapshot.val()+1 });
+                                update(dbRefCTRRC, { ctr: this.ctr});
+
+                                const dbRefAdmin = ref(db, `userlistCashier/${this.ctr}`);
+                                update(dbRefAdmin, { id: snapshot.val()+1});
+                                update(dbRefAdmin, { fname: this.fname });
+                                update(dbRefAdmin, { mname: this.mname });
+                                update(dbRefAdmin, { lname: this.lname });
+                                update(dbRefAdmin, { bdate: this.bdate });
+                                update(dbRefAdmin, { age: this.age });
+                                update(dbRefAdmin, { email: this.email });
+                                update(dbRefAdmin, { address: this.address });
+                                update(dbRefAdmin, { username: this.username });
+                                update(dbRefAdmin, { userType: this.userType });
+                                update(dbRefAdmin, { window: this.window });
+                                update(dbRefAdmin, { name: this.fname });
+                            }
+                            else {
+                                const cashierDyna = ref(db, `cashier/${this.username}`)
+                                update(cashierDyna, { id: snapshot.val()+1});
+    
+                                this.ctr = this.ctr+1;
+                                update(dbRefCTRRC, { ctr: this.ctr});
+                                const dbRefAdmin = ref(db, `userlistCashier/${this.ctr}`);
+                                update(dbRefAdmin, { id: snapshot.val()+1 });
+                                update(dbRefAdmin, { fname: this.fname });
+                                update(dbRefAdmin, { mname: this.mname });
+                                update(dbRefAdmin, { lname: this.lname });
+                                update(dbRefAdmin, { bdate: this.bdate });
+                                update(dbRefAdmin, { age: this.age });
+                                update(dbRefAdmin, { email: this.email });
+                                update(dbRefAdmin, { username: this.username });
+                                update(dbRefAdmin, { address: this.address });
+                                update(dbRefAdmin, { userType: this.userType });
+                                update(dbRefAdmin, { window: this.window });
+                                update(dbRefAdmin, { name: this.fname });
+
+                            }                         
+                    });
+    
+    
+    
+    
+
+              }
+
+            
+            });
+
+          }// else end
+        
+
+        
+          });
 
 
+
+
+
+
+        }
 
       }
+      else if(intent ==='update'){
+
+
+        const indexCur = localStorage.getItem('curIndex');
+
+        if(indexCur === 'admin'){
+
+        const adminIndex = localStorage.getItem('adminIndex');     
+        
+        const dbRef = ref(db, `userlistAdmin/${adminIndex}`);
+        const dbRefUserChecker = ref(db, `userlistAdmin/${adminIndex}/username`);
+    
+          
+          get(dbRef).then((snapshot) => {
+            get(dbRefUserChecker).then((snapshot) => {
+              const adminUserName = snapshot.val();
+              const dbRefAdminAuth = ref(db, `admin/${adminUserName}`);
+              const dbRefNewUserName = ref(db, `admin/${this.username}`);
+
+                get(dbRefAdminAuth).then((snapshot) => {
+                    const dog = snapshot.val();
+                    if(this.username != adminUserName){
+                    const deletePathAdmin = ref(db, `admin/${adminUserName}`);
+                    remove(deletePathAdmin).then(() => {console.log("location removed");});
+                    
+                    update(dbRefNewUserName, { fname: this.fname, 
+                      mname: this.mname, 
+                      lname: this.lname, 
+                      bdate: this.bdate, 
+                      age: this.age,
+                      email: this.email,
+                      address: this.address,
+                      userType: this.userType,
+                      name: this.fname,
+                      password: this.password,
+                    });
+                      update(dbRef,{  fname: this.fname,
+                                      mname: this.mname,
+                                      lname: this.lname,
+                                      bdate: this.bdate,
+                                      age: this.age,
+                                      email: this.email,
+                                      address: this.address,
+                                      userType: this.userType,
+                                      name: this.fname,
+                                      username: this.username
+                                  });               
+
+                    }// if old username is not equal to current username
+                    else{
+                    const dbRefNewUserName = ref(db, `admin/${this.username}`);
+                    update(dbRefNewUserName, { fname: this.fname,
+                                              mname: this.mname,
+                                              lname: this.lname,
+                                              bdate: this.bdate,
+                                              age: this.age,
+                                              email: this.email,
+                                              address: this.address,
+                                              userType: this.userType,
+                                              name: this.fname,
+                                              password: this.password
+                                              });
+
+                    
+                    update(dbRef,{    fname: this.fname,
+                                      mname: this.mname,
+                                      lname: this.lname,
+                                      bdate: this.bdate,
+                                      age: this.age,
+                                      email: this.email,
+                                      address: this.address,
+                                      userType: this.userType,
+                                      name: this.fname,
+                                      username: this.username
+                                  });
+                    }// else
+                });// getter of admin username
+            });//checks the current username of the index selected
+        });// checks the admin id that has the current index
+
+          
 
 
 
+        }// if admin
+
+        else if(indexCur==='cashier'){
+            const cashierIndex = localStorage.getItem('cashIndex');     
+            
+            const dbRef = ref(db, `userlistCashier/${cashierIndex}`);
+            const dbRefUserChecker = ref(db, `userlistCashier/${cashierIndex}/username`);
+
+              
+              get(dbRef).then((snapshot) => {
+                get(dbRefUserChecker).then((snapshot) => {
+                  const cashierUserName = snapshot.val();
+                  const dbRefCashierAuth = ref(db, `cashier/${cashierUserName}`);
+                  const dbRefNewUserName = ref(db, `cashier/${this.username}`);
+
+                    get(dbRefCashierAuth).then((snapshot) => {
+                        const dog = snapshot.val();
+                        if(this.username != cashierUserName){
+                        const deletePathCashier = ref(db, `cashier/${cashierUserName}`);
+                        remove(deletePathCashier).then(() => {console.log("location removed");});
+                        
+                        update(dbRefNewUserName, { fname: this.fname, 
+                          mname: this.mname, 
+                          lname: this.lname, 
+                          bdate: this.bdate, 
+                          age: this.age,
+                          email: this.email,
+                          address: this.address,
+                          userType: this.userType,
+                          name: this.fname,
+                          password: this.password,
+                        });
+                          update(dbRef,{  fname: this.fname,
+                                          mname: this.mname,
+                                          lname: this.lname,
+                                          bdate: this.bdate,
+                                          age: this.age,
+                                          email: this.email,
+                                          address: this.address,
+                                          userType: this.userType,
+                                          name: this.fname,
+                                          username: this.username
+                                      });               
+
+                        }// if old username is not equal to current username
+                        else{
+                        const dbRefNewUserName = ref(db, `cashier/${this.username}`);
+                        update(dbRefNewUserName, { fname: this.fname,
+                                                  mname: this.mname,
+                                                  lname: this.lname,
+                                                  bdate: this.bdate,
+                                                  age: this.age,
+                                                  email: this.email,
+                                                  address: this.address,
+                                                  userType: this.userType,
+                                                  name: this.fname,
+                                                  password: this.password
+                                                  });
+
+                        
+                        update(dbRef,{    fname: this.fname,
+                                          mname: this.mname,
+                                          lname: this.lname,
+                                          bdate: this.bdate,
+                                          age: this.age,
+                                          email: this.email,
+                                          address: this.address,
+                                          userType: this.userType,
+                                          name: this.fname,
+                                          username: this.username
+                                      });
+                        }// else
+                    });// getter of cashier username
+                });//checks the current username of the index selected
+            });// checks the cashier id that has the current index
+
+              
+
+            }// else if cashier
+
+
+
+      }// if intent is equal to. UPDATE!
+    else{
+      this.errMsg='Please click UPDATE or ADD';
+    }
+      
+      
+
+    },
+    cancel(){
+      localStorage.setItem('curIndex', '');
+      localStorage.setItem('intent', '');
+      this.fname = '';
+      this.mname = '';
+      this.lname = '';
+      this.bdate = '';
+      this.age = '';
+      this.email = '';
+      this.address = '';
+      this.userType = '';
+      this.window = '';
+      this.username = '';
+      this.password = '';
+      this.errMsg='';
     },
     logout(){
       localStorage.setItem('log-in', false);
@@ -289,8 +717,24 @@ export default {
       location.reload();
 
     },
+    
+    updateIntent(){
+      localStorage.setItem('intent', 'update');
+      const test = localStorage.getItem('intent');
+      console.log(test);
+      this.errMsg='';
+
+    },
+    addIntent(){
+      localStorage.setItem('intent', 'add');
+      const test = localStorage.getItem('intent');
+      console.log(test);
+      this.errMsg='';
+
+    },
     reset(){
-      
+      console.log("this is cashier");
+
       const counterA = ref(db, 'Counter/');
       update(counterA, { Counter:0 });
       const counterB = ref(db, 'CounterB/');
@@ -311,18 +755,196 @@ export default {
       const deletePathB = ref(db, `usersB`)
       remove(deletePathB).then(() => {console.log("location removed");});
 
+    },
+    // Cashier Getter
+    getuserAddressCashier(index) {
+      return this[`userAddressCashier${index}`];
+    },
+    getuserAgeCashier(index) {
+      return this[`userAgeCashier${index}`];
+    },
+    getuserBdateCashier(index) {
+      return this[`userBdateCashier${index}`];
+    },
+    getuserEmailCashier(index) {
+      return this[`userEmailCashier${index}`];
+    },
+    getuserFnameCashier(index) {
+      return this[`userFnameCashier${index}`];
+    },
+    getuserIdCashier(index) {
+      return this[`userIdCashier${index}`];
+    },
+    getuserLnameCashier(index) {
+      return this[`userLnameCashier${index}`];
+    },
+    getuserMnameCashier(index) {
+      return this[`userMnameCashier${index}`];
+    },
+    getuserNameCashier(index) {
+      return this[`userNameCashier${index}`];
+    },
+    getWin(index) {
+      return this[`userWindowCashier${index}`];
+    },
+    //end of Getter Cashier 
+    
+    //Admin Getter
+    getuserAddressAdmin(index) {
+      return this[`userAddressAdmin${index}`];
+    },
+    getuserAgeAdmin(index) {
+      return this[`userAgeAdmin${index}`];
+    },
+    getuserBdateAdmin(index) {
+      return this[`userBdateAdmin${index}`];
+    },
+    getuserEmailAdmin(index) {
+      return this[`userEmailAdmin${index}`];
+    },
+    getuserFnameAdmin(index) {
+      return this[`userFnameAdmin${index}`];
+    },
+    getuserIdAdmin(index) {
+      return this[`userIdAdmin${index}`];
+    },
+    getuserLnameAdmin(index) {
+      return this[`userLnameAdmin${index}`];
+    },
+    getuserMnameAdmin(index) {
+      return this[`userMnameAdmin${index}`];
+    },
+    getuserNameAdmin(index) {
+      return this[`userNameAdmin${index}`];
+    },
+    
+    getIndexCashier(event,index){
+      localStorage.setItem('cashIndex', index);
+      localStorage.setItem('curIndex', 'cashier');
+      const debug = localStorage.getItem('curIndex');
+      const debugNum = localStorage.getItem('cashIndex');
+      console.log(debug +" "+ debugNum);
 
+      const fnameT = ref(db, `userlistCashier/${index}/fname`);
+      const mnameT = ref(db, `userlistCashier/${index}/mname`);
+      const lnameT = ref(db, `userlistCashier/${index}/lname`);
+      const bdateT = ref(db, `userlistCashier/${index}/bdate`);
+      const ageT = ref(db, `userlistCashier/${index}/age`);
+      const emailT = ref(db, `userlistCashier/${index}/email`);
+      const addressT = ref(db, `userlistCashier/${index}/address`);
+      const userTypeT = ref(db, `userlistCashier/${index}/userType`);
+      const windowT = ref(db, `userlistCashier/${index}/window`);
+      const usernameT = ref(db, `userlistCashier/${index}/username`);
+
+        get(fnameT).then((snapshot) => { this.fname = snapshot.val(); });
+        get(mnameT).then((snapshot) => { this.mname =snapshot.val();});
+        get(lnameT).then((snapshot) => { this.lname =snapshot.val();});
+        get(bdateT).then((snapshot) => { this.bdate =snapshot.val();});
+        get(ageT).then((snapshot) => { this.age =snapshot.val();});
+        get(emailT).then((snapshot) => { this.email =snapshot.val();});
+        get(addressT).then((snapshot) => { this.address =snapshot.val();});
+        get(userTypeT).then((snapshot) => { this.userType =snapshot.val();});
+        get(windowT).then((snapshot) => { this.window =snapshot.val();});
+        get(usernameT).then((snapshot) => { this.username =snapshot.val();});
+
+
+    },
+    getIndexAdmin(event,index){
+      localStorage.setItem('adminIndex', index);
+      localStorage.setItem('curIndex', 'admin');
+      const debug = localStorage.getItem('curIndex');
+      const debugNum = localStorage.getItem('adminIndex');
+      console.log(debug+" "+debugNum) ;
+      // puts the values into field
+      const fnameT = ref(db, `userlistAdmin/${index}/fname`);
+      const mnameT = ref(db, `userlistAdmin/${index}/mname`);
+      const lnameT = ref(db, `userlistAdmin/${index}/lname`);
+      const bdateT = ref(db, `userlistAdmin/${index}/bdate`);
+      const ageT = ref(db, `userlistAdmin/${index}/age`);
+      const emailT = ref(db, `userlistAdmin/${index}/email`);
+      const addressT = ref(db, `userlistAdmin/${index}/address`);
+      const userTypeT = ref(db, `userlistAdmin/${index}/userType`);
+      const usernameT = ref(db, `userlistAdmin/${index}/username`);
+
+        get(fnameT).then((snapshot) => { this.fname = snapshot.val(); });
+        get(mnameT).then((snapshot) => { this.mname =snapshot.val();});
+        get(lnameT).then((snapshot) => { this.lname =snapshot.val();});
+        get(bdateT).then((snapshot) => { this.bdate =snapshot.val();});
+        get(ageT).then((snapshot) => { this.age =snapshot.val();});
+        get(emailT).then((snapshot) => { this.email =snapshot.val();});
+        get(addressT).then((snapshot) => { this.address =snapshot.val();});
+        get(userTypeT).then((snapshot) => { this.userType =snapshot.val();});
+        get(usernameT).then((snapshot) => { this.username =snapshot.val();});
+
+ 
+    },
+    deleteData(){   
+      const curIndexM = localStorage.getItem('curIndex');
+      this.errMsg='';
+      if(curIndexM ==='cashier'){
+        console.log("this is cashier");
+        // const dbRef = ref(db);
+         const cashIndexR = localStorage.getItem('cashIndex');
+        //   onValue(child(dbRef, `userlistCashier/${cashIndexR}/username`), 
+        //   (snapshot) => { 
+        //     console.log(snapshot.val());
+        //   });
+
+          const cashierIndexR = localStorage.getItem('cashIndex');
+          const dbRef = ref(db, `userlistAdmin/${cashierIndexR}/username`);
+
+          get(dbRef).then((snapshot) => {
+            console.log(snapshot.val());
+            this.uName = snapshot.val();
+              const deletePathC = ref(db, `cashier/${this.uName}`);
+              remove(deletePathC).then(() => {console.log("location removed");});
+              const deletePathList = ref(db, `userlistCashier/${cashIndexR}`);
+              remove(deletePathList).then(() => {console.log("location removed");});
+
+              localStorage.setItem('cashIndex', 0);
+
+              
+          
+          });
+      }
+      if(curIndexM ==='admin'){
+        console.log("this is admin");
+
+        // const dbRef = ref(db);
+        //   const adminIndexR = localStorage.getItem('adminIndex');
+        //   onValue(child(dbRef, `userlistAdmin/${adminIndexR}/username`), 
+        //   (snapshot) => { 
+        //   });
+          const adminIndexR = localStorage.getItem('adminIndex');
+          const dbRef = ref(db, `userlistAdmin/${adminIndexR}/username`);
+          let counterVariable;
+          get(dbRef).then((snapshot) => {
+            console.log(snapshot.val());
+              this.uName = snapshot.val();
+              const deletePathA = ref(db, `admin/${this.uName}`);
+              remove(deletePathA).then(() => {console.log("location removed");});
+              const deletePathList = ref(db, `userlistAdmin/${adminIndexR}`);
+              remove(deletePathList).then(() => {console.log("location removed");});
+              localStorage.setItem('adminIndex', 0);
+
+              
+          
+          });
+      }      
 
 
 
 
     },
+
+
    
   
   }
 }
 
   </script>
+
 
 <script setup>
 import { UserCircleIcon , UserPlusIcon,UserMinusIcon} from '@heroicons/vue/24/solid'
@@ -358,7 +980,7 @@ label{
   position: flex;
   background-color: #fefefe;
   border-radius: 10px;
-  width: 40px;
+  width: 25px;
   height: 20px;
   color: #0F172A;
   font-weight: 700;
