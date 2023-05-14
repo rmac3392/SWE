@@ -190,8 +190,8 @@
                           <button class="butLow">
                             <ArchiveBoxXMarkIcon class="commandIcon"/>
                             CANCEL</button>
-                          <button class="butLow">
-                            <CheckBadgeIcon class="commandIcon"/>
+                          <button class="butLow" @click="printPage1">
+                            <CheckBadgeIcon class="commandIcon" />
                             DONE</button>
                         </div>
                       </div>
@@ -1150,6 +1150,17 @@ onValue(
     printPage() {
       console.log("print");
       const printWindow = window.open('https://qmate.vercel.app/invoice', 'printWindow');
+      printWindow.onload = function() {
+        setTimeout(function(){
+          printWindow.print();
+          printWindow.close();
+        }, 500);
+      };
+    },
+
+    printPage1() {
+      console.log("print");
+      const printWindow = window.open('https://qmate.vercel.app/receipt', 'printWindow');
       printWindow.onload = function() {
         setTimeout(function(){
           printWindow.print();

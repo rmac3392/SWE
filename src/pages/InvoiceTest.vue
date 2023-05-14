@@ -134,6 +134,13 @@
 
 <style>
 
+@media print{
+  .assesment{
+    visibility: visible !important;
+    print-color-adjust: exact;
+  }
+}
+
 .log{
   height: 42px;
   width: 42px;
@@ -247,7 +254,7 @@
     font-size: 10px;
     letter-spacing:1.5px;
     font-weight: 700;
-    
+    /* font-family: "Courier New", Courier, monospace; */
   }
 
   .up{
@@ -310,7 +317,8 @@
             0px 4px 8px rgba(0,0,0,0.1), 
             0px 8px 16px rgba(0,0,0,0.1);
   padding:8px;
-  print-color-adjust: exact;
+  visibility: hidden;
+  
 }
 .head{
   display:flex;
