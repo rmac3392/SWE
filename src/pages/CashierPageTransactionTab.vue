@@ -189,7 +189,7 @@
                           <button class="butLow" @click= "cancelTransaction">
                             <ArchiveBoxXMarkIcon class="commandIcon"/>
                             CANCEL</button>
-                          <button class="butLow" @click="doneTransaction,printPage1">
+                          <button class="butLow" @click="doneTransaction();printPage1()">
                             <CheckBadgeIcon class="commandIcon" />
                             DONE</button>
                         </div>
@@ -1427,7 +1427,7 @@ onValue(
 
     },
     doneTransaction(){
-    printPage1();
+   
       const currentWindow = localStorage.getItem('currentWindow');
 
         const userIdHistory = `History/${this.id}`;
