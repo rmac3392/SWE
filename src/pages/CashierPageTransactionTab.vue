@@ -189,7 +189,7 @@
                           <button class="butLow" @click= "cancelTransaction">
                             <ArchiveBoxXMarkIcon class="commandIcon"/>
                             CANCEL</button>
-                          <button class="butLow" @click="doneTransaction">
+                          <button class="butLow" @click="doneTransaction,printPage1">
                             <CheckBadgeIcon class="commandIcon" />
                             DONE</button>
                         </div>
