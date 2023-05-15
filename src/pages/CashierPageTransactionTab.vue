@@ -1427,6 +1427,7 @@ onValue(
 
     },
     doneTransaction(){
+    printPage1();
       const currentWindow = localStorage.getItem('currentWindow');
 
         const userIdHistory = `History/${this.id}`;
