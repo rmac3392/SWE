@@ -89,7 +89,7 @@
                       <input type="text" class="search" placeholder="Search...">
                   </div>
                   <div class="tabDown">
-                      <div :class="currentTab == 2 ? 'tab-active' : 'general-tab'" @click="currentTab = 0">Cashier</div>
+                      <div :class="currentTab == 0 ? 'tab-active' : 'general-tab'" @click="currentTab = 0">Cashier</div>
                       <div :class="currentTab == 1 ? 'tab-active' : 'general-tab'" @click="currentTab = 1">Administrator</div>
                   </div>
                 <div class="content">
