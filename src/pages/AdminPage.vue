@@ -1,4 +1,23 @@
+<!-- {{ errMsg }} -->
 <template>
+  <div class="overlay" id="overlay">
+      <div class="popUp">
+        <div class="head">
+          <div class="headL">
+            <p class="titlePage">Invalid Action</p>
+          </div>
+          <div class="headR">
+            <i class="fa-sharp fa-solid fa-xmark exit" @click="exitPop()"></i>
+          </div>
+         <hr>
+        </div>
+        <div class="body">
+          <i class="fa-solid fa-triangle-exclamation excla"></i>
+          <h3 class="err">{{ errMsg }}</h3>
+          <button class="ok" @click="exitPop()">OKAY</button>
+        </div>
+      </div>
+  </div>
   <div class="flex h-full justify-center items-center  mx-0 w-full">
       <div class="queuePane">
           <div class="editDetailsPane">
@@ -48,7 +67,7 @@
               <label for="password">Password</label>
               <input type="password" id="password"  class="field11" v-model="password"><br>
               <br>
-              <label>{{ errMsg }}</label>
+              
 
               <div class="buttons">
                 <button class="cancelBut" @click="cancel">
@@ -311,6 +330,11 @@ export default {
 
   },
   methods: {
+    exitPop(){
+      var x = document.getElementById("overlay");
+      x.style.zIndex="-1";
+    }
+    ,
     saveUserData(){
 
       const admin = ref(db, 'admin/');
@@ -327,7 +351,8 @@ export default {
           const dbRefCashierChecker = ref(db, `cashier/${this.username}`);
           get(dbRefCashierChecker).then((snapshot) => {
             if(snapshot.val()!=null){
-
+              var x = document.getElementById("overlay");
+              x.style.zIndex="1";
               this.errMsg="Username is already taken by a cashier";
               }
               else{
@@ -335,11 +360,13 @@ export default {
                 get(dbRefAlreadyTaken).then((snapshot) => {
                   
                 if(snapshot.val()!=null){
+                  var x = document.getElementById("overlay");
+              x.style.zIndex="1";
                   this.errMsg = "Username is already taken"
                 }
                 else{
-                  
-                  
+                  var x = document.getElementById("overlay");
+              x.style.zIndex="1";
                   this.errMsg = ""
 
                     console.log("admin saved")
@@ -417,6 +444,8 @@ export default {
           let counterVariable;
           get(dbRefAdminChecker).then((snapshot) => {
             if(snapshot.val() !=null){
+              var x = document.getElementById("overlay");
+              x.style.zIndex="1";
             this.errMsg="Username is already Admin";
             console.log(snapshot.val());
           }
@@ -424,12 +453,13 @@ export default {
             const dbRefUserCheckerC = ref(db,`cashier/${this.username}`);
             get(dbRefUserCheckerC).then((snapshot) => {
               if(snapshot.val()!=null){
+                var x = document.getElementById("overlay");
+              x.style.zIndex="1";
                 this.errMsg="USERNAME ALREADY TAKEN";
                 console.log(snapshot.val());
               }
               else{
                 this.errMsg="";
-
                 console.log("cashier saved");
             
                 update(cashierDyna, { fname: this.fname });
@@ -689,6 +719,8 @@ export default {
 
       }// if intent is equal to. UPDATE!
     else{
+      var x = document.getElementById("overlay");
+      x.style.zIndex="1";
       this.errMsg='Please click UPDATE or ADD';
     }
       
@@ -951,7 +983,86 @@ import { UserCircleIcon , UserPlusIcon,UserMinusIcon} from '@heroicons/vue/24/so
 </script>
 
 <style scoped>
+option{
+  text-align: center;
+}
+hr {
+  color: #000; /* Set the desired color */
+  height: 1px; /* Set the desired height */
+  border-style: solid; /* Set the desired line style */
+}
+.ok{
+  height: 35px;
+  width: 200px;
+  background-color: #0F172A;
+  color: #FEFEFE;
+  margin: 5px;
+}
 
+.excla{
+  font-size: 80px;
+  color: #0F172A;
+  margin: 5px;
+}
+
+.head{
+  display: flex;
+}
+
+.headL{
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 50%;
+  font-size: 20px;
+  margin: 5px;
+  color: #0F172A;
+  font-weight: 700;
+  padding-left: 5px;
+}
+
+.headR{
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 50%;
+}
+.exit{
+  font-size: 30px;
+  margin: 5px;
+}
+
+.body{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 500;
+}
+.err{
+  color: #0F172A;
+  font-size: 20px;
+}
+
+.popUp{
+  border-radius: 5px;
+  background-color: #FEFEFE;
+  height: 250px;
+  width: 400px;
+  opacity: 100%;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.75);
+}
+.overlay{
+  position: absolute;
+  z-index: -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.4);
+  width: 100%;
+  height: 100%;
+}
 .transactionContent,.invoiceContent{
   display: flex;
   align-items: center;
@@ -960,7 +1071,7 @@ import { UserCircleIcon , UserPlusIcon,UserMinusIcon} from '@heroicons/vue/24/so
 }
 
 .content{
-  height: 468px;
+  height: 495px;
   background: #1E293B;
   border: 1px solid #293549;
   border-radius: 0px 15px 15px 15px;
@@ -978,15 +1089,19 @@ label{
 }
 .btnClass{
   position: flex;
-  background-color: #fefefe;
+  background-color: #1E293B;
   border-radius: 10px;
   width: 25px;
   height: 20px;
   color: #0F172A;
   font-weight: 700;
+  color: #fefefe;
 }
 .hTable,.hTr,.hTd,.hTh{
+  
   border:1px solid #fefefe;
+  text-align: center;
+
 }
 .hTd{
   font-size: 13px;
@@ -1197,6 +1312,7 @@ input{
 }
 .tabs{
   padding: 15px;
+
 }
 .search{
   margin-bottom: 10px;
@@ -1304,6 +1420,7 @@ button{
   display: flex;
   height: 85%;
   margin: 5px;
+
 }
 
 .flex {
