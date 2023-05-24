@@ -43,7 +43,7 @@
                       </div>
                         <div class="windowSide">
                           <div class="windowNum">
-                            <p class="label">Window B</p>
+                            <p class="label">WINDOW B</p>
                             <p class="items"> {{q1Bf}}</p>
                             <p class="items"> {{q2Bf}}</p>
                             <p class="items"> {{q3Bf}}</p>

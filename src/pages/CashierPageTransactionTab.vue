@@ -95,7 +95,7 @@
           <div class="bottom">
               <div class="editDetailsPane">
                   <div class="title">
-                      <p>PERSONAL INFORMATION</p>
+                      <p class="per">PERSONAL INFORMATION</p>
                   </div>
                       <div class="personal">
                           <label for="id" class="name">ID#</label>
@@ -137,7 +137,6 @@
                   </div>
               <div class="tabs">
                   <div class="tabUp">
-                      <input type="text" class="search" placeholder="Search...">
                   </div>
                   <div class="tabDown">
                       <div :class="currentTab == 0 ? 'tab-active' : 'general-tab'" @click="currentTab = 0">Transaction</div>
@@ -315,10 +314,6 @@
                           </div>
                         </div>
                         <div class="butter">
-                          <button class="butLow">
-                            <PaperAirplaneIcon class="commandIcon"/>
-                            SEND
-                            </button>
                           <button class="butLow"  @click="printPage">
                             <PrinterIcon class="commandIcon"/>
                             PRINT
@@ -1409,7 +1404,7 @@ onValue(
               update(dbRefcustomers, { tmisc: this.tmiscT });
         
       }// if A
-      else if(currentWindow === 'A'){
+      else if(currentWindow === 'B'){
 
         const dbRefcustomers = ref(db, `usersB/${this.currentB}`);
 
@@ -1522,11 +1517,20 @@ import logo from "~/assets/images/logo.png";
 
 <style scoped>
 
+.per{
+  margin-top: 33px;
+}
+
+.tabUp{
+  height: 33px;
+}
+
 .hTable{
   font-size: 14px;
   width: 550px;
   text-align:center;
 }
+
 .hTd{
   font-size: 13px;
 }

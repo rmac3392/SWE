@@ -4,7 +4,7 @@
       <div class="popUp">
         <div class="head">
           <div class="headL">
-            <p class="titlePage">Invalid Action</p>
+            <p class="titlePage">{{ actionMsg }}</p>
           </div>
           <div class="headR">
             <i class="fa-sharp fa-solid fa-xmark exit" @click="exitPop()"></i>
@@ -105,7 +105,7 @@
                         <i class="fa-solid fa-user-pen fa-2xl"></i> <span class="t">UPDATE</span></button>
                         <button class="controls" @click="reset">
                           <i class="fa-solid fa-eraser fa-2xl"></i><span class="t">RESET</span></button>
-                      <input type="text" class="search" placeholder="Search...">
+                      
                   </div>
                   <div class="tabDown">
                       <div :class="currentTab == 0 ? 'tab-active' : 'general-tab'" @click="currentTab = 0">Cashier</div>
@@ -124,7 +124,7 @@
                           <th class= "hTh">E-mail</th>
                           <th class="hTh">Address</th>
                           <th class="hTh">Window</th>
-                          <tr v-for="index in 16" :key="index" class="hTr">
+                          <tr v-for="index in 18" :key="index" class="hTr">
                             <td class="hTd"><button class="btnClass" @click="getIndexCashier($event,index)">{{ getuserIdCashier(index) }}</button></td>
                             <td class="hTd">{{ getuserFnameCashier(index) }}</td>
                             <td class="hTd">{{ getuserMnameCashier(index) }}</td>
@@ -148,7 +148,7 @@
                           <th class="hTh">Age</th>
                           <th class= "hTh">E-mail</th>
                           <th class="hTh">Address</th>
-                          <tr v-for="index in 16" :key="index" class="hTr">
+                          <tr v-for="index in 18" :key="index" class="hTr">
                             <td class="hTd"><button class="btnClass" @click="getIndexAdmin($event,index)">{{ getuserIdAdmin(index) }}</button></td>
                             <td class="hTd">{{ getuserFnameAdmin(index) }}</td>
                             <td class="hTd">{{ getuserMnameAdmin(index) }}</td>
@@ -157,7 +157,6 @@
                             <td class="hTd">{{ getuserAgeAdmin(index) }}</td>
                             <td class="hTd">{{ getuserEmailAdmin(index) }}</td>
                             <td class="hTd">{{ getuserAddressAdmin(index) }}</td>
-
                           </tr>
                         </table>
                       </div>
@@ -231,6 +230,7 @@ export default {
 
     return {
       errMsg: '',
+      actionMsg:'',
       currentAdmin: '',
       currentAdminId:'',
       name : '',
@@ -353,6 +353,7 @@ export default {
             if(snapshot.val()!=null){
               var x = document.getElementById("overlay");
               x.style.zIndex="1";
+              this.actionMsg = "Invalid Action";
               this.errMsg="Username is already taken by a cashier";
               }
               else{
@@ -362,12 +363,15 @@ export default {
                 if(snapshot.val()!=null){
                   var x = document.getElementById("overlay");
               x.style.zIndex="1";
+                  this.actionMsg = "Invalid Action";
                   this.errMsg = "Username is already taken"
                 }
                 else{
                   var x = document.getElementById("overlay");
               x.style.zIndex="1";
-                  this.errMsg = ""
+              this.actionMsg = "";
+
+                  this.errMsg = "Admin added";
 
                     console.log("admin saved")
                     update(adminDyna, { fname: this.fname });
@@ -1294,6 +1298,8 @@ label{
 .tabUp{
   display: flex;
   margin-bottom: 10px;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 .controls{
