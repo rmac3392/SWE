@@ -13,7 +13,7 @@
                     <input type="text" id="retryPassword" class="no2"><br>
                     <br>
                     <br>
-                    <button @click="backToLogin~">SUBMIT</button>
+                    <button @click="backToLogin">SUBMIT</button>
                     <button @click="back">CANCEL</button>
                 </div>
             </div>
