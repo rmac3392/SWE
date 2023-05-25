@@ -28,8 +28,6 @@
               <label for="fname">First Name</label>
               <input type="text" id="fname" class="field1" v-model="fname"><br>
 
-              <label for="mname">Middle Name</label>
-              <input type="text" id="mname"  class="field2" v-model="mname"><br>
 
               <label for="lname">Last Name</label>
               <input type="text" id="lname"  class="field3" v-model="lname"><br>
@@ -38,13 +36,23 @@
               <input type="date" name="" id="bdate"  class="field4" v-model="bdate"><br>
 
               <label for="age">Age</label>
-              <input type="text" id="age"  class="field5" v-model="age"> <br>
+              <input type="text" id="age" disabled  class="field5" v-model="age"> <br>
 
               <label for="email">Email</label>
               <input type="email" name="email" id="email"  class="field6" v-model="email"><br>
 
-              <label for="address">Address</label>
-              <input type="address" name="address" id="address"  class="field7" v-model="address"><br>
+              <label for="securityQ">Security Question</label>
+              <!-- //field14 -->
+              <select name="sq" id="sq" class="field14">
+                <option value="q1">Favorite color?</option>
+                <option value="q2">First car?</option>
+                <option value="q3">High school mascot?</option>
+                <option value="q4">Best friend's name?</option>
+                <option value="q5">Favorite food?</option>
+              </select>
+
+              <label for="securityQA">Answer</label>
+              <input type="sq" name="sq" id="sq"  class="field15" v-model="address"><br>
 
               <p class="title1">ACCOUNT INFORMATION</p>
 
@@ -55,7 +63,7 @@
               </select><br>
 
               <label for="userType">Window</label>
-              <select name="user" id="userType"  class="field7" v-model="window">
+              <select name="user" id="userType"  class="field13" v-model="window">
                 <option value="A">A</option>
                 <option value="B">B</option>
               </select><br>
@@ -211,7 +219,7 @@ export default {
     dataPropertiesCashier[`userMnameCashier${i}`] = '';
     dataPropertiesCashier[`userNameCashier${i}`] = '';
     dataPropertiesCashier[`userWindowCashier${i}`] = '';
-                                      }
+                         }
 
     const dataPropertiesAdmin = {};
     for (let i = 1; i <= 16 ; i++) {
@@ -226,7 +234,7 @@ export default {
       dataPropertiesAdmin[`userNameAdmin${i}`] = '';
                                       }
 
-
+                                   
 
     return {
       errMsg: '',
@@ -241,7 +249,6 @@ export default {
       mname: '',
       lname: '',
       bdate: '',
-      age: '',
       email: '',
       address: '',
       userType: '',
@@ -253,6 +260,29 @@ export default {
 
     }
   },
+
+  computed: {
+    age() {
+      if (this.bdate) {
+        const today = new Date();
+        const birthdateObj = new Date(this.bdate);
+
+        let age = today.getFullYear() - birthdateObj.getFullYear();
+        const monthDiff = today.getMonth() - birthdateObj.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdateObj.getDate())) {
+          age--;
+        }
+
+        return age;
+      }
+
+      return '';
+    },
+
+    
+  },
+
   mounted (){
     const dbRef = ref(db);
     let loggedas = localStorage.getItem('loggedas');
@@ -1205,7 +1235,7 @@ select:hover{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
   border-radius: 12px;
   margin: 5px;
-  margin-left: 75px;
+  margin-left: 77px;
 }
 .field4{
   text-align: center;
@@ -1243,8 +1273,39 @@ select:hover{
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
   border-radius: 12px;
   margin: 5px;
-  margin-left: 89px;
+  margin-left: 92px;
 }
+
+.field13{
+  width: 200px;
+  height: 30px;
+  background: #1E293B;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  margin: 5px;
+  margin-left: 90px;
+}
+
+.field14{
+  width: 200px;
+  height: 30px;
+  background: #1E293B;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  margin: 5px;
+  margin-left: 22px;
+}
+
+.field15{
+  width: 200px;
+  height: 30px;
+  background: #1E293B;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  margin: 5px;
+  margin-left: 95px;
+}
+
 .field8{
   text-align: center;
   width: 200px;

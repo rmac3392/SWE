@@ -6,25 +6,39 @@
                 <p>CREATE NEW PASSWORD</p>
                 <br>
                 <br>
-                <form class="element px-16">
+                <div class="element px-16">
                     <label for="newPassword">New Password</label><br>
                     <input type="text" id="newPassword" class="no1"><br>
                     <label for="retryPassword">Retry Password</label><br>
-                    <input type="text" id="createPassword" class="no2"><br>
+                    <input type="text" id="retryPassword" class="no2"><br>
                     <br>
                     <br>
-                    <button>SUBMIT</button>
-                    <button>CANCEL</button>
-                </form>
+                    <button @click="backToLogin~">SUBMIT</button>
+                    <button @click="back">CANCEL</button>
+                </div>
             </div>
         </div>
-
     </div>
 </template>
 
 <script setup>
 import logo from "~/assets/images/logo.png";
 </script>
+
+<script>
+export default {
+  methods: {
+    backToLogin() {
+        console.log("dapat mu push");
+      this.$router.push('/');
+    },
+    back(){
+        this.$router.push('/forgotPassword');
+    }
+  }
+};
+</script>
+
 
 <style scoped>
 .form {

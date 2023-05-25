@@ -6,15 +6,15 @@
                     <XMarkIcon class="exit"  @click="back"/>
                 </div>
                 <div class="lower">
-                    <img :src="logo" alt="logo">
                 <p>FORGOT PASSWORD</p>
-                <p class="bold">Please verify your account by clicking the link</p>
-                <p class="bold">that you received from the email you registered.</p>
-                <img src="../assets/images/img5.png" alt="paper plane" class="plane">
-                <br>    
-                <p class="bold">Didn't get it? <span>Send it again</span></p>
+                <p class="bold">Please verify your account by answering security</p>
+                <p class="bold">questions you provided during registration</p>
+             
+                <p>What is the name of your first pet?</p>
+                <img src="../assets/images/img5.png" alt="paper plane" class="plane"> 
+                <input class="security" type="text">
+                <button @click="proceed">SUBMIT</button>
                 </div>
-                
             </div>
         </div>
     </div>
@@ -30,6 +30,9 @@ export default {
   methods: {
     back() {
         this.$router.push('/');
+    },
+    proceed(){
+        this.$router.push('/newPassword');
     }
   }
 }
@@ -78,10 +81,11 @@ button {
     background-color: #0F172A;
     color: #FEFEFE;
     position: block;
-    width: 291px;
+    width: 280px;
     height: 47px;
     left: 779px;
-    margin-bottom: 10px;
+    margin-top: 15px;
+    margin-bottom: 0px;
 }
 
 button:hover {
@@ -123,8 +127,8 @@ img {
 input {
     border-radius: 30px;
     box-sizing: border-box;
-    border-bottom: 2px solid #0F172A;
-    width: 70px;
+    border: 2px solid #0F172A;
+    width: 280px;
     height: 38px;
     margin-right: 15px;
     margin-left: 15px;
