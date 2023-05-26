@@ -8,16 +8,16 @@
         Your Number:
       </div>
       <div class="queueNo">
-        A15
+        {{ window }}{{ queNum }}
       </div>
       <div class="window">
-        Window A
+        Window {{ window }}
       </div>
       <div class="outro">
         Your number will be called shortly.
       </div>
       <div class="dateDetails">
-        05/26/2023 09:12:07
+        {{ curDate }} {{ curTime }}
       </div>
     </div>
   </div>
@@ -29,11 +29,26 @@
 
 <script>
 export default {
+  data() {
+    return {
+      window:'',
+      queNum:'',
+      curDate:"",
+      curTime:"",
+    }
+  },
+  created (){
+    this.window = localStorage.getItem('windowKiosk');
+    this.queNum = localStorage.getItem('kioskQ');
+    this.curTime = localStorage.getItem('curTime');
+    this.curDate = localStorage.getItem('curDate');
+  },
   methods: {
-    // Add your methods here
+  
   }
 }
-</script>
+
+  </script>
 
 <style>
 .container {

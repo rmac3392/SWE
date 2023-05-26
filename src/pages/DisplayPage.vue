@@ -134,15 +134,52 @@ onValue(
         child(dbRef, "curA/curA"),
         (snapshot) => {
           this.currentA = Number(snapshot.val());
+          this.currentAabs = Math.abs(snapshot.val());
+          if(snapshot.val()==true){
+
+            this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.lnameyow+"..."+"Please proceed to Counter A.";
+                              this.$refs.audioNotif.play();
+                              const synth = window.speechSynthesis;
+                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
+
+                              setTimeout(() => {
+                                synth.speak(utterance);
+                              }, 2800);
+          }
+
           if(snapshot.val() == 0){
               this.currentAtext = "-";
 
           }
-          else{this.currentA = Number(snapshot.val());
+          else if (snapshot.val()<0){
+            this.currentAtext = "B"+this.currentAabs;
+            console.log("A :  val is less 0");
+            onValue(
+                child(dbRef, `transferaA`),
+                (snapshot) => {
+                  this.transferaA = Math.abs(snapshot.val());
+                  onValue(
+                    child(dbRef, `usersB/${this.transferaA}/lname`),
+                    (snapshot) => {
+                      this.lnameyow = snapshot.val();
+                        onValue(
+                          child(dbRef, `ringA/ringA`),
+                          (snapshot) => {
+                            if (snapshot.val()==true){
+
+
+                            }
+                          });
+
+                    });
+
+                });
+
+          }
+          else if (snapshot.val()>0){this.currentA = Number(snapshot.val());
                this.currentAtext = "A"+Number(snapshot.val());
+               console.log("A :  val is greater 0");
 
-
-         
 
               onValue(
                 child(dbRef, `users/${this.currentA}/lname`),
@@ -190,17 +227,47 @@ onValue(
 onValue(
         child(dbRef, "curB/curB"),
         (snapshot) => {
-          this.currentA = Number(snapshot.val());
+          this.currentBabs = Math.abs(snapshot.val());
           if(snapshot.val() == 0){
               this.currentBtext = "-";
+          }
+          else if (snapshot.val()<0){
+            console.log("B :  val is less 0");
+
+            this.currentBtext = "A"+this.currentBabs;
+            onValue(
+                child(dbRef, `transferaB`),
+                (snapshot) => {
+                  this.transferaB = Math.abs(snapshot.val());
+                  onValue(
+                    child(dbRef, `users/${this.transferaB}/lname`),
+                    (snapshot) => {
+                      this.lnameyow = snapshot.val();
+                        onValue(
+                          child(dbRef, `ringB/ringB`),
+                          (snapshot) => {
+                            if (snapshot.val()==true){
+                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.lnameyow+"..."+"Please proceed to Counter B.";
+                              this.$refs.audioNotif.play();
+                              const synth = window.speechSynthesis;
+                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
+                              setTimeout(() => {
+                                synth.speak(utterance);
+                              }, 2800);
+
+                            }
+                          });
+
+                    });
+
+                });
 
           }
-          else{
-      
-               this.currentB = Number(snapshot.val());
-               this.currentBtext = "B"+Number(snapshot.val());
+          else if(snapshot.val()>0){
+            console.log("B :  val is greater 0");
 
-
+            this.currentB = Number(snapshot.val());
+            this.currentBtext = "B"+Number(snapshot.val());
 
               onValue(
                 child(dbRef, `usersB/${this.currentB}/lname`),
@@ -216,7 +283,7 @@ onValue(
                         (snapshot) => {
                           this.snapshotval = snapshot.val();
                             if(this.snapshotval==true){
-                              this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.name+"..."+"Please proceed to Counter B.";
+                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.name+"..."+"Please proceed to Counter B.";
                               this.$refs.audioNotif.play();
                               const synth = window.speechSynthesis;
                               const utterance = new SpeechSynthesisUtterance(this.speakThis);

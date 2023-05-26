@@ -15,8 +15,8 @@
                           <div class="details">
                             <div class="up">
                               <div class="uleft">
-                              <p>Ryan James Macawili</p>
-                              <p>20229464</p>
+                              <p>{{ wholename }}</p>
+                              <p>{{ idNumber }}</p>
                               </div>
                               <div class="uright">
                                 <p>2nd QUARTER SY 2022-2023</p>
@@ -127,6 +127,19 @@
 
 <script>
   export default {
+    data(){
+
+      return {
+        wholename:'',
+        idNumber: null,        
+      }
+      
+
+    },
+    mounted(){
+      this.wholename = localStorage.getItem('wholeName');
+      this.idNumber = localStorage.getItem('idNumber');
+    },
     methods: {
   }
 }

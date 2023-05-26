@@ -28,22 +28,21 @@
               <label for="fname">First Name</label>
               <input type="text" id="fname" class="field1" v-model="fname"><br>
 
-
               <label for="lname">Last Name</label>
               <input type="text" id="lname"  class="field3" v-model="lname"><br>
 
               <label for="bdate">Birthdate</label>
               <input type="date" name="" id="bdate"  class="field4" v-model="bdate"><br>
 
-              <label for="age">Age</label>
-              <input type="text" id="age" disabled  class="field5" v-model="age"> <br>
+              <label for="age">Address </label>
+              <input type="text" id="age"  class="field4" v-model="address"> <br>
 
               <label for="email">Email</label>
               <input type="email" name="email" id="email"  class="field6" v-model="email"><br>
 
               <label for="securityQ">Security Question</label>
               <!-- //field14 -->
-              <select name="sq" id="sq" class="field14">
+              <select name="sq" id="sq" class="field14" v-model="securityQuestion">
                 <option value="q1">Favorite color?</option>
                 <option value="q2">First car?</option>
                 <option value="q3">High school mascot?</option>
@@ -52,7 +51,7 @@
               </select>
 
               <label for="securityQA">Answer</label>
-              <input type="sq" name="sq" id="sq"  class="field15" v-model="address"><br>
+              <input type="sq" name="sq" id="sq"  class="field15" v-model="answerSQ"><br>
 
               <p class="title1">ACCOUNT INFORMATION</p>
 
@@ -125,7 +124,6 @@
                         <table class="hTable">
                           <th class="hTh">ID</th>
                           <th class="hTh">First Name</th>
-                          <th class="hTh">Middle Name</th>
                           <th class="hTh">Last Name</th>
                           <th class="hTh">Birthdate</th>
                           <th class="hTh">Age</th>
@@ -135,7 +133,6 @@
                           <tr v-for="index in 18" :key="index" class="hTr">
                             <td class="hTd"><button class="btnClass" @click="getIndexCashier($event,index)">{{ getuserIdCashier(index) }}</button></td>
                             <td class="hTd">{{ getuserFnameCashier(index) }}</td>
-                            <td class="hTd">{{ getuserMnameCashier(index) }}</td>
                             <td class="hTd">{{ getuserLnameCashier(index) }}</td>
                             <td class="hTd">{{ getuserBdateCashier(index) }}</td>
                             <td class="hTd">{{ getuserAgeCashier(index) }}</td>
@@ -150,7 +147,6 @@
                         <table class="hTable">
                           <th class="hTh">ID</th>
                           <th class="hTh">First Name</th>
-                          <th class="hTh">Middle Name</th>
                           <th class="hTh">Last Name</th>
                           <th class="hTh">Birthdate</th>
                           <th class="hTh">Age</th>
@@ -159,7 +155,6 @@
                           <tr v-for="index in 18" :key="index" class="hTr">
                             <td class="hTd"><button class="btnClass" @click="getIndexAdmin($event,index)">{{ getuserIdAdmin(index) }}</button></td>
                             <td class="hTd">{{ getuserFnameAdmin(index) }}</td>
-                            <td class="hTd">{{ getuserMnameAdmin(index) }}</td>
                             <td class="hTd">{{ getuserLnameAdmin(index) }}</td>
                             <td class="hTd">{{ getuserBdateAdmin(index) }}</td>
                             <td class="hTd">{{ getuserAgeAdmin(index) }}</td>
@@ -360,11 +355,11 @@ export default {
 
   },
   methods: {
+
     exitPop(){
       var x = document.getElementById("overlay");
       x.style.zIndex="-1";
-    }
-    ,
+    },
     saveUserData(){
 
       const admin = ref(db, 'admin/');
@@ -392,27 +387,25 @@ export default {
                   
                 if(snapshot.val()!=null){
                   var x = document.getElementById("overlay");
-              x.style.zIndex="1";
+                  x.style.zIndex="1";
                   this.actionMsg = "Invalid Action";
                   this.errMsg = "Username is already taken"
                 }
                 else{
                   var x = document.getElementById("overlay");
-              x.style.zIndex="1";
-              this.actionMsg = "";
-
+                  x.style.zIndex="1";
+                  this.actionMsg = "";
                   this.errMsg = "Admin added";
 
                     console.log("admin saved")
                     update(adminDyna, { fname: this.fname });
-                    update(adminDyna, { mname: this.mname });
                     update(adminDyna, { lname: this.lname });
                     update(adminDyna, { bdate: this.bdate });
                     update(adminDyna, { age: this.age });
-                    update(adminDyna, { email: this.email });
                     update(adminDyna, { address: this.address });
-                    update(adminDyna, { userType: this.userType });
-                    update(adminDyna, { window: this.window });
+                    update(adminDyna, { email: this.email });
+                    update(adminDyna, { securityQuestion: this.securityQuestion });
+                    update(adminDyna, { answerSQ: this.answerSQ });
                     update(adminDyna, { name: this.fname });
                     update(adminDyna, { password: this.password });
 
@@ -431,12 +424,13 @@ export default {
                       const dbRefAdmin = ref(db, `userlistAdmin/${this.ctr}`);
                       update(dbRefAdmin, { id: snapshot.val()+1});
                       update(dbRefAdmin, { fname: this.fname });
-                      update(dbRefAdmin, { mname: this.mname });
                       update(dbRefAdmin, { lname: this.lname });
                       update(dbRefAdmin, { bdate: this.bdate });
                       update(dbRefAdmin, { age: this.age });
                       update(dbRefAdmin, { email: this.email });
                       update(dbRefAdmin, { address: this.address });
+                      update(dbRefAdmin, { securityQuestion: this.securityQuestion });
+                      update(dbRefAdmin, { answerSQ: this.answerSQ });
                       update(dbRefAdmin, { username: this.username });
                       update(dbRefAdmin, { userType: this.userType });
                       update(dbRefAdmin, { window: this.window });
@@ -451,10 +445,11 @@ export default {
                       const dbRefAdmin = ref(db, `userlistAdmin/${this.ctr}`);
                       update(dbRefAdmin, { id: snapshot.val()+1 });
                       update(dbRefAdmin, { fname: this.fname });
-                      update(dbRefAdmin, { mname: this.mname });
                       update(dbRefAdmin, { lname: this.lname });
                       update(dbRefAdmin, { bdate: this.bdate });
                       update(dbRefAdmin, { age: this.age });
+                      update(dbRefAdmin, { securityQuestion: this.securityQuestion });
+                      update(dbRefAdmin, { answerSQ: this.answerSQ });
                       update(dbRefAdmin, { username: this.username });
                       update(dbRefAdmin, { email: this.email });
                       update(dbRefAdmin, { address: this.address });
@@ -488,21 +483,25 @@ export default {
             get(dbRefUserCheckerC).then((snapshot) => {
               if(snapshot.val()!=null){
                 var x = document.getElementById("overlay");
-              x.style.zIndex="1";
+                x.style.zIndex="1";
                 this.errMsg="USERNAME ALREADY TAKEN";
                 console.log(snapshot.val());
               }
               else{
-                this.errMsg="";
+                  var x = document.getElementById("overlay");
+                  x.style.zIndex="1";
+                  this.actionMsg = "";
+                  this.errMsg = "Cashier added";
                 console.log("cashier saved");
             
                 update(cashierDyna, { fname: this.fname });
-                update(cashierDyna, { mname: this.mname });
                 update(cashierDyna, { lname: this.lname });
                 update(cashierDyna, { bdate: this.bdate });
                 update(cashierDyna, { age: this.age });
                 update(cashierDyna, { email: this.email });
                 update(cashierDyna, { address: this.userType });
+                update(cashierDyna, { securityQuestion: this.securityQuestion });
+                update(cashierDyna, { answerSQ: this.answerSQ });
                 update(cashierDyna, { userType: this.userType });
                 update(cashierDyna, { window: this.window });
                 update(cashierDyna, { name: this.fname });
@@ -528,12 +527,13 @@ export default {
                                 const dbRefAdmin = ref(db, `userlistCashier/${this.ctr}`);
                                 update(dbRefAdmin, { id: snapshot.val()+1});
                                 update(dbRefAdmin, { fname: this.fname });
-                                update(dbRefAdmin, { mname: this.mname });
                                 update(dbRefAdmin, { lname: this.lname });
                                 update(dbRefAdmin, { bdate: this.bdate });
                                 update(dbRefAdmin, { age: this.age });
                                 update(dbRefAdmin, { email: this.email });
                                 update(dbRefAdmin, { address: this.address });
+                                update(dbRefAdmin, { securityQuestion: this.securityQuestion });
+                                update(dbRefAdmin, { answerSQ: this.answerSQ });
                                 update(dbRefAdmin, { username: this.username });
                                 update(dbRefAdmin, { userType: this.userType });
                                 update(dbRefAdmin, { window: this.window });
@@ -548,13 +548,14 @@ export default {
                                 const dbRefAdmin = ref(db, `userlistCashier/${this.ctr}`);
                                 update(dbRefAdmin, { id: snapshot.val()+1 });
                                 update(dbRefAdmin, { fname: this.fname });
-                                update(dbRefAdmin, { mname: this.mname });
                                 update(dbRefAdmin, { lname: this.lname });
                                 update(dbRefAdmin, { bdate: this.bdate });
                                 update(dbRefAdmin, { age: this.age });
                                 update(dbRefAdmin, { email: this.email });
                                 update(dbRefAdmin, { username: this.username });
                                 update(dbRefAdmin, { address: this.address });
+                                update(dbRefAdmin, { securityQuestion: this.securityQuestion });
+                                update(dbRefAdmin, { answerSQ: this.answerSQ });
                                 update(dbRefAdmin, { userType: this.userType });
                                 update(dbRefAdmin, { window: this.window });
                                 update(dbRefAdmin, { name: this.fname });
@@ -610,23 +611,26 @@ export default {
                     const deletePathAdmin = ref(db, `admin/${adminUserName}`);
                     remove(deletePathAdmin).then(() => {console.log("location removed");});
                     
-                    update(dbRefNewUserName, { fname: this.fname, 
-                      mname: this.mname, 
+                    update(dbRefNewUserName, { 
+                      fname: this.fname, 
                       lname: this.lname, 
                       bdate: this.bdate, 
                       age: this.age,
                       email: this.email,
                       address: this.address,
                       userType: this.userType,
+                      securityQuestion:this.securityQuestion,
+                      answerSQ:this.answerSQ,
                       name: this.fname,
                       password: this.password,
                     });
                       update(dbRef,{  fname: this.fname,
-                                      mname: this.mname,
                                       lname: this.lname,
                                       bdate: this.bdate,
                                       age: this.age,
                                       email: this.email,
+                                      securityQuestion:this.securityQuestion,
+                                      answerSQ:this.answerSQ,
                                       address: this.address,
                                       userType: this.userType,
                                       name: this.fname,
@@ -637,12 +641,13 @@ export default {
                     else{
                     const dbRefNewUserName = ref(db, `admin/${this.username}`);
                     update(dbRefNewUserName, { fname: this.fname,
-                                              mname: this.mname,
                                               lname: this.lname,
                                               bdate: this.bdate,
                                               age: this.age,
                                               email: this.email,
                                               address: this.address,
+                                              securityQuestion:this.securityQuestion,
+                                              answerSQ:this.answerSQ,
                                               userType: this.userType,
                                               name: this.fname,
                                               password: this.password
@@ -650,12 +655,13 @@ export default {
 
                     
                     update(dbRef,{    fname: this.fname,
-                                      mname: this.mname,
                                       lname: this.lname,
                                       bdate: this.bdate,
                                       age: this.age,
                                       email: this.email,
                                       address: this.address,
+                                      securityQuestion:this.securityQuestion,
+                                      answerSQ:this.answerSQ,
                                       userType: this.userType,
                                       name: this.fname,
                                       username: this.username
@@ -690,24 +696,27 @@ export default {
                         const deletePathCashier = ref(db, `cashier/${cashierUserName}`);
                         remove(deletePathCashier).then(() => {console.log("location removed");});
                         
-                        update(dbRefNewUserName, { fname: this.fname, 
-                          mname: this.mname, 
+                        update(dbRefNewUserName, { 
+                          fname: this.fname, 
                           lname: this.lname, 
                           bdate: this.bdate, 
                           age: this.age,
                           email: this.email,
                           address: this.address,
+                          securityQuestion:this.securityQuestion,
+                          answerSQ:this.answerSQ,
                           userType: this.userType,
                           name: this.fname,
                           password: this.password,
                         });
                           update(dbRef,{  fname: this.fname,
-                                          mname: this.mname,
                                           lname: this.lname,
                                           bdate: this.bdate,
                                           age: this.age,
                                           email: this.email,
                                           address: this.address,
+                                          securityQuestion:this.securityQuestion,
+                                          answerSQ:this.answerSQ,
                                           userType: this.userType,
                                           name: this.fname,
                                           username: this.username
@@ -717,12 +726,13 @@ export default {
                         else{
                         const dbRefNewUserName = ref(db, `cashier/${this.username}`);
                         update(dbRefNewUserName, { fname: this.fname,
-                                                  mname: this.mname,
                                                   lname: this.lname,
                                                   bdate: this.bdate,
                                                   age: this.age,
                                                   email: this.email,
                                                   address: this.address,
+                                                  securityQuestion:this.securityQuestion,
+                                                  answerSQ:this.answerSQ,
                                                   userType: this.userType,
                                                   name: this.fname,
                                                   password: this.password
@@ -730,12 +740,13 @@ export default {
 
                         
                         update(dbRef,{    fname: this.fname,
-                                          mname: this.mname,
                                           lname: this.lname,
                                           bdate: this.bdate,
                                           age: this.age,
                                           email: this.email,
                                           address: this.address,
+                                          securityQuestion:this.securityQuestion,
+                                          answerSQ:this.answerSQ,
                                           userType: this.userType,
                                           name: this.fname,
                                           username: this.username
@@ -759,19 +770,22 @@ export default {
     }
       
       
+    localStorage.setItem('intent', '');
+
 
     },
     cancel(){
       localStorage.setItem('curIndex', '');
       localStorage.setItem('intent', '');
       this.fname = '';
-      this.mname = '';
       this.lname = '';
       this.bdate = '';
       this.age = '';
       this.email = '';
       this.address = '';
       this.userType = '';
+      this.securityQuestion='';
+      this.answerSQ='';
       this.window = '';
       this.username = '';
       this.password = '';
@@ -781,6 +795,7 @@ export default {
       localStorage.setItem('log-in', false);
       localStorage.setItem('loggedas', '');
       location.reload();
+      localStorage.setItem('intent', '');
 
     },
     
@@ -796,7 +811,6 @@ export default {
       const test = localStorage.getItem('intent');
       console.log(test);
       this.errMsg='';
-
     },
     reset(){
       console.log("this is cashier");
@@ -820,6 +834,7 @@ export default {
       remove(deletePath).then(() => {console.log("location removed");});
       const deletePathB = ref(db, `usersB`)
       remove(deletePathB).then(() => {console.log("location removed");});
+      localStorage.setItem('intent', '');
 
     },
     // Cashier Getter
@@ -892,23 +907,25 @@ export default {
       console.log(debug +" "+ debugNum);
 
       const fnameT = ref(db, `userlistCashier/${index}/fname`);
-      const mnameT = ref(db, `userlistCashier/${index}/mname`);
       const lnameT = ref(db, `userlistCashier/${index}/lname`);
       const bdateT = ref(db, `userlistCashier/${index}/bdate`);
       const ageT = ref(db, `userlistCashier/${index}/age`);
       const emailT = ref(db, `userlistCashier/${index}/email`);
       const addressT = ref(db, `userlistCashier/${index}/address`);
+      const securityQuestionT = ref(db, `userlistCashier/${index}/securityQuestion`);
+      const answerSQT = ref(db, `userlistCashier/${index}/answerSQ`);
       const userTypeT = ref(db, `userlistCashier/${index}/userType`);
       const windowT = ref(db, `userlistCashier/${index}/window`);
       const usernameT = ref(db, `userlistCashier/${index}/username`);
 
         get(fnameT).then((snapshot) => { this.fname = snapshot.val(); });
-        get(mnameT).then((snapshot) => { this.mname =snapshot.val();});
         get(lnameT).then((snapshot) => { this.lname =snapshot.val();});
         get(bdateT).then((snapshot) => { this.bdate =snapshot.val();});
         get(ageT).then((snapshot) => { this.age =snapshot.val();});
         get(emailT).then((snapshot) => { this.email =snapshot.val();});
         get(addressT).then((snapshot) => { this.address =snapshot.val();});
+        get(securityQuestionT).then((snapshot) => { this.securityQuestion =snapshot.val();});
+        get(answerSQT).then((snapshot) => { this.answerSQ =snapshot.val();});
         get(userTypeT).then((snapshot) => { this.userType =snapshot.val();});
         get(windowT).then((snapshot) => { this.window =snapshot.val();});
         get(usernameT).then((snapshot) => { this.username =snapshot.val();});
@@ -923,22 +940,24 @@ export default {
       console.log(debug+" "+debugNum) ;
       // puts the values into field
       const fnameT = ref(db, `userlistAdmin/${index}/fname`);
-      const mnameT = ref(db, `userlistAdmin/${index}/mname`);
       const lnameT = ref(db, `userlistAdmin/${index}/lname`);
       const bdateT = ref(db, `userlistAdmin/${index}/bdate`);
       const ageT = ref(db, `userlistAdmin/${index}/age`);
       const emailT = ref(db, `userlistAdmin/${index}/email`);
+      const securityQuestionT = ref(db, `userlistAdmin/${index}/securityQuestion`);
+      const answerSQT = ref(db, `userlistAdmin/${index}/answerSQ`);
       const addressT = ref(db, `userlistAdmin/${index}/address`);
       const userTypeT = ref(db, `userlistAdmin/${index}/userType`);
       const usernameT = ref(db, `userlistAdmin/${index}/username`);
 
         get(fnameT).then((snapshot) => { this.fname = snapshot.val(); });
-        get(mnameT).then((snapshot) => { this.mname =snapshot.val();});
         get(lnameT).then((snapshot) => { this.lname =snapshot.val();});
         get(bdateT).then((snapshot) => { this.bdate =snapshot.val();});
         get(ageT).then((snapshot) => { this.age =snapshot.val();});
         get(emailT).then((snapshot) => { this.email =snapshot.val();});
         get(addressT).then((snapshot) => { this.address =snapshot.val();});
+        get(securityQuestionT).then((snapshot) => { this.securityQuestion =snapshot.val();});
+        get(answerSQT).then((snapshot) => { this.answerSQ =snapshot.val();});
         get(userTypeT).then((snapshot) => { this.userType =snapshot.val();});
         get(usernameT).then((snapshot) => { this.username =snapshot.val();});
 
@@ -1000,6 +1019,21 @@ export default {
 
 
 
+      localStorage.setItem('intent', '');
+    },
+
+    clearText(){
+      this.fname = "";
+      this.lname = "";
+      this.bdate = "";
+      this.address = "";
+      this.email = "";
+      this.securityQuestion = "";
+      this.answerSQ = "";
+      this.userType = "";
+      this.window = "";
+      this.username = "";
+      this.password = "";
 
     },
 

@@ -37,10 +37,10 @@
             </div>
             <div class="tDetails">
               <div class="tBox">
-                <p class="customers">23502554</p>
-                <p class="customers">12/07/2022</p>
-                <p class="customers">09:55:58</p>
-                <p class="customers">IRA</p>
+                <p class="customers">{{ orno }}</p>
+                <p class="customers">{{ currentDate }}</p>
+                <p class="customers">{{ currentTime }}</p>
+                <p class="customers">{{ currentCashier }}</p>
               </div>
             </div>
           </div>
@@ -53,9 +53,9 @@
   </div>
   <div class="content1">
     <div class="contentLeft">
-      <div class="rFLabel">Received From <span class="customer">20229464</span> </div>
+      <div class="rFLabel">Received From <span class="customer">{{ idNumber }}</span> </div>
       <div class="rFBox">
-        <p class="customer">MACAWILI, RYAN JAMES</p>
+        <p class="customer">{{ wholename }}</p>
       </div>
     </div>
     <!-- <div class="contentRight">
@@ -66,11 +66,11 @@
   <div class="content2">
     <div class="contentLeft2">
       <div class="rFLabel2">The amount of</div>
-      <div class="rFBox2"><p class="customer">[Eight_Thousand_Six_Hundred_Thirty_Three_Peso(s)_]</p></div>
+      <div class="rFBox2"><p class="customer">{{ capital }} PESOS</p></div>
     </div>
     <div class="contentRight2">
       <div class="lBox">
-        <p class="cust">8,633.00</p>
+        <p class="cust">{{ total }}.00</p>
       </div>
     </div>
   </div>
@@ -81,14 +81,14 @@
       <div class="rFBox3">
         <p class="customer">01 Tuition fee</p>
         <p class="customer">02 Miscellaneus fee</p>
-        <p class="customer">Transaction No. 00018<span class="totalLabel">TOTAL &#10148;</span></p>
+        <p class="customer">Transaction No. {{ transactionNum }}<span class="totalLabel">TOTAL &#10148;</span></p>
       </div>
     </div>
     <div class="contentRight3">
       <div class="lBox3">
-        <p class="cust">8,633.00</p>
-        <p class="cust">0.00</p>
-        <p class="cust">8,633.00</p>
+        <p class="cust">{{ tuition }}.00</p>
+        <p class="cust">{{ misc }}.00</p>
+        <p class="cust">{{ total }}.00</p>
       </div>
     </div>
   </div>
@@ -115,7 +115,73 @@
 
 <script>
   export default {
+    data(){
+      return{
+        wholename:'',
+        idNumber:null,
+        tuition:null,
+        misc:null,
+        total: null,
+        currentCashier:'',
+        currentTime:"",
+        currentDate:"",
+        orno:null,
+        capital : '',
+        transactionNum:''
+      }
+    },
+    mounted(){
+
+      this.currentCashier = localStorage.getItem('currentCashier');
+      this.wholename = localStorage.getItem('wholeName');
+      this.idNumber = Math.abs(localStorage.getItem('idNumber'));
+      this.tuition = Math.abs(localStorage.getItem('tuitionfee'));
+      this.misc = Math.abs(localStorage.getItem('miscfee'));
+      this.orno = Math.abs(localStorage.getItem('ornoYEAH!'));
+      this.total = Math.abs(this.misc + this.tuition);
+      this.capital = this.convertToWords(this.total).toUpperCase();
+
+      this.currentTime = localStorage.getItem('currentTimeHehe');
+      this.currentDate = localStorage.getItem('currentDateHehe');
+      this.transactionNum =localStorage.getItem('transactionYeah!');
+
+
+      //time
+
+    },
     methods: {
+      convertToWords(number) {
+      const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+      const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+      if (number === 0) {
+        return 'zero';
+      }
+
+      if (number < 20) {
+        return units[number];
+      }
+
+      let result = '';
+
+      if (number < 100) {
+        const tensDigit = Math.floor(number / 10);
+        const unitsDigit = number % 10;
+        result = tens[tensDigit] + ' ' + units[unitsDigit];
+      } else if (number < 1000) {
+        const hundredsDigit = Math.floor(number / 100);
+        const remainingNumber = number % 100;
+        result = units[hundredsDigit] + ' hundred ' + this.convertToWords(remainingNumber);
+      } else {
+        const thousandsDigit = Math.floor(number / 1000);
+        const remainingNumber = number % 1000;
+        result = this.convertToWords(thousandsDigit) + ' thousand ' + this.convertToWords(remainingNumber);
+      }
+
+      return result.trim();
+    },
+      
+      
     printPage() {
       const printWindow = window.open('http://192.168.1.236:5173/receipt', 'printWindow');
       printWindow.onload = function() {

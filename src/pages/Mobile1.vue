@@ -133,38 +133,44 @@ created (){
 
 // Currently Serving A
 onValue(
-      child(dbRef, "curA/curA"),
-      (snapshot) => {
-        this.currentA = Number(snapshot.val());
-        if(snapshot.val() == 0){
-            this.currentAtext = "-";
+        child(dbRef, "curA/curA"),
+        (snapshot) => {
+          this.currentA = Number(snapshot.val());
+          if(snapshot.val() == 0){
+              this.currentAtext = "-";
 
+          }
+          else if(snapshot.val() > 0){this.currentA = Number(snapshot.val());
+               this.currentAtext = "A"+Number(snapshot.val());}
+
+          else if(snapshot.val() < 0){ 
+                this.currentAtext = "B"+Math.abs(snapshot.val());
+               }
+        
+        },
+        (error) => {
+          console.error(error);
         }
-        else{this.currentA = Number(snapshot.val());
-             this.currentAtext = "A"+Number(snapshot.val());}
-      
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+      );
 // Currently Serving B
 onValue(
-      child(dbRef, "curB/curB"),
-      (snapshot) => {
-        this.currentB = Number(snapshot.val());
-        if(snapshot.val() == 0){
-            this.currentBtext = "-";
-
+        child(dbRef, "curB/curB"),
+        (snapshot) => {
+          this.currentB = Number(snapshot.val());
+          if(snapshot.val() == 0){
+              this.currentBtext = "-";
+          }
+          else if (snapshot.val() > 0){this.currentB = Number(snapshot.val());
+               this.currentBtext = "B"+Number(snapshot.val());
+              }     
+          else if (snapshot.val() < 0){
+                this.currentBtext = "A"+Math.abs(snapshot.val());
+          }
+        },
+        (error) => {
+          console.error(error);
         }
-        else{this.currentB = Number(snapshot.val());
-             this.currentBtext = "B"+Number(snapshot.val());}
-      
-      },
-      (error) => {
-        console.error(error);
-      }
-    );   
+      );    
 
 //COUNTER A
   onValue(
