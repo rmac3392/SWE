@@ -54,7 +54,7 @@
               <div class="txt"> {{ q2Bf }}</div>
               <div class="txt"> {{ q3Bf}}</div>
               <div class="txt"> {{ q4Bf }}</div>
-              <div class="txt" id="cur"> {{q5Bf  }}</div>
+              <div class="txt" > {{q5Bf  }}</div>
               <div class="txt"> {{ q6Bf }}</div>
           </div>
       </div>     

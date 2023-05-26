@@ -126,6 +126,15 @@ created (){
   const dbRef = ref(db);
   const dbRefB = ref(db);
 
+        this.id=localStorage.getItem('idM');
+        this.fname=localStorage.getItem('fnameM');
+        this.mname=localStorage.getItem('mnameM');
+        this.lname=localStorage.getItem('lnameM');
+        this.edlevel=localStorage.getItem('edlevelM');
+        this.grade=localStorage.getItem('gradeM');
+        this.tint=localStorage.getItem('tintM');
+        this.tmisc=localStorage.getItem('tmiscM');
+
 
 
 // Currently Serving A

@@ -317,7 +317,7 @@ onValue(
                         onValue(
                           child(dbRef, `ringB/ringB`),
                           (snapshot) => {
-   
+
                           });
 
                     });
@@ -563,7 +563,7 @@ onValue(
     child(dbRef, userId),
     (snapshot) => {
       if(snapshot.val()!=null){ this.q4B = snapshot.val();
-                                this.q4Bf = "A" + this.q4B;}
+                                this.q4Bf = "B" + this.q4B;}
       else { this.q4Bf = '-'; }
     },
     (error) => {
@@ -607,7 +607,7 @@ onValue(
     child(dbRef, userId),
     (snapshot) => {
       if(snapshot.val()!=null){ this.q5B = snapshot.val();
-                                this.q5Bf = "A" + this.q5B;}
+                                this.q5Bf = "B" + this.q5B;}
       else { this.q5Bf = '-'; }
     },
     (error) => {

@@ -234,6 +234,16 @@ onValue(
 methods: {
  
   saveData() {   
+
+        localStorage.setItem('idM',this.id);
+        localStorage.setItem('fnameM',this.fname);
+        localStorage.setItem('mnameM',this.mname);
+        localStorage.setItem('lnameM',this.lname);
+        localStorage.setItem('edlevelM',this.edlevel);
+        localStorage.setItem('gradeM',this.grade);
+        localStorage.setItem('tintM',this.tint);
+        localStorage.setItem('tmiscM',this.tmisc);
+        
     const dbRef = ref(db, 'sCounter/sCounter');
     const dbRefB = ref(db, 'sCounter/sCounterB');
 
@@ -358,6 +368,10 @@ methods: {
         update(dbRefcustomers, { tmisc: this.tmisc });
         update(dbRefcustomers, { queNum: this.queNum });
         update(dbRefcustomers, { ring: this.ring });
+
+
+
+
 
 
         //                 //INC VARIABLES
