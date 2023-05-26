@@ -422,8 +422,8 @@ data() {
     isEditMode: false,
     currentAtext : '',
     currentBtext : '',
-    currentA: 0,
-    currentB: 0,
+    currentA: null,
+    currentB: null,
     counterVariable: null,
     counterVariableB: '',
     q1Af : '',
@@ -462,6 +462,7 @@ data() {
     ringB: false,
     actionMsg: '',
     errMsg:'',
+    currentBT:'',
 
   };
 },
@@ -480,6 +481,8 @@ mounted() {
 
 
 
+
+    
 
 
   
@@ -522,6 +525,7 @@ onValue(
 
         else if(snapshot.val() < 0){ 
               this.currentAtext = "B"+Math.abs(snapshot.val());
+              this.currentAT = snapshot.val();
              }
       
       },
@@ -542,6 +546,9 @@ onValue(
             }     
         else if (snapshot.val() < 0){
               this.currentBtext = "A"+Math.abs(snapshot.val());
+              this.currentBT = snapshot.val();
+
+
         }
       },
       (error) => {
@@ -1705,7 +1712,7 @@ methods: {
 
     
     if(currentWindow=='A'){
-      if(this.q1Af == '-'){
+      if(this.q1Af == '-' && this.q2Af =='-' && this.q3Af =='-' && this.q4Af =='-' && this.q5Af =='-'){
             var x = document.getElementById("overlay");
             x.style.zIndex="1";
             this.actionMsg = "Invalid Action";
@@ -1742,8 +1749,8 @@ methods: {
         });
     }
     else{
-      if (this.q1Bf == '-'){
-        var x = document.getElementById("overlay");
+      if (this.q1Bf == '-' && this.q2Bf =='-' && this.q3Bf =='-' && this.q4Bf =='-' && this.q5Bf =='-'){
+          var x = document.getElementById("overlay");
             x.style.zIndex="1";
             this.actionMsg = "Invalid Action";
             this.errMsg="Next que is empty";        
@@ -1965,14 +1972,122 @@ methods: {
       this.tmiscT = this.tmisc;
     },
   saveInfo(){
+    const dbRef = ref(db);
     this.muteRing();
     this.isEditMode = false;
     const currentWindow = localStorage.getItem('currentWindow');
+
+    if(this.currentA < 0){
+      console.log("current A is less 0")
+    }
+    if(this.currentB < 0){
+      console.log("current b is less 0")
+    }
+
+    if(currentWindow==='A'){
+      onValue(
+      child(dbRef, "curA/curA"),
+      (snapshot) => {
+
+        if(snapshot.val()>0){
+          if(currentWindow === 'A'){
+            const dbRefcustomers = ref(db, `users/${this.currentA}`);
+
+                  //Que Information A
+                  update(dbRefcustomers, { id: this.idT });
+                  update(dbRefcustomers, { fname: this.fnameT });
+                  update(dbRefcustomers, { mname: this.mnameT });
+                  update(dbRefcustomers, { lname: this.lnameT });
+                  update(dbRefcustomers, { edlevel: this.edlevelT });
+                  update(dbRefcustomers, { grade: this.gradeT });
+                  update(dbRefcustomers, { tint: this.tintT });
+                  update(dbRefcustomers, { tmisc: this.tmiscT });
+                  
+                                        
+              this.idT = "";
+              this.fnameT = "";
+              this.mnameT = "";
+              this.lnameT = "";
+              this.edlevelT = "";
+              this.gradeT = "";
+              this.tintT = "";
+              this.tmiscT = "";
+            }// if A
+        }
+        else if(snapshot.val()<0){
+          const dbRefCTR = ref(db, `transferaA`);
+            get(dbRefCTR).then((snapshot) => {
+            
+            const dbRefcustomers = ref(db, `usersB/${Math.abs(snapshot.val())}`);
+            console.log(this.currentA);
+            //Que Information B
+            update(dbRefcustomers, { id: this.idT });
+            update(dbRefcustomers, { fname: this.fnameT });
+            update(dbRefcustomers, { mname: this.mnameT });
+            update(dbRefcustomers, { lname: this.lnameT });
+            update(dbRefcustomers, { edlevel: this.edlevelT });
+            update(dbRefcustomers, { grade: this.gradeT });
+            update(dbRefcustomers, { tint: this.tintT });
+            update(dbRefcustomers, { tmisc: this.tmiscT });
+                      
+              this.idT = "";
+              this.fnameT = "";
+              this.mnameT = "";
+              this.lnameT = "";
+              this.edlevelT = "";
+              this.gradeT = "";
+              this.tintT = "";
+              this.tmiscT = "";
+              
+
+            });
+
+
+
+        }
+
+
+      });
+    }
     
-    if(currentWindow === 'A'){
 
-      const dbRefcustomers = ref(db, `users/${this.currentA}`);
+    if(currentWindow==='B'){
+      onValue(
+      child(dbRef, "curB/curB"),
+      (snapshot) => {
 
+        if(snapshot.val()>0){
+          if(currentWindow === 'B'){
+
+            const dbRefcustomers = ref(db, `usersB/${this.currentB}`);
+
+                  //Que Information B
+                  update(dbRefcustomers, { id: this.idT });
+                  update(dbRefcustomers, { fname: this.fnameT });
+                  update(dbRefcustomers, { mname: this.mnameT });
+                  update(dbRefcustomers, { lname: this.lnameT });
+                  update(dbRefcustomers, { edlevel: this.edlevelT });
+                  update(dbRefcustomers, { grade: this.gradeT });
+                  update(dbRefcustomers, { tint: this.tintT });
+                  update(dbRefcustomers, { tmisc: this.tmiscT });
+                  
+                                        
+              this.idT = "";
+              this.fnameT = "";
+              this.mnameT = "";
+              this.lnameT = "";
+              this.edlevelT = "";
+              this.gradeT = "";
+              this.tintT = "";
+              this.tmiscT = "";
+            }// if B
+        }
+        else if(snapshot.val()<0){
+          const dbRefCTR = ref(db, `transferaB`);
+            get(dbRefCTR).then((snapshot) => {
+            
+            const dbRefcustomers = ref(db, `users/${Math.abs(snapshot.val())}`);
+            console.log(this.currentA);
             //Que Information B
             update(dbRefcustomers, { id: this.idT });
             update(dbRefcustomers, { fname: this.fnameT });
@@ -1982,32 +2097,30 @@ methods: {
             update(dbRefcustomers, { grade: this.gradeT });
             update(dbRefcustomers, { tint: this.tintT });
             update(dbRefcustomers, { tmisc: this.tmiscT });
-      
-    }// if A
-    else if(currentWindow === 'B'){
+                      
+              this.idT = "";
+              this.fnameT = "";
+              this.mnameT = "";
+              this.lnameT = "";
+              this.edlevelT = "";
+              this.gradeT = "";
+              this.tintT = "";
+              this.tmiscT = "";
+              
 
-      const dbRefcustomers = ref(db, `usersB/${this.currentB}`);
+            });
 
-            //Que Information B
-            update(dbRefcustomers, { id: this.idT });
-            update(dbRefcustomers, { fname: this.fnameT });
-            update(dbRefcustomers, { mname: this.mnameT });
-            update(dbRefcustomers, { lname: this.lnameT });
-            update(dbRefcustomers, { edlevel: this.edlevelT });
-            update(dbRefcustomers, { grade: this.gradeT });
-            update(dbRefcustomers, { tint: this.tintT });
-            update(dbRefcustomers, { tmisc: this.tmiscT });
 
-      }// if B
 
-    this.idT = "";
-    this.fnameT = "";
-    this.mnameT = "";
-    this.lnameT = "";
-    this.edlevelT = "";
-    this.gradeT = "";
-    this.tintT = "";
-    this.tmiscT = "";
+        }
+
+
+      });
+    }
+
+
+
+
 
   },
   doneTransaction(){

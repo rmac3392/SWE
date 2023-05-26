@@ -135,17 +135,7 @@ onValue(
         (snapshot) => {
           this.currentA = Number(snapshot.val());
           this.currentAabs = Math.abs(snapshot.val());
-          if(snapshot.val()==true){
 
-            this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.lnameyow+"..."+"Please proceed to Counter A.";
-                              this.$refs.audioNotif.play();
-                              const synth = window.speechSynthesis;
-                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
-
-                              setTimeout(() => {
-                                synth.speak(utterance);
-                              }, 2800);
-          }
 
           if(snapshot.val() == 0){
               this.currentAtext = "-";
@@ -166,6 +156,14 @@ onValue(
                           child(dbRef, `ringA/ringA`),
                           (snapshot) => {
                             if (snapshot.val()==true){
+                              this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.lnameyow+"..."+"Please proceed to Counter A.";
+                              this.$refs.audioNotif.play();
+                              const synth = window.speechSynthesis;
+                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
+
+                              setTimeout(() => {
+                                synth.speak(utterance);
+                              }, 2800);
 
 
                             }
@@ -193,6 +191,8 @@ onValue(
                     onValue(
                         child(dbRef, `ringA/ringA`),
                         (snapshot) => {
+                          console.log("I am fucking asd");
+
                           this.snapshotval = snapshot.val();
                             if(this.snapshotval==true){
                               this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.name+"..."+"Please proceed to Counter A.";
@@ -233,7 +233,7 @@ onValue(
           }
           else if (snapshot.val()<0){
             console.log("B :  val is less 0");
-
+            console.log("I am fucking asd");
             this.currentBtext = "A"+this.currentBabs;
             onValue(
                 child(dbRef, `transferaB`),
@@ -243,6 +243,7 @@ onValue(
                     child(dbRef, `users/${this.transferaB}/lname`),
                     (snapshot) => {
                       this.lnameyow = snapshot.val();
+                      console.log("hemlo"+this.transferaB);
                         onValue(
                           child(dbRef, `ringB/ringB`),
                           (snapshot) => {
@@ -265,7 +266,7 @@ onValue(
           }
           else if(snapshot.val()>0){
             console.log("B :  val is greater 0");
-
+            console.log("this is true greater than 0");
             this.currentB = Number(snapshot.val());
             this.currentBtext = "B"+Number(snapshot.val());
 
@@ -469,7 +470,7 @@ onValue(
   }
 );
 // B 4th que
-onValue(
+onValue(  
     child(dbRef, "CounteB/CounterB"),
     (snapshot) => {
     const counterValue = snapshot.val();
