@@ -18,6 +18,8 @@ const router = createRouter({
         { path: "/testing2", component:() => import("~/pages/testing2.vue")},
         { path: "/invoice", component:() => import("~/pages/InvoiceTest.vue")},
         { path: "/receipt", component:() => import("~/pages/ReceiptTest.vue")},
+        { path: "/kiosk", component:() => import("~/pages/Kiosk.vue")},
+        { path: "/token", component:() => import("~/pages/Token.vue")},
     ]
 });
 
