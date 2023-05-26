@@ -64,11 +64,11 @@
               <div class="controls">
                   <button class="commandBox" @click="callUser()">
                       <BellAlertIcon class="commandIcon"/> CALL</button>
-                  <button class="commandBox" @click="incCounter()">
+                  <button class="commandBox" @click="incCounter()" :class="{ 'activeButton': nextButtonClicked }">
                       <ForwardIcon class="commandIcon"/>NEXT</button>
                   <button class="commandBox">
                       <ArrowPathIcon class="commandsIcon"/>TRANSFER</button>
-                  <button class="commandBox" @click="doneUser()">
+                  <button class="commandBox" @click="doneUser()" :disabled="!nextButtonClicked" :class="{ 'activeButton': !nextButtonClicked }">
                       <CheckBadgeIcon class="commandIcon"/>DONE</button>
                       
              
@@ -98,39 +98,39 @@
                       <p class="per">PERSONAL INFORMATION</p>
                   </div>
                       <div class="personal">
-                          <label for="id" class="name">ID#</label>
-                          <input type="text" class="field1" id="id"    v-model="idT"><br>
+                          <label for="id" class="name" >ID#</label>
+                          <input type="text" class="field1" id="id"    v-model="idT" :disabled="!isEditMode"><br>
                           <label for="fname" class="name" >First Name</label>
-                          <input type="text" class="field2" id="fname"  v-model="fnameT"><br>
+                          <input type="text" class="field2" id="fname"  v-model="fnameT" :disabled="!isEditMode"><br>
                           <label for="mname" class="name">Middle Name</label>
-                          <input type="text" class="field3" id="mname"  v-model="mnameT"><br>
+                          <input type="text" class="field3" id="mname"  v-model="mnameT" :disabled="!isEditMode"><br>
                           <label for="lname" class="name">Last Name</label>
-                          <input type="text" class="field4" id="lname"  v-model="lnameT"><br>
+                          <input type="text" class="field4" id="lname"  v-model="lnameT" :disabled="!isEditMode"><br>
                       </div>
                   <div class="title">
                       <p>EDUCATIONAL INFORMATION</p>
                   </div>
                   <div class="educational">
                           <label for="educ" class="name">Educ. Level</label>
-                          <input type="text" class="field5" id="educ"  v-model="edlevelT"><br>
+                          <input type="text" class="field5" id="educ"  v-model="edlevelT" :disabled="!isEditMode"><br>
                           <label for="level" class="name">Grade/Year</label>
-                          <input type="text" class="field6" id="level"  v-model="gradeT"><br>
+                          <input type="text" class="field6" id="level"  v-model="gradeT" :disabled="!isEditMode"><br>
                   </div>
                   <div class="title">
                       <p>PAYMENT INFORMATION</p>
                   </div>   
                   <div class="payment">
                           <label for="tuition" class="name">Tuition Fees</label>
-                          <input type="text" class="field7" id="tuition"  v-model="tintT"><br>
+                          <input type="text" class="field7" id="tuition"  v-model="tintT" :disabled="!isEditMode"><br>
                           <label for="misc" class="name" >Miscellaneus</label>
-                          <input type="text" class="field8" id="tmisc"  v-model="tmiscT"><br>
+                          <input type="text" class="field8" id="tmisc"  v-model="tmiscT" :disabled="!isEditMode"><br>
 
                   </div>   
                   <div class="buttons">
-                      <button class="butLow" @click="editInfo()">
+                      <button class="butLow" @click="editInfo()" :class="{ 'activeButton': isEditMode }">
                         <PencilSquareIcon class="commandIcon"/>
                         EDIT</button>
-                      <button class="butLow" @click="saveInfo()">
+                      <button class="butLow" @click="saveInfo()" :disabled="!isEditMode" :class="{ 'activeButton': !isEditMode }">
                         <DocumentCheckIcon class="commandIcon"/>
                         SAVE</button>
                   </div>
@@ -185,10 +185,10 @@
                           </tr>
                         </table>
                         <div class="but">
-                          <button class="butLow" @click= "cancelTransaction">
+                          <button class="butLow" @click= "cancelTransaction" :class="{ 'activeButton': isEditMode }">
                             <ArchiveBoxXMarkIcon class="commandIcon"/>
                             CANCEL</button>
-                          <button class="butLow" @click="doneTransaction();printPage1()">
+                          <button class="butLow" @click="doneTransaction();printPage1()" :class="{ 'activeButton': isEditMode }">
                             <CheckBadgeIcon class="commandIcon" />
                             DONE</button>
                         </div>
@@ -402,6 +402,8 @@ export default {
     dataProperties[`hisParti${i}`] = '';
                                       }
     return {
+      nextButtonClicked: false,
+      isEditMode: false,
       currentAtext : '',
       currentBtext : '',
       currentA: 0,
@@ -1148,6 +1150,8 @@ onValue(
   
   
   methods: {
+
+    
     
     printPage() {
       console.log("print");
@@ -1206,7 +1210,7 @@ onValue(
 
     incCounter() {
       const currentWindow = localStorage.getItem('currentWindow');
-
+      this.nextButtonClicked = true;
       
       if(currentWindow=='A'){
         if(this.currentA == 0){
@@ -1274,6 +1278,7 @@ onValue(
 
 
     doneUser(){
+      this.nextButtonClicked = false;
       const currentWindow = localStorage.getItem('currentWindow')
 
       if(currentWindow =='A'){
@@ -1376,6 +1381,7 @@ onValue(
 
     },
     editInfo(){
+      this.isEditMode = true;
       this.idT = this.id;
       this.fnameT = this.fname;
       this.mnameT = this.mname;
@@ -1386,13 +1392,10 @@ onValue(
       this.tmiscT = this.tmisc;
     },
     saveInfo(){
-
+      this.isEditMode = false;
       const currentWindow = localStorage.getItem('currentWindow');
-      
       if(currentWindow === 'A'){
-
         const dbRefcustomers = ref(db, `users/${this.currentA}`);
-
               //Que Information B
               update(dbRefcustomers, { id: this.idT });
               update(dbRefcustomers, { fname: this.fnameT });
@@ -1407,7 +1410,6 @@ onValue(
       else if(currentWindow === 'B'){
 
         const dbRefcustomers = ref(db, `usersB/${this.currentB}`);
-
               //Que Information B
               update(dbRefcustomers, { id: this.idT });
               update(dbRefcustomers, { fname: this.fnameT });
@@ -1417,9 +1419,16 @@ onValue(
               update(dbRefcustomers, { grade: this.gradeT });
               update(dbRefcustomers, { tint: this.tintT });
               update(dbRefcustomers, { tmisc: this.tmiscT });
-
         }// if B
 
+      this.idT = '';
+      this.fnameT = '';
+      this.mnameT = '';
+      this.lnameT = '';
+      this.edlevelT = '';
+      this.gradeT = '';
+      this.tintT = '';
+      this.tmiscT = '';
     },
     doneTransaction(){
    
@@ -1482,9 +1491,6 @@ onValue(
     cancelTransaction(){
       const currentWindow = localStorage.getItem('currentWindow');
       if(currentWindow==='A'){
-
-
-
         const deletePathA = ref(db, `users/${this.currentA}`);
         remove(deletePathA).then(() => {console.log("location removed and Transaction canceled");});
         
@@ -1516,7 +1522,12 @@ import logo from "~/assets/images/logo.png";
 </script>
 
 <style scoped>
-
+.activeButton {
+  background-color: grey !important;
+  color: #fefefe;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
 .per{
   margin-top: 33px;
 }
