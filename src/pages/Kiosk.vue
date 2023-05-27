@@ -129,8 +129,6 @@
           </div>
         </div>
       </div>
-      <audio ref="audioNotif"
-        src="https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/Announcement%20FX.mp3?alt=media&token=127c3677-c804-4523-a5bd-dd4438ce56ba"></audio>
   </div>
 </div>
 </template>
