@@ -53,12 +53,14 @@
 
                         </div>
                       </div>
-                </div>
+                </div>  
               </div>
               <audio ref="audioNotif" src="https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/Announcement%20FX.mp3?alt=media&token=127c3677-c804-4523-a5bd-dd4438ce56ba" ></audio>
 
           </div>
       </div>
+      <p>{{ ringNameA }}{{ ringNameB }}{{ ringNameAT }}{{ ringNameBT }}</p>
+      <p>{{ currentA }}{{ currentB }}</p>
 </template>
 
 <script>
@@ -95,6 +97,8 @@ export default {
   data() {
     return {
       currentAtext: '',
+      currentAasd:'',
+      currentB:null,
       currentBtext: '',
       counterVariable: null,
       counterVariableB: '',
@@ -111,7 +115,10 @@ export default {
       q5Bf:'',
       ringAYow:false,
       ringBYow:false,
-
+      ringNameA:'',
+      ringNameB:'',
+      ringNameAT:'',
+      ringNameBT:'',
      
 
     };
@@ -119,24 +126,75 @@ export default {
   
   
   
+  
   mounted() {
     const dbRef = ref(db);
     const dbRefB = ref(db);
 
+    
   
             const dbRefRingerA= ref(db, `ringA`);
             update(dbRefRingerA, {ringA: false});   
 
             const dbRefRingerB= ref(db, `ringB`);
             update(dbRefRingerB, {ringB: false});    
-        
+
+
+            onValue(
+                        child(dbRef, `ringA/ringA`),
+                        (snapshot) => {
+                          console.log("I am fucking asd");
+
+                          this.snapshotval = snapshot.val();
+                          if(snapshot.val()==true){
+
+                          
+                          this.$refs.audioNotif.play();
+                          }
+                            if(this.snapshotval==true){
+                              this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.ringNameAT+this.ringNameA+"..."+"Please proceed to Counter A.";
+                              const synth = window.speechSynthesis;
+                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
+
+                              setTimeout(() => {
+                                synth.speak(utterance);
+                              }, 2800);
+
+                            }
+
+                    });  
+
+                    onValue(
+                        child(dbRef, `ringB/ringB`),
+                        (snapshot) => {
+                          if(snapshot.val()==true){
+                              this.$refs.audioNotif.play();
+                          }
+                        
+
+                          this.snapshotval = snapshot.val();
+                            if(this.snapshotval==true){
+                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.ringNameBT+this.ringNameB+"..."+"Please proceed to Counter B.";
+                              const synth = window.speechSynthesis;
+                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
+
+                              setTimeout(() => {
+                                synth.speak(utterance);
+                              }, 2800);
+
+                            }
+
+                    });
+         
 
     
 // Currently Serving A
 onValue(
         child(dbRef, "curA/curA"),
         (snapshot) => {
+          this.currentAasd = snapshot.val();
           this.currentA = Number(snapshot.val());
+          console.log(this.currentA+"yeah");
           this.currentAabs = Math.abs(snapshot.val());
 
 
@@ -156,31 +214,9 @@ onValue(
                   if(this.temp===null){
                     console.log("this is a");
                   }            
-                  else{
-                    this.name = snapshot.val();
-                    onValue(
-                        child(dbRef, `ringA/ringA`),
-                        (snapshot) => {
-                          console.log("I am fucking asd");
+                  else if(this.temp!=null){
+                    this.ringNameA = snapshot.val();
 
-                          this.snapshotval = snapshot.val();
-                          if(snapshot.val()==true){
-
-                          
-                          this.$refs.audioNotif.play();
-                          }
-                            if(this.snapshotval==true){
-                              this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.name+"..."+"Please proceed to Counter A.";
-                              const synth = window.speechSynthesis;
-                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
-
-                              setTimeout(() => {
-                                synth.speak(utterance);
-                              }, 2800);
-
-                            }
-
-                    });
 
                   }
 
@@ -201,28 +237,8 @@ onValue(
                   onValue(
                     child(dbRef, `usersB/${this.transferaA}/lname`),
                     (snapshot) => {
-                      this.lnameyow = snapshot.val();
-                        onValue(
-                          child(dbRef, `ringA/ringA`),
-                          (snapshot) => {
-                            if(snapshot.val()==true){
-                              this.$refs.audioNotif.play();
-                          }
-                        
-                            this.ringAYow = snapshot.val();
-                            if (this.ringAYow==true){
-                              this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.lnameyow+"..."+"Please proceed to Counter A.";
-                              const synth = window.speechSynthesis;
-                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
+                      this.ringNameAT = snapshot.val();
 
-                              setTimeout(() => {
-                                synth.speak(utterance);
-                              }, 2800);
-
-
-                            }
-
-                          });
 
                     });
 
@@ -258,29 +274,9 @@ onValue(
                   if(this.temp===null){
                     console.log("this is b");
                   }             
-                  else{
-                    this.name = snapshot.val();
-                    onValue(
-                        child(dbRef, `ringB/ringB`),
-                        (snapshot) => {
-                          if(snapshot.val()==true){
-                              this.$refs.audioNotif.play();
-                          }
-                        
-
-                          this.snapshotval = snapshot.val();
-                            if(this.snapshotval==true){
-                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.temp+"..."+"Please proceed to Counter B.";
-                              const synth = window.speechSynthesis;
-                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
-
-                              setTimeout(() => {
-                                synth.speak(utterance);
-                              }, 2800);
-
-                            }
-
-                    });
+                  else if(this.temp!==null){
+                    this.ringNameB = snapshot.val();
+ 
 
                   }
 
@@ -302,28 +298,10 @@ onValue(
                   onValue(
                     child(dbRef, `users/${this.transferaB}/lname`),
                     (snapshot) => {
-                      this.lnameyow = snapshot.val();
+                      this.ringNameBT = snapshot.val();
                       console.log
                       console.log("hemlo"+this.transferaB);
-                        onValue(
-                          child(dbRef, `ringB/ringB`),
-                          (snapshot) => {
-                            this.ringBYow = snapshot.val();
-                            if(snapshot.val()==true){
-                              this.$refs.audioNotif.play();
-                          }
-                        
 
-                            if (this.ringBYow==true){
-                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.lnameyow+"..."+"Please proceed to Counter B.";
-                              const synth = window.speechSynthesis;
-                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
-                              setTimeout(() => {
-                                synth.speak(utterance);
-                              }, 2800);
-
-                            }
-                          });
 
                     });
 
