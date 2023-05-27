@@ -109,6 +109,9 @@ export default {
       q3Bf: '',
       q4Bf:'',
       q5Bf:'',
+      ringAYow:false,
+      ringBYow:false,
+
      
 
     };
@@ -141,39 +144,6 @@ onValue(
               this.currentAtext = "-";
 
           }
-          else if (snapshot.val()<0){
-            this.currentAtext = "B"+this.currentAabs;
-            console.log("A :  val is less 0");
-            onValue(
-                child(dbRef, `transferaA`),
-                (snapshot) => {
-                  this.transferaA = Math.abs(snapshot.val());
-                  onValue(
-                    child(dbRef, `usersB/${this.transferaA}/lname`),
-                    (snapshot) => {
-                      this.lnameyow = snapshot.val();
-                        onValue(
-                          child(dbRef, `ringA/ringA`),
-                          (snapshot) => {
-                            if (snapshot.val()==true){
-                              this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.lnameyow+"..."+"Please proceed to Counter A.";
-                              this.$refs.audioNotif.play();
-                              const synth = window.speechSynthesis;
-                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
-
-                              setTimeout(() => {
-                                synth.speak(utterance);
-                              }, 2800);
-
-
-                            }
-                          });
-
-                    });
-
-                });
-
-          }
           else if (snapshot.val()>0){this.currentA = Number(snapshot.val());
                this.currentAtext = "A"+Number(snapshot.val());
                console.log("A :  val is greater 0");
@@ -194,9 +164,13 @@ onValue(
                           console.log("I am fucking asd");
 
                           this.snapshotval = snapshot.val();
+                          if(snapshot.val()==true){
+
+                          
+                          this.$refs.audioNotif.play();
+                          }
                             if(this.snapshotval==true){
                               this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.name+"..."+"Please proceed to Counter A.";
-                              this.$refs.audioNotif.play();
                               const synth = window.speechSynthesis;
                               const utterance = new SpeechSynthesisUtterance(this.speakThis);
 
@@ -217,12 +191,51 @@ onValue(
               );
               
               }
+          if (snapshot.val()<0){
+            this.currentAtext = "B"+this.currentAabs;
+            console.log("A :  val is less 0");
+            onValue(
+                child(dbRef, `transferaA`),
+                (snapshot) => {
+                  this.transferaA = Math.abs(snapshot.val());
+                  onValue(
+                    child(dbRef, `usersB/${this.transferaA}/lname`),
+                    (snapshot) => {
+                      this.lnameyow = snapshot.val();
+                        onValue(
+                          child(dbRef, `ringA/ringA`),
+                          (snapshot) => {
+                            if(snapshot.val()==true){
+                              this.$refs.audioNotif.play();
+                          }
+                        
+                            this.ringAYow = snapshot.val();
+                            if (this.ringAYow==true){
+                              this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.lnameyow+"..."+"Please proceed to Counter A.";
+                              const synth = window.speechSynthesis;
+                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
+
+                              setTimeout(() => {
+                                synth.speak(utterance);
+                              }, 2800);
+
+
+                            }
+
+                          });
+
+                    });
+
+                });
+
+          }
         
         },
         (error) => {
           console.error(error);
         }
       );
+
 // Currently Serving B
 onValue(
         child(dbRef, "curB/curB"),
@@ -231,39 +244,7 @@ onValue(
           if(snapshot.val() == 0){
               this.currentBtext = "-";
           }
-          else if (snapshot.val()<0){
-            console.log("B :  val is less 0");
-            console.log("I am fucking asd");
-            this.currentBtext = "A"+this.currentBabs;
-            onValue(
-                child(dbRef, `transferaB`),
-                (snapshot) => {
-                  this.transferaB = Math.abs(snapshot.val());
-                  onValue(
-                    child(dbRef, `users/${this.transferaB}/lname`),
-                    (snapshot) => {
-                      this.lnameyow = snapshot.val();
-                      console.log("hemlo"+this.transferaB);
-                        onValue(
-                          child(dbRef, `ringB/ringB`),
-                          (snapshot) => {
-                            if (snapshot.val()==true){
-                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.lnameyow+"..."+"Please proceed to Counter B.";
-                              this.$refs.audioNotif.play();
-                              const synth = window.speechSynthesis;
-                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
-                              setTimeout(() => {
-                                synth.speak(utterance);
-                              }, 2800);
 
-                            }
-                          });
-
-                    });
-
-                });
-
-          }
           else if(snapshot.val()>0){
             console.log("B :  val is greater 0");
             console.log("this is true greater than 0");
@@ -282,10 +263,14 @@ onValue(
                     onValue(
                         child(dbRef, `ringB/ringB`),
                         (snapshot) => {
+                          if(snapshot.val()==true){
+                              this.$refs.audioNotif.play();
+                          }
+                        
+
                           this.snapshotval = snapshot.val();
                             if(this.snapshotval==true){
                               this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.name+"..."+"Please proceed to Counter B.";
-                              this.$refs.audioNotif.play();
                               const synth = window.speechSynthesis;
                               const utterance = new SpeechSynthesisUtterance(this.speakThis);
 
@@ -306,6 +291,45 @@ onValue(
               );
               
               }
+               if (snapshot.val()<0){
+            console.log("B :  val is less 0");
+            console.log("I am fucking asd");
+            this.currentBtext = "A"+this.currentBabs;
+            onValue(
+                child(dbRef, `transferaB`),
+                (snapshot) => {
+                  this.transferaB = Math.abs(snapshot.val());
+                  onValue(
+                    child(dbRef, `users/${this.transferaB}/lname`),
+                    (snapshot) => {
+                      this.lnameyow = snapshot.val();
+                      console.log
+                      console.log("hemlo"+this.transferaB);
+                        onValue(
+                          child(dbRef, `ringB/ringB`),
+                          (snapshot) => {
+                            this.ringBYow = snapshot.val();
+                            if(snapshot.val()==true){
+                              this.$refs.audioNotif.play();
+                          }
+                        
+
+                            if (this.ringBYow==true){
+                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.lnameyow+"..."+"Please proceed to Counter B.";
+                              const synth = window.speechSynthesis;
+                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
+                              setTimeout(() => {
+                                synth.speak(utterance);
+                              }, 2800);
+
+                            }
+                          });
+
+                    });
+
+                });
+
+          }
         
         },
         (error) => {

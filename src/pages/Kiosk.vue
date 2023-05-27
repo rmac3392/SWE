@@ -129,6 +129,8 @@
           </div>
         </div>
       </div>
+      <audio ref="audioNotif"
+        src="https://firebasestorage.googleapis.com/v0/b/fir-68a5f.appspot.com/o/Announcement%20FX.mp3?alt=media&token=127c3677-c804-4523-a5bd-dd4438ce56ba"></audio>
   </div>
 </div>
 </template>
@@ -220,17 +222,7 @@ onValue(
         (snapshot) => {
           this.currentA = Number(snapshot.val());
           this.currentAabs = Math.abs(snapshot.val());
-          if(snapshot.val()==true){
 
-            this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.lnameyow+"..."+"Please proceed to Counter A.";
-                              this.$refs.audioNotif.play();
-                              const synth = window.speechSynthesis;
-                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
-
-                              setTimeout(() => {
-                                synth.speak(utterance);
-                              }, 2800);
-          }
 
           if(snapshot.val() == 0){
               this.currentAtext = "-";
@@ -342,17 +334,7 @@ onValue(
                         child(dbRef, `ringB/ringB`),
                         (snapshot) => {
                           this.snapshotval = snapshot.val();
-                            if(this.snapshotval==true){
-                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.name+"..."+"Please proceed to Counter B.";
-                              this.$refs.audioNotif.play();
-                              const synth = window.speechSynthesis;
-                              const utterance = new SpeechSynthesisUtterance(this.speakThis);
-
-                              setTimeout(() => {
-                                synth.speak(utterance);
-                              }, 2800);
-
-                            }
+      
 
                     });
 
@@ -715,7 +697,6 @@ methods: {
 
              this.incCounterB();
              this.printPage();
-             this.clearTextField();
 
         }
         //A CONDITION

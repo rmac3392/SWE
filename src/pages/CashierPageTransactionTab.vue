@@ -1985,11 +1985,9 @@ methods: {
     }
 
     if(currentWindow==='A'){
-      onValue(
-      child(dbRef, "curA/curA"),
-      (snapshot) => {
-
-        if(snapshot.val()>0){
+      const dbRefCurA = ref(db, `curA/curA`);
+            get(dbRefCurA).then((snapshot) => {
+              if(snapshot.val()>0){
           if(currentWindow === 'A'){
             const dbRefcustomers = ref(db, `users/${this.currentA}`);
 
@@ -2046,16 +2044,16 @@ methods: {
 
         }
 
+              
+            });
 
-      });
     }
     
 
     if(currentWindow==='B'){
-      onValue(
-      child(dbRef, "curB/curB"),
-      (snapshot) => {
-
+      const dbRefCurB = ref(db, `curB/curB`);
+            get(dbRefCurB).then((snapshot) => {
+              
         if(snapshot.val()>0){
           if(currentWindow === 'B'){
 
@@ -2115,7 +2113,9 @@ methods: {
         }
 
 
-      });
+
+            });
+
     }
 
 
