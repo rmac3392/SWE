@@ -270,7 +270,7 @@ onValue(
 
                           this.snapshotval = snapshot.val();
                             if(this.snapshotval==true){
-                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.name+"..."+"Please proceed to Counter B.";
+                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.temp+"..."+"Please proceed to Counter B.";
                               const synth = window.speechSynthesis;
                               const utterance = new SpeechSynthesisUtterance(this.speakThis);
 
