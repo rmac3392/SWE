@@ -152,7 +152,7 @@ export default {
                           this.$refs.audioNotif.play();
                           }
                             if(this.snapshotval==true){
-                              this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.ringNameAT+this.ringNameA+"..."+"Please proceed to Counter A.";
+                              this.speakThis = "ATTENTION"+"..." + this.currentAtext +"...."+"Mister or Miss"+this.ringNameA+"..."+"Please proceed to Counter A.";
                               const synth = window.speechSynthesis;
                               const utterance = new SpeechSynthesisUtterance(this.speakThis);
 
@@ -174,7 +174,7 @@ export default {
 
                           this.snapshotval = snapshot.val();
                             if(this.snapshotval==true){
-                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.ringNameBT+this.ringNameB+"..."+"Please proceed to Counter B.";
+                              this.speakThis = "ATTENTION"+"..." + this.currentBtext +"...."+"Mister or Miss"+this.ringNameB+"..."+"Please proceed to Counter B.";
                               const synth = window.speechSynthesis;
                               const utterance = new SpeechSynthesisUtterance(this.speakThis);
 
